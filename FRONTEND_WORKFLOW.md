@@ -22,16 +22,12 @@ The app communicates exclusively with the backend via the **API Gateway** — it
 
 ## 2. Architecture Approach
 
-The frontend follows a **component-based architecture** with a strict separation of concerns:
+The frontend follows a **Feature-Sliced / Domain-Driven Architecture** utilizing a **3-tier component structure**. This approach promotes scalability and groups logic by feature rather than type.
 
-| Layer | Responsibility |
-|---|---|
-| **UI Layer** | Presentational components — renders what the user sees |
-| **Logic Layer** | Custom hooks — handles business logic and data transformation |
-| **Service Layer** | API service modules — manages all HTTP calls to the backend |
-| **State Layer** | Global and local state management — persists user and app state |
-
-This separation ensures that UI components remain clean and reusable, while logic and data concerns stay isolated from rendering code.
+### 3-Tier Component Structure
+1. **Core UI (Atoms & Molecules):** Dumb, highly reusable generic components (e.g., `Button`, `Typography`). Located in `src/shared/components/`.
+2. **Feature Components (Organisms):** Smart or complex components specific to a domain (e.g., `QuizQuestionCard`, `AIChatBubble`). Located in `src/features/[featureName]/components/`.
+3. **Screens (Pages):** Full-screen layouts composing Feature Components and Core UI. Located in `src/features/[featureName]/screens/`.
 
 ---
 
@@ -39,26 +35,36 @@ This separation ensures that UI components remain clean and reusable, while logi
 
 ```
 src/
-├── assets/             # Images, icons, fonts, audio files
-├── components/         # Reusable UI components (buttons, cards, modals)
-├── screens/            # Full-page screen components (one per route)
-├── navigation/         # Navigation stacks, tab bars, and route config
-├── hooks/              # Custom React hooks (useAuth, useQuiz, usePanorama…)
-├── services/           # API service modules (authService, contentService…)
-├── store/              # Global state (Zustand stores or Context providers)
-├── constants/          # App-wide constants (colors, spacing, config)
-├── i18n/               # Localization files (en.json, ar.json) + RTL config
-├── utils/              # Shared helper functions and formatters
-└── types/              # Global TypeScript type definitions and interfaces
+├── app/                  # App initialization, global providers (QueryClient, SafeArea, Theme)
+├── navigation/           # Root navigators and route typings
+├── core/                 # App-wide singletons (api client setup, i18n config, zustand store)
+├── shared/               # Highly reusable, domain-agnostic modules
+│   ├── components/       # Core UI (Button, Typography, FormInput)
+│   ├── hooks/            # Global hooks (useTheme, useLanguage)
+│   └── utils/            # Formatters, scale helpers
+│
+└── features/             # Feature modules (Domain-driven)
+    ├── auth/             # Login, Register
+    │   ├── api/          # auth-specific API calls
+    │   ├── components/   # SocialLoginButton, PasswordStrengthMeter
+    │   └── screens/      # LoginScreen, RegisterScreen
+    ├── explore/          # Cities, Monuments, 360 Panorama
+    ├── gamification/     # Quizzes, Leaderboard, Achievements
+    ├── ai-agents/        # Chatbot, Recommendations, Awareness
+    └── profile/          # User Settings, Avatar
 ```
 
-Each `screen` is composed of components. Each component pulls data via a `hook`. Each hook calls a `service`. This one-way dependency flow keeps the codebase predictable and testable.
+By keeping separation of concerns localized, debugging and scaling features (like adding a new AI Agent) can happen entirely within one feature folder without touching the rest of the app.
 
 ---
 
 ## 4. Development Workflow
 
 Development progresses in the following stages:
+
+### Stage 0 — Living Documentation Setup
+- Establish a `docs/` folder at the root of the project, organized by feature-phases (e.g., `phase-1-auth`, `phase-2-explore`).
+- Each phase folder includes an actionable `.md` file (requirements, API endpoints, checklists) and an `assets/` folder for local UI mockups and Figma exports.
 
 ### Stage 1 — Project Setup
 - Initialize the project with Expo (managed workflow)
@@ -104,8 +110,8 @@ The UI is not a secondary concern — it is a **core feature** of Heritage Hub.
 
 - **Consistency:** All screens use the same component library, typography scale, and color palette. No one-off inline styles.
 - **Accessibility:** Minimum touch target size of 44×44pt. Font sizes respect OS-level dynamic type. Sufficient color contrast (WCAG 2.1 AA).
-- **Responsiveness:** Layouts adapt to both mobile and tablet screen sizes (NFR-15). Use `Dimensions` API and flexible units — avoid hardcoded pixel values.
-- **Performance:** UI interactions must respond within **100ms** (NFR-3). Avoid heavy synchronous operations on the main thread.
+- **Responsiveness & Safe Areas:** Strictly use `react-native-safe-area-context` to pad headers/tabs dynamically. Use a scaling utility (like `react-native-size-matters`) instead of hardcoded pixels. For tablets (NFR-15), use `useWindowDimensions()` to dynamically adjust grid layouts (e.g., 1 column to 2 columns).
+- **Performance:** UI interactions must respond within **100ms** (NFR-3). Avoid heavy synchronous operations on the main thread and defer heavy renders using `InteractionManager`.
 - **Bilingual:** The app must look and feel native in *both* Arabic and English. RTL is not an afterthought — it ships with the first screen.
 - **Onboarding:** The full onboarding flow must complete in under **60 seconds** (NFR-7).
 
@@ -166,18 +172,20 @@ Root Navigator
 - No inline styles — all styling uses `StyleSheet.create()` or shared style tokens
 - Components are small and focused — one responsibility per component
 
-### Reusability
-- Generic UI elements (buttons, inputs, cards, loaders) live in `components/` and are never duplicated across screens
+### Reusability & Scalability
+- Generic UI elements (buttons, inputs, cards, loaders) live in `src/shared/components/` and accept a `variant` prop (e.g., `<Button variant="primary" />`) instead of arbitrary style overrides.
+- Use a lightweight styling engine (like **Restyle** or a custom Context Theme Provider) to natively handle RTL spacing (using `marginStart`/`marginEnd`) and design tokens.
 - Custom hooks encapsulate repeated logic (e.g., `useFavorites`, `useLanguage`, `useAdaptiveQuality`)
 
 ### Scalability
 - Screens and features are organized by domain, not by type, making it easy to add new cities, monuments, or AI agents without restructuring the codebase
 - API service modules are abstracted — changing a base URL or adding auth headers is a single-point change in `services/`
 
-### Performance
-- Use `React.memo` and `useCallback` on components that receive stable props but re-render unnecessarily
-- Virtualized lists (`FlatList`, `FlashList`) for all scrollable data — never `ScrollView` over long dynamic lists
-- Lazy-load heavy screens (e.g., 360° panorama viewer) using `React.lazy` equivalents in React Navigation (`lazy: true`)
+### Performance (100ms UI Requirement)
+- Use **`React.memo`** for complex list items, **`useCallback`** for functions passed to memoized components, and **`useMemo`** for expensive client-side calculations (e.g., XP sorting). Avoid memoizing primitive components.
+- Use **Shopify's `@shopify/flash-list`** instead of `FlatList` for all scrollable data to natively recycle views and handle large lists.
+- Wrap heavy API calls or state updates in `InteractionManager.runAfterInteractions(() => { ... })` during navigation transitions to prevent animation stutter.
+- Lazy-load and aggressively unmount heavy screens (e.g., 360° panorama viewer, Video Agent) when the screen loses focus using React Navigation's `useIsFocused` or `unmountOnBlur: true`.
 - Minimize JS bundle size — audit dependencies regularly with Expo's bundle analyzer
 
 ### Testing
