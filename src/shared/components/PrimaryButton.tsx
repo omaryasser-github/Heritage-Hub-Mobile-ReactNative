@@ -8,25 +8,25 @@ interface PrimaryButtonProps extends TouchableOpacityProps {
 
 export const PrimaryButton: React.FC<PrimaryButtonProps> = ({ title, style, ...props }) => {
   return (
-    <TouchableOpacity style={[styles.button, style]} activeOpacity={0.8} {...props}>
+    <TouchableOpacity style={[styles.button, style]} {...props}>
       <Typography variant="body" color="#FFFFFF" style={styles.text}>
         {title}
       </Typography>
+
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#D4AF37', // Gold-ish color matching typical heritage app branding
+    backgroundColor: 'rgba(217, 169, 65, 0.7)', // Gold-ish color matching typical heritage app branding
     paddingVertical: 14,
-    paddingHorizontal: 24,
-    borderRadius: 8,
+    borderRadius: 45,
     alignItems: 'center',
     justifyContent: 'center',
-    minWidth: 200,
+    maxWidth: '100%',
   },
   text: {
-    fontWeight: '600',
+    fontWeight: '800',
   },
 });

@@ -1,50 +1,52 @@
 import React, { useEffect, useRef } from 'react';
-import { View, StyleSheet, Animated, Image, Dimensions } from 'react-native';
+import { View, StyleSheet, Animated, Dimensions } from 'react-native';
+import { Typography } from '../../../shared/components/Typography';
 
 const { width, height } = Dimensions.get('window');
 
 // Using the provided assets from assets/splash
 // (Fallback to local if dynamic loading is needed, but we will require them here)
 const SPHINX_BG = require('../../../../assets/splash/splashBackground.png');
-const LOGO = require('../../../../assets/splash/splash3.png'); // Assuming splash3 is the logo, or we can use fullSplash
+const LOGO = require('../../../../assets/splash/splash logo.png');
 
 export const SplashAnimation: React.FC = () => {
   const bgOpacity = useRef(new Animated.Value(0)).current;
   const bgScale = useRef(new Animated.Value(1.1)).current;
-  
+
   const logoOpacity = useRef(new Animated.Value(0)).current;
-  const logoTranslateY = useRef(new Animated.Value(20)).current;
+  const textOpacity = useRef(new Animated.Value(0)).current;
+  const contentTranslateY = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     Animated.sequence([
-      // 1. Fade in and slightly scale down the background
-      Animated.parallel([
-        Animated.timing(bgOpacity, {
-          toValue: 1,
-          duration: 800,
-          useNativeDriver: true,
-        }),
-        Animated.timing(bgScale, {
-          toValue: 1,
-          duration: 1500,
-          useNativeDriver: true,
-        })
-      ]),
-      // 2. Fade in and slide up the logo
-      Animated.parallel([
-        Animated.timing(logoOpacity, {
-          toValue: 1,
-          duration: 600,
-          useNativeDriver: true,
-        }),
-        Animated.timing(logoTranslateY, {
-          toValue: 0,
-          duration: 600,
-          useNativeDriver: true,
-        })
-      ])
+      // 1. Background appears immediately (short fade for smoothness)
+      Animated.timing(bgOpacity, {
+        toValue: 1,
+        duration: 400,
+        useNativeDriver: true,
+      }),
+      // 2. 1 second delay
+      Animated.delay(1000),
+      // 3. Logo fades in
+      Animated.timing(logoOpacity, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+      // 4. Text fades in
+      Animated.timing(textOpacity, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+      // 5. Logo and text move upward together
+      Animated.timing(contentTranslateY, {
+        toValue: -height * 0.3,
+        duration: 1000,
+        useNativeDriver: true,
+      }),
     ]).start();
-  }, [bgOpacity, bgScale, logoOpacity, logoTranslateY]);
+  }, [bgOpacity, logoOpacity, textOpacity, contentTranslateY]);
 
   return (
     <View style={styles.container} pointerEvents="none">
@@ -60,17 +62,30 @@ export const SplashAnimation: React.FC = () => {
         resizeMode="cover"
       />
       <View style={styles.overlay}>
-        <Animated.Image
-          source={LOGO}
+        <Animated.View
           style={[
-            styles.logo,
-            {
-              opacity: logoOpacity,
-              transform: [{ translateY: logoTranslateY }]
-            }
+            styles.contentContainer,
+            { transform: [{ translateY: contentTranslateY }] }
           ]}
-          resizeMode="contain"
-        />
+        >
+          <Animated.Image
+            source={LOGO}
+            style={[
+              styles.logo,
+              { opacity: logoOpacity }
+            ]}
+            resizeMode="contain"
+          />
+
+          <Animated.View style={[styles.textContainer, { opacity: textOpacity }]}>
+            <Typography variant="h2" color="white" align="center" style={styles.mainTitle}>
+              Discover Heritage Wonders
+            </Typography>
+            <Typography variant="body" color="#FFFFFF" align="center" style={styles.subTitle}>
+              Explore famous heritage sites, ancient monuments, cultural landmarks.
+            </Typography>
+          </Animated.View>
+        </Animated.View>
       </View>
     </View>
   );
@@ -92,7 +107,27 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.4)', // Dark overlay to make logo pop
   },
   logo: {
-    width: width * 0.7,
-    height: width * 0.7,
+    width: width * 0.4,
+    height: width * 0.4,
+  },
+  contentContainer: {
+    alignItems: 'center',
+    width: '100%',
+    paddingHorizontal: 20,
+  },
+  textContainer: {
+    alignItems: 'center',
+  },
+  mainTitle: {
+    // marginBottom: 10,
+    fontSize: 28,
+    fontWeight: 'semibold',
+  },
+  subTitle: {
+    lineHeight: 22,
+    opacity: 0.75,
+    fontSize: 14,
+    fontWeight: 'regular',
+
   },
 });
