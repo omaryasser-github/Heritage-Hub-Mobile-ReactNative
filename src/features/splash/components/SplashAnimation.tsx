@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { View, StyleSheet, Animated, Dimensions } from 'react-native';
 import { Typography } from '../../../shared/components/Typography';
+import { Platform } from 'react-native';
+
 
 const { width, height } = Dimensions.get('window');
 
@@ -31,7 +33,8 @@ export const SplashAnimation: React.FC = () => {
       Animated.timing(logoOpacity, {
         toValue: 1,
         duration: 800,
-        useNativeDriver: true,
+        // useNativeDriver: true,
+        useNativeDriver: Platform.OS !== 'web', // ✅ false on web, true on native
       }),
       // 4. Text fades in
       Animated.timing(textOpacity, {
@@ -49,7 +52,7 @@ export const SplashAnimation: React.FC = () => {
   }, [bgOpacity, logoOpacity, textOpacity, contentTranslateY]);
 
   return (
-    <View style={styles.container} pointerEvents="none">
+    <View style={styles.container}>
       <Animated.Image
         source={SPHINX_BG}
         style={[
@@ -95,6 +98,7 @@ const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: '#000',
+    pointerEvents: "none"
   },
   background: {
     width,
