@@ -43,121 +43,125 @@ export const LoginScreen = ({ navigation }: any) => {
   };
 
   return (
-    <ImageBackground
-      source={require('../../../../assets/Auth/authBackground.png')}
-      style={styles.background}
-    >
-      <View style={styles.overlay}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={styles.container}
-        >
-          <View style={styles.logoContainer}>
-            <Image
-              source={require('../../../../assets/splash/splash logo.png')}
-              style={styles.logo}
-            />
-          </View>
-          <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
-            <View style={styles.header}>
-              <Typography variant="h1" color="#FFFFFF" align="center" style={styles.title}>Welcome Back!</Typography>
-              <Typography variant="body" color="#E0E0E0" align="center">Log in to continue your journey</Typography>
-            </View>
+    <View style={styles.pageContainer}>
+      <ImageBackground
+        source={require('../../../../assets/Auth/authBackground.png')}
+        style={styles.background}
+      >
+        <View style={styles.overlay}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={styles.container}
+          >
 
-            <View style={styles.formContainer}>
-              <Controller
-                control={control}
-                name="email"
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <AuthInput
-                    label="Email"
-                    placeholder="Enter your email"
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                    error={errors.email?.message}
-                  />
-                )}
-              />
-
-              <Controller
-                control={control}
-                name="password"
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <PasswordInput
-                    label="Password"
-                    placeholder="Enter your password"
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                    error={errors.password?.message}
-                  />
-                )}
-              />
-
-              {apiError ? <Typography color="#FF6B6B" style={styles.apiError}>{apiError}</Typography> : null}
-
-              <TouchableOpacity style={styles.forgotPassword}>
-                <Typography color="#D9A941" variant="caption">Forgot Password?</Typography>
-              </TouchableOpacity>
-
-              <PrimaryButton
-                title={isLoading ? 'Logging in...' : 'Login'}
-                onPress={handleSubmit(onSubmit)}
-                disabled={isLoading}
-                style={styles.submitButton}
-              />
-
-              <View style={styles.divider}>
-                <View style={styles.line} />
-                <Typography color="#E0E0E0" style={styles.orText}>OR</Typography>
-                <View style={styles.line} />
+            <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
+              <View style={styles.logoContainer}>
+                <Image
+                  source={require('../../../../assets/splash/splash logo.png')}
+                  style={styles.logo}
+                />
+              </View>
+              <View style={styles.header}>
+                <Typography variant="h1" color="#FFFFFF" align="center" style={styles.title}>Welcome Back!</Typography>
+                <Typography variant="body" color="#E0E0E0" align="center">Log in to continue your journey</Typography>
               </View>
 
-              <SocialLoginButton provider="google" onPress={() => { }} />
-              <SocialLoginButton provider="facebook" onPress={() => { }} />
+              <View style={styles.formContainer}>
+                <Controller
+                  control={control}
+                  name="email"
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <AuthInput
+                      label="Email"
+                      placeholder="Enter your email"
+                      keyboardType="email-address"
+                      autoCapitalize="none"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                      error={errors.email?.message}
+                    />
+                  )}
+                />
 
-              <View style={styles.footer}>
-                <Typography color="#FFFFFF">Don't have an account? </Typography>
-                <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-                  <Typography color="#D9A941" style={{ fontWeight: 'bold' }}>Sign Up</Typography>
+                <Controller
+                  control={control}
+                  name="password"
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <PasswordInput
+                      label="Password"
+                      placeholder="Enter your password"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                      error={errors.password?.message}
+                    />
+                  )}
+                />
+
+                {apiError ? <Typography color="#FF6B6B" style={styles.apiError}>{apiError}</Typography> : null}
+
+                <TouchableOpacity style={styles.forgotPassword}>
+                  <Typography color="#D9A941" variant="caption">Forgot Password?</Typography>
                 </TouchableOpacity>
+
+                <PrimaryButton
+                  title={isLoading ? 'Logging in...' : 'Login'}
+                  onPress={handleSubmit(onSubmit)}
+                  disabled={isLoading}
+                  style={styles.submitButton}
+                />
+
+                <View style={styles.footer}>
+                  <Typography color="#FFFFFF">Don't have an account? </Typography>
+                  <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+                    <Typography color="#D9A941" style={{ fontWeight: 'bold' }}>Sign Up</Typography>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.divider}>
+                  <View style={styles.line} />
+                  <Typography color="#E0E0E0" style={styles.orText}>OR</Typography>
+                  <View style={styles.line} />
+                </View>
+
+                <SocialLoginButton provider="google" onPress={() => { }} />
+                <SocialLoginButton provider="facebook" onPress={() => { }} />
               </View>
-            </View>
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </View>
-    </ImageBackground>
+            </ScrollView>
+          </KeyboardAvoidingView>
+        </View>
+      </ImageBackground>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  pageContainer: { flex: 1, },
   background: { flex: 1, resizeMode: 'cover' },
   logoContainer: {
     position: 'absolute',
     top: 40,
     left: 15,
+    bottom: 0,
     alignItems: 'flex-start',
-    zIndex: 50
+    // zIndex: 50
   },
   logo: {
     width: 75,
     height: 75,
-    resizeMode: 'contain',
+    // resizeMode: 'contain',
   },
   overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' },
   container: { flex: 1 },
-  scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 24, paddingTop: 60 },
-  header: { marginBottom: 40 },
+  scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 24, paddingTop: 120, paddingBottom: 100, },
+  header: { marginBottom: 20 },
   title: { marginBottom: 8 },
-  formContainer: { width: '100%' },
+  formContainer: { width: '100%', display: 'flex', },
   apiError: { marginBottom: 16, textAlign: 'center' },
   forgotPassword: { alignSelf: 'flex-end', marginBottom: 24 },
   submitButton: { marginBottom: 24, width: '100%' },
   divider: { flexDirection: 'row', alignItems: 'center', marginBottom: 24 },
   line: { flex: 1, height: 1, backgroundColor: 'rgba(255,255,255,0.2)' },
   orText: { marginHorizontal: 16 },
-  footer: { flexDirection: 'row', justifyContent: 'center', marginTop: 24 }
+  footer: { flexDirection: 'row', justifyContent: 'center', marginBottom: 15 }
 });
