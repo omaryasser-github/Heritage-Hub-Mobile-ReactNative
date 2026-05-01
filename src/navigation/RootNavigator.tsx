@@ -9,7 +9,7 @@ import { SignUpScreen } from '../features/auth/screens/SignUpScreen';
 
 const Stack = createNativeStackNavigator();
 
-// Placeholder screens for routing from Splash
+// Auth screens for routing from Splash
 const AuthStackScreen = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="Login" component={LoginScreen} />
@@ -31,7 +31,7 @@ export const RootNavigator = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {/* Always start with splash, the splash logic handles routing next */}
         <Stack.Screen name="Splash" component={SplashScreen} />
-        
+
         {/* After Splash, we go to either Auth or Main */}
         <Stack.Screen name="AuthStack" component={AuthStackScreen} />
         <Stack.Screen name="MainTabNavigator" component={PlaceholderMainTab} />

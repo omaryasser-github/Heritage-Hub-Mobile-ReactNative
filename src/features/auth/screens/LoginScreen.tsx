@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, ImageBackground, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { View, StyleSheet, ImageBackground, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, Image } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -52,9 +52,15 @@ export const LoginScreen = ({ navigation }: any) => {
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.container}
         >
+          <View style={styles.logoContainer}>
+            <Image
+              source={require('../../../../assets/splash/splash logo.png')}
+              style={styles.logo}
+            />
+          </View>
           <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
             <View style={styles.header}>
-              <Typography variant="h1" color="#FFFFFF" align="center" style={styles.title}>Welcome Back</Typography>
+              <Typography variant="h1" color="#FFFFFF" align="center" style={styles.title}>Welcome Back!</Typography>
               <Typography variant="body" color="#E0E0E0" align="center">Log in to continue your journey</Typography>
             </View>
 
@@ -129,6 +135,18 @@ export const LoginScreen = ({ navigation }: any) => {
 
 const styles = StyleSheet.create({
   background: { flex: 1, resizeMode: 'cover' },
+  logoContainer: {
+    position: 'absolute',
+    top: 40,
+    left: 15,
+    alignItems: 'flex-start',
+    zIndex: 50
+  },
+  logo: {
+    width: 75,
+    height: 75,
+    resizeMode: 'contain',
+  },
   overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' },
   container: { flex: 1 },
   scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 24, paddingTop: 60 },
