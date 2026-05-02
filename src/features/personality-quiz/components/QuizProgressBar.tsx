@@ -25,7 +25,7 @@ export const QuizProgressBar: React.FC<QuizProgressBarProps> = ({ currentStep, t
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 24,
-    paddingVertical: 16,
+    paddingVertical: 10,
     width: '100%',
   },
   text: {

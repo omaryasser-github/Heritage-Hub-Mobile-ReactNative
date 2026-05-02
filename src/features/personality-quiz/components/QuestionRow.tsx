@@ -16,7 +16,7 @@ export const QuestionRow: React.FC<QuestionRowProps> = ({ question, selectedValu
         {question.text}
       </Typography>
       <View style={styles.likertContainer}>
-        <Typography variant="caption" color="#AAAAAA" style={styles.label}>Disagree</Typography>
+        <Typography variant="caption" style={styles.label}>Disagree</Typography>
         <View style={styles.circles}>
           {[1, 2, 3, 4, 5].map((val) => (
             <LikertCircle
@@ -27,7 +27,7 @@ export const QuestionRow: React.FC<QuestionRowProps> = ({ question, selectedValu
             />
           ))}
         </View>
-        <Typography variant="caption" color="#AAAAAA" style={styles.label}>Agree</Typography>
+        <Typography variant="caption" style={styles.label}>Agree</Typography>
       </View>
     </View>
   );
@@ -35,7 +35,7 @@ export const QuestionRow: React.FC<QuestionRowProps> = ({ question, selectedValu
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 32,
+    marginBottom: 12,
   },
   questionText: {
     marginBottom: 24,
@@ -47,16 +47,20 @@ const styles = StyleSheet.create({
   likertContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
+    gap: 4,
+    paddingHorizontal: 15
   },
   circles: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    // gap: 4,
+    // gap: 2,
   },
   label: {
+    color: "#AAAAAA",
     width: 60,
     textAlign: 'center',
+    fontSize: 12
   }
 });

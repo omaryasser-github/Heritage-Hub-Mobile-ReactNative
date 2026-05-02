@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, ActivityIndicator, SafeAreaView, ScrollView, ImageBackground, Image } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, ScrollView, ImageBackground, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { fetchQuizQuestions, submitQuizAnswers } from '../api/quizService';
 import { QuestionRow } from '../components/QuestionRow';
 import { QuizProgressBar } from '../components/QuizProgressBar';
@@ -60,6 +61,14 @@ export const PersonaQuizScreen = () => {
     }
   };
 
+  const handleBack = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(prev => prev - 1);
+    } else {
+      navigation.goBack();
+    }
+  };
+
   if (loading) {
     return (
       <View style={styles.centered}>
@@ -83,7 +92,8 @@ export const PersonaQuizScreen = () => {
 
   return (
     <ImageBackground
-      // source={require('../../../../assets/Auth/authBackground.png')}
+      source={require('../../../../assets/Personality Quiz/quizHeaderImage.png')}
+
       style={styles.background}
     >
       <View style={styles.overlay}>
@@ -91,7 +101,7 @@ export const PersonaQuizScreen = () => {
 
           <View style={styles.headerImageContainer}>
             <Image
-              source={require('../../../../assets/Personality Quiz/quizHeaderImage.png')}
+              // source={require('../../../../assets/Personality Quiz/quizHeaderImage.png')}
               style={styles.headerImage}
               resizeMode="cover"
             />
@@ -114,6 +124,11 @@ export const PersonaQuizScreen = () => {
           </ScrollView>
 
           <View style={styles.footer}>
+            <PrimaryButton
+              title={'Back'}
+              onPress={handleBack}
+              style={styles.backButton}
+            />
             <PrimaryButton
               title={currentIndex === questions.length - 1 ? (submitting ? 'Submitting...' : 'Finish') : 'Next'}
               onPress={handleNext}
@@ -146,13 +161,15 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
-    padding: 14,
-    justifyContent: 'center',
+    padding: 8,
+    marginTop: 60,
+    justifyContent: 'flex-start',
+    overflow: "hidden",
   },
   card: {
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
     borderRadius: 24,
-    padding: 24,
+    paddingVertical: 20,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.2)',
   },
@@ -161,9 +178,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   footer: {
-    padding: 24,
+    flexDirection: "row",
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    width: "50%",
+    gap: 10
   },
   nextButton: {
+    width: '100%',
+    marginBottom: 60,
+  },
+  backButton: {
     width: '100%',
     marginBottom: 60,
   }
