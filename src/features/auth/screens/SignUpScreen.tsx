@@ -40,7 +40,7 @@ export const SignUpScreen = () => {
     try {
       const response: any = await register(data);
       setToken(response.token);
-      // Navigation is handled by RootNavigator reacting to token change
+      (navigation.navigate as any)('PersonaQuiz');
     } catch (err: any) {
       setApiError(err.message || 'Registration failed');
     } finally {

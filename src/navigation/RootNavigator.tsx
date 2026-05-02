@@ -6,11 +6,14 @@ import { View, Text } from 'react-native';
 import { LoginScreen } from '../features/auth/screens/LoginScreen';
 import { SignUpScreen } from '../features/auth/screens/SignUpScreen';
 
+import { PersonaQuizScreen } from '../features/personality-quiz/screens/PersonaQuizScreen';
+
 const AuthStack = createNativeStackNavigator({
   screenOptions: { headerShown: false },
   screens: {
     Login: LoginScreen,
     SignUp: SignUpScreen,
+    PersonaQuiz: PersonaQuizScreen,
   },
 });
 

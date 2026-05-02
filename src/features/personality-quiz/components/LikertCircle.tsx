@@ -1,0 +1,54 @@
+import React from 'react';
+import { TouchableOpacity, StyleSheet, View } from 'react-native';
+
+interface LikertCircleProps {
+  value: number;
+  isSelected: boolean;
+  onSelect: (value: number) => void;
+  sizeMultiplier?: number;
+}
+
+export const LikertCircle: React.FC<LikertCircleProps> = ({ value, isSelected, onSelect, sizeMultiplier = 1 }) => {
+  // Base sizes: 1 and 5 are big (36), 2 and 4 are medium (28), 3 is small (20)
+  let baseSize = 20;
+  if (value === 1 || value === 5) baseSize = 44;
+  else if (value === 2 || value === 4) baseSize = 32;
+  else baseSize = 24;
+
+  const size = baseSize * sizeMultiplier;
+
+  return (
+    <TouchableOpacity
+      style={[
+        styles.container,
+        { width: 44, height: 44 } // Ensure touch target is at least 44x44
+      ]}
+      onPress={() => onSelect(value)}
+      activeOpacity={0.7}
+    >
+      <View
+        style={[
+          styles.circle,
+          {
+            width: size,
+            height: size,
+            borderRadius: size / 2,
+            backgroundColor: isSelected ? '#D9A941' : 'transparent',
+            borderColor: '#D9A941',
+            borderWidth: isSelected ? 0 : 2,
+          }
+        ]}
+      />
+    </TouchableOpacity>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  circle: {
+    // Basic circle styles, dynamics are in style array
+  }
+});
