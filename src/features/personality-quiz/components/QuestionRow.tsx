@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   questionText: {
+    paddingHorizontal: 5,
     marginBottom: 24,
     textAlign: 'center',
     fontSize: 18,

@@ -4,12 +4,13 @@ import { Typography } from './Typography';
 
 interface PrimaryButtonProps extends TouchableOpacityProps {
   title: string;
+  textColor?: string;
 }
 
-export const PrimaryButton: React.FC<PrimaryButtonProps> = ({ title, style, ...props }) => {
+export const PrimaryButton: React.FC<PrimaryButtonProps> = ({ title, style, textColor, ...props }) => {
   return (
     <TouchableOpacity style={[styles.button, style]} {...props}>
-      <Typography variant="body" color="#FFFFFF" style={styles.text}>
+      <Typography variant="body" color={textColor || "#FFFFFF"} style={styles.text}>
         {title}
       </Typography>
 

@@ -127,6 +127,7 @@ export const PersonaQuizScreen = () => {
             <PrimaryButton
               title={'Back'}
               onPress={handleBack}
+              textColor='black'
               style={styles.backButton}
             />
             <PrimaryButton
@@ -161,8 +162,8 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
-    padding: 8,
-    marginTop: 60,
+    padding: 10,
+    marginTop: 40,
     justifyContent: 'flex-start',
     overflow: "hidden",
   },
@@ -191,5 +192,6 @@ const styles = StyleSheet.create({
   backButton: {
     width: '100%',
     marginBottom: 60,
+    backgroundColor: "white",
   }
 });
