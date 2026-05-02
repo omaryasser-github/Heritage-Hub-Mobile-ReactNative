@@ -10,6 +10,7 @@ import { PrimaryButton } from '../../../shared/components/PrimaryButton';
 import { Typography } from '../../../shared/components/Typography';
 import { login } from '../api/authService';
 import { useAuthStore } from '../../../core/store/authStore';
+import { useNavigation } from '@react-navigation/native';
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'Invalid email address' }),
@@ -18,7 +19,8 @@ const loginSchema = z.object({
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 
-export const LoginScreen = ({ navigation }: any) => {
+export const LoginScreen = () => {
+  const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState('');
   const setToken = useAuthStore((state: any) => state.setToken);
@@ -114,7 +116,7 @@ export const LoginScreen = ({ navigation }: any) => {
 
                 <View style={styles.footer}>
                   <Typography color="#FFFFFF">Don't have an account? </Typography>
-                  <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+                  <TouchableOpacity onPress={() => navigation.navigate('AuthStack', { screen: 'SignUp' })}>
                     <Typography color="#D9A941" style={{ fontWeight: 'bold' }}>Sign Up</Typography>
                   </TouchableOpacity>
                 </View>

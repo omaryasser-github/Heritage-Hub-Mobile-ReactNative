@@ -10,6 +10,7 @@ import { SocialLoginButton } from '../components/SocialLoginButton';
 import { Typography } from '../../../shared/components/Typography';
 import { register } from '../api/authService';
 import { useAuthStore } from '../../../core/store/authStore';
+import { useNavigation } from '@react-navigation/native';
 
 const signUpSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters' }),
@@ -22,7 +23,8 @@ const signUpSchema = z.object({
 
 type SignUpFormValues = z.infer<typeof signUpSchema>;
 
-export const SignUpScreen = ({ navigation }: any) => {
+export const SignUpScreen = () => {
+  const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState('');
   const setToken = useAuthStore((state: any) => state.setToken);
@@ -142,7 +144,7 @@ export const SignUpScreen = ({ navigation }: any) => {
                 />
                 <View style={styles.footer}>
                   <Typography color="#FFFFFF">Already have an account? </Typography>
-                  <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                  <TouchableOpacity onPress={() => navigation.navigate('AuthStack', { screen: 'Login' })}>
                     <Typography color="#D9A941" style={{ fontWeight: 'bold' }}>Log In</Typography>
                   </TouchableOpacity>
                 </View>

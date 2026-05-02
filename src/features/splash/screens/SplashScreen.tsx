@@ -5,8 +5,10 @@ import { SplashAnimation } from '../components/SplashAnimation';
 import { PrimaryButton } from '../../../shared/components/PrimaryButton';
 import { useAppBootstrap } from '../hooks/useAppBootstrap';
 import { Typography } from '../../../shared/components/Typography';
+import { useNavigation } from '@react-navigation/native';
 
-export const SplashScreen: React.FC<any> = ({ navigation }) => {
+export const SplashScreen = () => {
+  const navigation = useNavigation();
   const { isReady, error } = useAppBootstrap();
   const insets = useSafeAreaInsets();
 
@@ -42,7 +44,10 @@ export const SplashScreen: React.FC<any> = ({ navigation }) => {
 
     // We can explicitly navigate to a 'Gate' route, or just push Auth/Main manually.
     // For MVP setup, let's navigate to AuthStack directly as we default to null token
-    navigation.replace('AuthStack');
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'AuthStack' }],
+    });
   };
 
   return (
