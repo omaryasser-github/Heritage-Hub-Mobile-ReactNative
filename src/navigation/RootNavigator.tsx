@@ -7,6 +7,7 @@ import { LoginScreen } from '../features/auth/screens/LoginScreen';
 import { SignUpScreen } from '../features/auth/screens/SignUpScreen';
 
 import { PersonaQuizScreen } from '../features/personality-quiz/screens/PersonaQuizScreen';
+import { BottomTabNavigator } from './BottomTabNavigator';
 
 const AuthStack = createNativeStackNavigator({
   screenOptions: { headerShown: false },
@@ -17,11 +18,7 @@ const AuthStack = createNativeStackNavigator({
   },
 });
 
-const PlaceholderMainTab = () => (
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text>Main Tab Navigator (Home)</Text>
-  </View>
-);
+
 
 const RootStack = createNativeStackNavigator({
   initialRouteName: 'Splash',
@@ -29,7 +26,7 @@ const RootStack = createNativeStackNavigator({
   screens: {
     Splash: SplashScreen,
     AuthStack: AuthStack,
-    MainTabNavigator: PlaceholderMainTab,
+    MainTabNavigator: BottomTabNavigator,
   },
 });
 
