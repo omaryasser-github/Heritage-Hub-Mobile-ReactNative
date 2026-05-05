@@ -22,13 +22,14 @@ export const BottomTabNavigator = createBottomTabNavigator({
     tabBarInactiveTintColor: '#8E8E93',
     tabBarStyle: {
       borderTopWidth: 0,
-      elevation: 10,
+      // elevation: 10,
       shadowColor: '#000',
       shadowOpacity: 0.05,
       shadowOffset: { width: 0, height: -3 },
       shadowRadius: 10,
       backgroundColor: '#F2E8DD',
-      height: 68,
+      height: 70,
+      paddingTop: 10,
     },
   },
   screens: {

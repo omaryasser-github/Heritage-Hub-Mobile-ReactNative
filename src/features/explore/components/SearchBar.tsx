@@ -19,7 +19,7 @@ export const SearchBar = ({ value, onChangeText }: SearchBarProps) => {
         autoCapitalize="none"
         autoCorrect={true}
       />
-      <Ionicons name="search" size={20} color="#8E8E93" style={styles.icon} />
+      <Ionicons name="search" size={18} color="#8E8E93" style={styles.icon} />
     </View>
   );
 };
@@ -29,18 +29,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#F2F2F7',
-    borderRadius: 20,
+    borderRadius: 18,
     paddingHorizontal: 16,
-    paddingVertical: 12,
-    marginBottom: 20,
-    width: "100%"
+    paddingVertical: 1,
+    marginBottom: 17,
+    alignSelf: 'center',
+    width: "80%"
   },
   icon: {
     marginRight: 10,
   },
   input: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 14,
     width: "70%",
     color: '#1A1A1A',
   }

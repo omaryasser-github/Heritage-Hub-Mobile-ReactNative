@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
   selectedContainer: {
     backgroundColor: '#E6F2FF',
     borderColor: '#FFCE51',
+    borderWidth: 3,
   },
   image: {
     width: 60,

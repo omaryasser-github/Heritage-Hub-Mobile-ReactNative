@@ -39,22 +39,22 @@ export const HomeScreen = () => {
           <Text style={styles.screenTitle}>Explore Egypt</Text>
         </View>
         <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
-      </ImageBackground>
-      <View style={styles.categoryContainer}>
 
-        <Text style={styles.categoriesTitle}>Categories</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categories}>
-          {CATEGORIES.map((cat) => (
-            <CategoryPill
-              key={cat.id}
-              title={cat.title}
-              image={cat.image}
-              isSelected={selectedCategory === cat.id}
-              onPress={() => setSelectedCategory(cat.id)}
-            />
-          ))}
-        </ScrollView>
-      </View>
+        <View style={styles.categoryContainer}>
+          <Text style={styles.categoriesTitle}>Categories</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categories}>
+            {CATEGORIES.map((cat) => (
+              <CategoryPill
+                key={cat.id}
+                title={cat.title}
+                image={cat.image}
+                isSelected={selectedCategory === cat.id}
+                onPress={() => setSelectedCategory(cat.id)}
+              />
+            ))}
+          </ScrollView>
+        </View>
+      </ImageBackground>
     </View>
   );
 
@@ -93,13 +93,19 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F2E8DD',
   },
-  background: { flex: 1, resizeMode: 'cover' },
+  background: {
+    // flex: 1,
+    paddingTop: 27,
+    height: 280,
+    backgroundColor: '#F2E8DD',
+  },
   logoContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
     gap: 10,
-    marginBottom: 20
+    marginBottom: 20,
+    paddingHorizontal: 5
   },
   logo: {
     width: 70,
@@ -115,16 +121,17 @@ const styles = StyleSheet.create({
     marginTop: 15,
     fontSize: 23,
     fontWeight: 'bold',
-    color: '#1A1A1A',
+    color: 'white',
     marginBottom: 20,
   },
   categoryContainer: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
+    marginTop: 35
   },
   categoriesTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#1A1A1A',
+    color: 'white',
     marginBottom: 10,
   },
   categories: {
@@ -133,7 +140,6 @@ const styles = StyleSheet.create({
     // marginBottom: 10,
     // backgroundColor: "red",
     // borderWidth: 4,
-
   },
   listContainer: {
     flex: 1,
