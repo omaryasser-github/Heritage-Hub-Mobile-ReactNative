@@ -29,7 +29,7 @@ export const MonumentCard = ({ monument, onPress, onFavorite }: MonumentCardProp
           </View>
         </View>
         <View style={styles.locationRow}>
-          <Ionicons name="location-outline" size={14} color="#666" />
+          <Ionicons name="location-outline" size={14} fill="blue" color="blue" />
           <Text style={styles.locationText}>{monument.location}</Text>
         </View>
       </View>
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 16,
     right: 16,
-    backgroundColor: 'rgba(0,0,0,0.2)',
+    backgroundColor: 'transparent',
     borderRadius: 20,
     padding: 8,
     // backdropFilter: 'blur(10px)', // Will only work if glassmorphism wrapper used, but ok for now
@@ -99,6 +99,6 @@ const styles = StyleSheet.create({
   locationText: {
     marginLeft: 4,
     fontSize: 14,
-    color: '#666',
+    color: 'blue',
   }
 });

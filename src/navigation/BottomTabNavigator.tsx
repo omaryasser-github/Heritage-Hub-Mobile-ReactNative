@@ -28,8 +28,8 @@ export const BottomTabNavigator = createBottomTabNavigator({
       shadowOffset: { width: 0, height: -3 },
       shadowRadius: 10,
       backgroundColor: '#F2E8DD',
-      height: 70,
-      paddingTop: 10,
+      height: 60,
+      // paddingTop: 10,
     },
   },
   screens: {

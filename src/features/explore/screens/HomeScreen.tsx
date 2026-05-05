@@ -70,12 +70,12 @@ export const HomeScreen = () => {
           <Text style={styles.emptyText}>No monuments found.</Text>
         ) : ( */}
         <FlashList
-          data={[]}
+          data={exploreService.getFeed()}
           renderItem={({ item }: { item: Monument }) => (
             <MonumentCard
               monument={item}
               onPress={() => console.log('Navigate to', item.id)}
-              onFavorite={() => console.log('Toggle favorite', item.id)}
+              onFavorite={() => { item.isFavorite = !item.isFavorite }}
             />
           )}
           // estimatedItemSize={290}
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   background: {
     // flex: 1,
     paddingTop: 27,
-    height: 280,
+    height: 270,
     backgroundColor: '#F2E8DD',
   },
   logoContainer: {
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     gap: 10,
-    marginBottom: 20,
+    marginBottom: 10,
     paddingHorizontal: 5
   },
   logo: {
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   header: {
     // paddingHorizontal: 20,
     // paddingTop: 10,
-    paddingBottom: 100,
+    paddingBottom: 70,
   },
   screenTitle: {
     marginTop: 15,
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   },
   categoryContainer: {
     paddingHorizontal: 15,
-    marginTop: 35
+    marginTop: 25
   },
   categoriesTitle: {
     fontSize: 20,
