@@ -8,6 +8,7 @@ import { exploreService, Monument } from '../api/exploreService';
 import { SearchBar } from '../components/SearchBar';
 import { CategoryPill } from '../components/CategoryPill';
 import { MonumentCard } from '../components/MonumentCard';
+import { HeaderMenu } from '../components/HeaderMenu';
 
 const CATEGORIES = [
   { id: 'recommended', title: 'Recommend', image: require('../../../../assets/Home/icons/recommend-icon.png') },
@@ -46,6 +47,10 @@ export const HomeScreen = () => {
             style={styles.logo}
           />
           <Text style={styles.screenTitle}>Explore Egypt</Text>
+          {/* Shortlist hamburger — positioned at the far right of the header row */}
+          <HeaderMenu
+          // style={{ marginLeft: 'auto' }}
+          />
         </View>
         <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
 
@@ -118,11 +123,12 @@ const styles = StyleSheet.create({
   logoContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     gap: 10,
     marginBottom: 10,
-    paddingHorizontal: 5
+    paddingHorizontal: 10,
   },
+
   logo: {
     width: 70,
     height: 70,
@@ -137,6 +143,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
     marginBottom: 20,
+    marginRight: 80
   },
   categoryContainer: {
     paddingHorizontal: 15,
