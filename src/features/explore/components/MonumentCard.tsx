@@ -48,10 +48,12 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 12,
     elevation: 4,
+    width: 165,
+    height: 200,
   },
   image: {
-    width: '100%',
-    height: 220,
+    width: 'auto',
+    height: 120,
   },
   favoriteBtn: {
     position: 'absolute',
@@ -72,7 +74,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   title: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     color: '#1A1A1A',
     flex: 1,

@@ -71,12 +71,16 @@ export const HomeScreen = () => {
         ) : ( */}
         <FlashList
           data={exploreService.getFeed()}
+          numColumns={2}
+          // columnWrapperStyle={styles.columnWrapper}
           renderItem={({ item }: { item: Monument }) => (
-            <MonumentCard
-              monument={item}
-              onPress={() => console.log('Navigate to', item.id)}
-              onFavorite={() => { item.isFavorite = !item.isFavorite }}
-            />
+            <View style={styles.cardContainer}>
+              <MonumentCard
+                monument={item}
+                onPress={() => console.log('Navigate to', item.id)}
+                onFavorite={() => { item.isFavorite = !item.isFavorite }}
+              />
+            </View>
           )}
           // estimatedItemSize={290}
           contentContainerStyle={styles.listContent}
@@ -90,7 +94,7 @@ export const HomeScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    display: "flex",
     backgroundColor: '#F2E8DD',
   },
   background: {
@@ -142,12 +146,16 @@ const styles = StyleSheet.create({
     // borderWidth: 4,
   },
   listContainer: {
-    flex: 1,
+    display: 'flex',
+    flexDirection: 'row',
     paddingHorizontal: 20,
   },
   listContent: {
     paddingBottom: 24,
-    paddingTop: 10,
+    // paddingTop: 10,
+  },
+  cardContainer: {
+    flex: 1,
   },
   loadingText: {
     textAlign: 'center',
