@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, Text, Image, ImageBackground } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { FlashList } from '@shopify/flash-list';
 // import { useQuery } from '@tanstack/react-query';
 import { exploreService, Monument } from '../api/exploreService';
@@ -20,6 +21,13 @@ export const HomeScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('popular');
 
+  // Dynamic safe area values — avoids hardcoded spacing for notch/status bar/gesture area.
+  const insets = useSafeAreaInsets();
+
+  // Tab bar height from the navigator — used to prevent the last list card from
+  // being hidden behind the bottom tab bar on any device.
+  const tabBarHeight = useBottomTabBarHeight();
+
   // const { data: feed = [], isLoading, isError } = useQuery({
   //   queryKey: ['exploreFeed'],
   //   queryFn: exploreService.getFeed,
@@ -29,7 +37,8 @@ export const HomeScreen = () => {
     <View style={styles.header}>
       <ImageBackground
         source={require('../../../../assets/Home/homeBackgroundHeader.png')}
-        style={styles.background}
+        // paddingTop uses insets.top so the logo/title clears the notch on all devices.
+        style={[styles.background, { paddingTop: insets.top + 10 }]}
       >
         <View style={styles.logoContainer}>
           <Image
@@ -59,8 +68,11 @@ export const HomeScreen = () => {
   );
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    // Do NOT pass edges={['top']} here — insets.top is applied manually to the
+    // ImageBackground so it can extend to the very top of the screen (edge-to-edge).
+    <View style={styles.container}>
       {renderHeader()}
+      {/* flex: 1 allows the list to fill all remaining space below the header */}
       <View style={styles.listContainer}>
         {/* {isLoading ? (
           <Text style={styles.loadingText}>Loading...</Text>
@@ -72,7 +84,6 @@ export const HomeScreen = () => {
         <FlashList
           data={exploreService.getFeed()}
           numColumns={2}
-          // columnWrapperStyle={styles.columnWrapper}
           renderItem={({ item }: { item: Monument }) => (
             <View style={styles.cardContainer}>
               <MonumentCard
@@ -82,24 +93,25 @@ export const HomeScreen = () => {
               />
             </View>
           )}
-          // estimatedItemSize={290}
-          contentContainerStyle={styles.listContent}
+          // tabBarHeight + insets.bottom ensures the last card is always fully
+          // visible above the tab bar and the device's bottom gesture area.
+          contentContainerStyle={{ paddingBottom: tabBarHeight + insets.bottom }}
           showsVerticalScrollIndicator={false}
         />
         {/* )} */}
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  // flex: 1 fills the full device screen height.
   container: {
-    display: "flex",
-    backgroundColor: '#F2E8DD',
+    flex: 1,
+    backgroundColor: "#F2E8DD",
   },
   background: {
-    // flex: 1,
-    paddingTop: 27,
+    // paddingTop is now applied dynamically via insets.top in the JSX above.
     height: 270,
     backgroundColor: '#F2E8DD',
   },
@@ -114,12 +126,10 @@ const styles = StyleSheet.create({
   logo: {
     width: 70,
     height: 70,
-    // resizeMode: 'contain',
   },
   header: {
-    // paddingHorizontal: 20,
-    // paddingTop: 10,
-    paddingBottom: 70,
+    // Negative marginBottom creates the visual overlap where cards float over the header.
+    marginBottom: -70,
   },
   screenTitle: {
     marginTop: 15,
@@ -130,7 +140,7 @@ const styles = StyleSheet.create({
   },
   categoryContainer: {
     paddingHorizontal: 15,
-    marginTop: 25
+    marginTop: 15
   },
   categoriesTitle: {
     fontSize: 20,
@@ -139,20 +149,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   categories: {
-    display: 'flex',
     flexDirection: 'row',
-    // marginBottom: 10,
-    // backgroundColor: "red",
-    // borderWidth: 4,
   },
+  // flex: 1 replaces the broken hardcoded paddingBottom: 700.
+  // The list now stretches to fill all remaining space naturally.
   listContainer: {
-    display: 'flex',
-    flexDirection: 'row',
+    flex: 1,
     paddingHorizontal: 20,
-  },
-  listContent: {
-    paddingBottom: 24,
-    // paddingTop: 10,
+    marginTop: 150,
   },
   cardContainer: {
     flex: 1,

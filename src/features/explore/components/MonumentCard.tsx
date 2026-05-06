@@ -29,7 +29,7 @@ export const MonumentCard = ({ monument, onPress, onFavorite }: MonumentCardProp
           </View>
         </View>
         <View style={styles.locationRow}>
-          <Ionicons name="location-outline" size={14} fill="blue" color="blue" />
+          <Ionicons name="location-outline" size={14} color="blue" />
           <Text style={styles.locationText}>{monument.location}</Text>
         </View>
       </View>

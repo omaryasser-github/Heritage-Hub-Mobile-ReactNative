@@ -17,7 +17,7 @@ export const SearchBar = ({ value, onChangeText }: SearchBarProps) => {
         value={value}
         onChangeText={onChangeText}
         autoCapitalize="none"
-        autoCorrect={true}
+        autoCorrect={false}
       />
       <Ionicons name="search" size={18} color="#8E8E93" style={styles.icon} />
     </View>

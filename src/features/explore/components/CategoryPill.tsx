@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
   },
   container: {
     alignItems: 'center',
-    borderRadius: 40,
-    marginRight: 10,
+    borderRadius: 45,
+    marginRight: 5,
     borderWidth: 1,
     borderColor: 'transparent',
 
