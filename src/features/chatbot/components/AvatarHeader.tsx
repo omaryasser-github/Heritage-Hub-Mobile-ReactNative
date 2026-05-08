@@ -19,8 +19,7 @@ export const AvatarHeader = ({ onReset }: AvatarHeaderProps) => {
           />
         </View>
         <View style={styles.textContainer}>
-          <Text style={styles.greeting}>AI Explorer</Text>
-          <Text style={styles.subtitle}>Online</Text>
+          <Text style={styles.greeting}>User Name</Text>
         </View>
       </View>
       <View style={styles.right}>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 interface SuggestionPillProps {
   title: string;
@@ -10,24 +11,36 @@ export const SuggestionPill = ({ title, onPress }: SuggestionPillProps) => {
   return (
     <TouchableOpacity style={styles.pill} onPress={() => onPress(title)} activeOpacity={0.7}>
       <Text style={styles.text}>{title}</Text>
+      <Ionicons name="arrow-forward-outline" style={styles.arrow} size={20} color="black" />
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   pill: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.5)',
-    paddingHorizontal: 16,
-    paddingVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F4E8DA',
+    // borderWidth: 1,
+    // borderColor: 'rgba(255, 255, 255, 0.5)',
+    // paddingHorizontal: 16,
+    // paddingVertical: 20,
+    width: '100%',
+    height: '50%',
     borderRadius: 20,
-    marginRight: 8,
+    // marginRight: 8,
     marginBottom: 8,
   },
   text: {
-    color: '#FFFFFF',
-    fontSize: 14,
-    fontWeight: '500',
+    color: 'black',
+    opacity: 0.55,
+    fontSize: 18,
+    fontWeight: '600',
+    flex: 1,
+    // textAlignVertical: 'center',
+    textAlign: "center",
+  },
+  arrow: {
+    paddingRight: 15,
   },
 });
