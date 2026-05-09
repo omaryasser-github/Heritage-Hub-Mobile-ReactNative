@@ -2,6 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { HomeScreen } from '../features/explore/screens/HomeScreen';
 import { ChatbotScreen } from '../features/chatbot/screens/ChatbotScreen';
+import { GameHubScreen } from '../features/gamification/screens/GameHubScreen';
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'react-native';
@@ -14,8 +15,6 @@ const PlaceholderScreen = ({ name }: { name: string }) => (
 
 const MapScreen = () => <PlaceholderScreen name="Explore" />;
 const ProfileScreen = () => <PlaceholderScreen name="Profile" />;
-
-const GameScreen = () => <PlaceholderScreen name="Game" />;
 
 export const BottomTabNavigator = createBottomTabNavigator({
   screenOptions: {
@@ -60,7 +59,7 @@ export const BottomTabNavigator = createBottomTabNavigator({
       }
     },
     Game: {
-      screen: GameScreen,
+      screen: GameHubScreen,
       options: {
         tabBarIcon: ({ color, size }: any) => <Ionicons name="game-controller" size={size} color={color} />
       }
