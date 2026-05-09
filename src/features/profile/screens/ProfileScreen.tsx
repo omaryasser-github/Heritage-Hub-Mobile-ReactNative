@@ -39,7 +39,6 @@ export const ProfileScreen = () => {
 
         <View style={styles.settingsSection}>
           <SettingsRow icon="settings-outline" label="Account Settings" onPress={() => { }} />
-          <SettingsRow icon="language-outline" label="Language (العربية)" onPress={() => { }} />
           <SettingsRow icon="notifications-outline" label="Notifications" onPress={() => { }} />
           <SettingsRow icon="log-out-outline" label="Log Out" onPress={handleLogout} isDestructive />
         </View>
@@ -57,7 +56,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   settingsSection: {
-    marginTop: 24,
+    marginTop: 45,
     marginBottom: 40,
     borderTopWidth: 1,
     borderTopColor: '#F0F0F0',

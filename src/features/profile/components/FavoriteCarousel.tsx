@@ -42,7 +42,7 @@ export const FavoriteCarousel = ({ favorites }: { favorites: FavoritePlace[] }) 
 
 const styles = StyleSheet.create({
   container: {
-    // marginTop: 24,
+    marginTop: 24,
   },
   sectionTitle: {
     fontSize: 18,
