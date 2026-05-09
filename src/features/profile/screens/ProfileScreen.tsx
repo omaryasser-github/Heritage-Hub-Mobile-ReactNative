@@ -5,6 +5,7 @@ import { BadgeHorizontalList } from '../components/BadgeHorizontalList';
 import { FavoriteCarousel } from '../components/FavoriteCarousel';
 import { SettingsRow } from '../components/SettingsRow';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 
 const MOCK_BADGES = [
   { id: '1', title: 'First\nSteps' },
@@ -19,6 +20,10 @@ const MOCK_FAVORITES = [
 ];
 
 export const ProfileScreen = () => {
+  const navigation = useNavigation<any>();
+  const handleNavigateToSettings = () => {
+    navigation.navigate('Settings');
+  };
   const handleLogout = () => {
     console.log('Logging out...');
     // Reset Zustand authStore here
@@ -38,7 +43,7 @@ export const ProfileScreen = () => {
         <FavoriteCarousel favorites={MOCK_FAVORITES} />
 
         <View style={styles.settingsSection}>
-          <SettingsRow icon="settings-outline" label="Account Settings" onPress={() => { }} />
+          <SettingsRow icon="settings-outline" label="Account Settings" onPress={() => handleNavigateToSettings()} />
           <SettingsRow icon="notifications-outline" label="Notifications" onPress={() => { }} />
           <SettingsRow icon="log-out-outline" label="Log Out" onPress={handleLogout} isDestructive />
         </View>
