@@ -11,7 +11,7 @@ export const SuggestionPill = ({ title, onPress }: SuggestionPillProps) => {
   return (
     <TouchableOpacity style={styles.pill} onPress={() => onPress(title)} activeOpacity={0.7}>
       <Text style={styles.text}>{title}</Text>
-      <Ionicons name="arrow-forward-outline" style={styles.arrow} size={20} color="black" />
+      <Ionicons name="chevron-forward" style={styles.arrow} size={20} color="black" />
     </TouchableOpacity>
   );
 };

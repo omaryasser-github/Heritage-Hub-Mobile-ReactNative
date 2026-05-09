@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { HomeScreen } from '../features/explore/screens/HomeScreen';
 import { ChatbotScreen } from '../features/chatbot/screens/ChatbotScreen';
 import { GameHubScreen } from '../features/gamification/screens/GameHubScreen';
+import { ProfileScreen } from '../features/profile/screens/ProfileScreen';
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'react-native';
@@ -14,7 +15,6 @@ const PlaceholderScreen = ({ name }: { name: string }) => (
 );
 
 const MapScreen = () => <PlaceholderScreen name="Explore" />;
-const ProfileScreen = () => <PlaceholderScreen name="Profile" />;
 
 export const BottomTabNavigator = createBottomTabNavigator({
   screenOptions: {
