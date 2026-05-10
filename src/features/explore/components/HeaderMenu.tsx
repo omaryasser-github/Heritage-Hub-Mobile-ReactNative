@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback,
   Switch,
 } from 'react-native';
-import { useSafeAreaFrame } from 'react-native-safe-area-context';
+import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
@@ -20,6 +20,7 @@ export const HeaderMenu = () => {
   // useSafeAreaFrame gives the live screen dimensions from SafeAreaProvider —
   // more reliable than Dimensions.get('window') on foldables and during rotation.
   const { width } = useSafeAreaFrame();
+  const insets = useSafeAreaInsets();
   const panelWidth = width * 0.72;
   const slideAnim = useRef(new Animated.Value(panelWidth)).current;
   const backdropOpacity = useRef(new Animated.Value(0)).current;
@@ -84,7 +85,7 @@ export const HeaderMenu = () => {
 
         {/* Slide-in panel from the right */}
         <Animated.View
-          style={[styles.panel, { width: panelWidth, transform: [{ translateX: slideAnim }] }]}
+          style={[styles.panel, { width: panelWidth, transform: [{ translateX: slideAnim }], paddingTop: insets.top + 16 }]}
         >
           {/* Panel Header */}
           <View style={styles.panelHeader}>
@@ -184,7 +185,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     // width is applied as inline style using panelWidth from useSafeAreaFrame()
     backgroundColor: '#FDF6EC',
-    paddingTop: 56,
     paddingHorizontal: 20,
     shadowColor: '#000',
     shadowOpacity: 0.18,

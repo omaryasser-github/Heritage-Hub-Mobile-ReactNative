@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 
 
 export const EditProfileScreen = ({ navigation }: any) => {
+  const insets = useSafeAreaInsets();
   const [name, setName] = useState('Omar Yasser');
   const [email, setEmail] = useState('omar.yasser@example.com');
   const [isSaving, setIsSaving] = useState(false);
@@ -19,7 +20,7 @@ export const EditProfileScreen = ({ navigation }: any) => {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={['bottom', 'left', 'right']}>
+    <View style={[styles.safeArea, { paddingTop: insets.top, paddingBottom: Math.max(insets.bottom, 16), paddingLeft: insets.left, paddingRight: insets.right }]}>
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -62,7 +63,7 @@ export const EditProfileScreen = ({ navigation }: any) => {
           </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </View>
   );
 };
 

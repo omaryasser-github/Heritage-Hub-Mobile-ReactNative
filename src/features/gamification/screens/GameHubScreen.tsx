@@ -1,16 +1,17 @@
 import React from 'react';
 import { View, StyleSheet, StatusBar, Text } from 'react-native';
 import { GameLaunchCard } from '../components/GameLaunchCard';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export const GameHubScreen = () => {
+  const insets = useSafeAreaInsets();
   const handlePlayPress = () => {
     // Navigate to game challenge (placeholder for now)
     console.log("Play button pressed. Navigating to Quiz...");
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <View style={[styles.safeArea, { paddingTop: insets.top }]}>
       <StatusBar barStyle="dark-content" backgroundColor="#FDF6EC" />
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Gaming Hub</Text>
@@ -18,7 +19,7 @@ export const GameHubScreen = () => {
       <View style={styles.container}>
         <GameLaunchCard onPlayPress={handlePlayPress} />
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

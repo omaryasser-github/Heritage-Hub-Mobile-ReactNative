@@ -4,7 +4,7 @@ import { ProfileHeader } from '../components/ProfileHeader';
 import { BadgeHorizontalList } from '../components/BadgeHorizontalList';
 import { FavoriteCarousel } from '../components/FavoriteCarousel';
 import { SettingsRow } from '../components/SettingsRow';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 
 const MOCK_BADGES = [
@@ -20,6 +20,7 @@ const MOCK_FAVORITES = [
 ];
 
 export const ProfileScreen = () => {
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation<any>();
   const handleNavigateToSettings = () => {
     navigation.navigate('Settings');
@@ -30,7 +31,7 @@ export const ProfileScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <View style={[styles.safeArea, { paddingTop: insets.top }]}>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <ProfileHeader
           name="Omar Yasser"
@@ -48,7 +49,7 @@ export const ProfileScreen = () => {
           <SettingsRow icon="log-out-outline" label="Log Out" onPress={handleLogout} isDestructive />
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 

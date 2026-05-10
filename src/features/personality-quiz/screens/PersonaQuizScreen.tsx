@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, ActivityIndicator, ScrollView, ImageBackground, Image } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { fetchQuizQuestions, submitQuizAnswers } from '../api/quizService';
 import { QuestionRow } from '../components/QuestionRow';
 import { QuizProgressBar } from '../components/QuizProgressBar';
@@ -11,6 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 
 export const PersonaQuizScreen = () => {
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
   const setPersona = useAuthStore((state: any) => state.setPersona);
 
   const [questions, setQuestions] = useState<any[]>([]);
@@ -97,7 +98,7 @@ export const PersonaQuizScreen = () => {
       style={styles.background}
     >
       <View style={styles.overlay}>
-        <SafeAreaView style={styles.container}>
+        <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
 
           <View style={styles.headerImageContainer}>
             <Image
@@ -138,7 +139,7 @@ export const PersonaQuizScreen = () => {
             />
           </View>
 
-        </SafeAreaView>
+        </View>
       </View>
     </ImageBackground>
   );

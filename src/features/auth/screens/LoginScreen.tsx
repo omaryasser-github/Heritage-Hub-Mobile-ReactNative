@@ -11,6 +11,7 @@ import { Typography } from '../../../shared/components/Typography';
 import { login } from '../api/authService';
 import { useAuthStore } from '../../../core/store/authStore';
 import { useNavigation } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'Invalid email address' }),
@@ -21,6 +22,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 export const LoginScreen = () => {
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState('');
   const setToken = useAuthStore((state: any) => state.setToken);
@@ -56,8 +58,8 @@ export const LoginScreen = () => {
             style={styles.container}
           >
 
-            <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
-              <View style={styles.logoContainer}>
+            <ScrollView contentContainerStyle={[styles.scrollContent, { paddingTop: insets.top + 60, paddingBottom: Math.max(insets.bottom + 20, 40) }]} keyboardShouldPersistTaps="handled">
+              <View style={[styles.logoContainer, { top: insets.top + 10 }]}>
                 <Image
                   source={require('../../../../assets/splash/splash logo.png')}
                   style={styles.logo}
@@ -142,7 +144,6 @@ const styles = StyleSheet.create({
   background: { flex: 1, resizeMode: 'cover' },
   logoContainer: {
     position: 'absolute',
-    top: 40,
     left: 15,
     bottom: 0,
     alignItems: 'flex-start',
@@ -155,7 +156,7 @@ const styles = StyleSheet.create({
   },
   overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' },
   container: { flex: 1 },
-  scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 24, paddingTop: 120, paddingBottom: 100, },
+  scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 24, },
   header: { marginBottom: 20 },
   title: { marginBottom: 8 },
   formContainer: { width: '100%', display: 'flex', },

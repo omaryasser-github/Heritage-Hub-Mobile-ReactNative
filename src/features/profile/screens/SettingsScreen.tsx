@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Alert, View, Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SettingsGroup } from '../components/SettingsGroup';
 import { SettingsRow } from '../components/SettingsRow';
 import { SwitchToggle } from '../../../shared/components/SwitchToggle';
@@ -18,6 +18,7 @@ const SettingsToggleRow = ({ icon, label, value, onValueChange }: any) => (
 );
 
 export const SettingsScreen = () => {
+  const insets = useSafeAreaInsets();
   // State for switches
   const [isArabic, setIsArabic] = useState(false);
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
@@ -55,7 +56,7 @@ export const SettingsScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={['bottom', 'left', 'right']}>
+    <View style={[styles.safeArea, { paddingTop: insets.top + 10, paddingBottom: Math.max(insets.bottom, 16), paddingLeft: insets.left, paddingRight: insets.right }]}>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
 
         <SettingsGroup title="Account">
@@ -145,7 +146,7 @@ export const SettingsScreen = () => {
         />
 
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -153,7 +154,6 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: '#FDF6EC',
-    marginTop: 30,
   },
   container: {
     flex: 1,
