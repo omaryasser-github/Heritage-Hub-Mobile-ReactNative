@@ -7,6 +7,7 @@ import { ProfileScreen } from '../features/profile/screens/ProfileScreen';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useResponsive } from '../shared/utils/responsive';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,6 +21,7 @@ const MapScreen = () => <PlaceholderScreen name="Explore" />;
 
 export const BottomTabNavigator = () => {
   const { sWidth, sHeight } = useResponsive();
+  const insets = useSafeAreaInsets();
 
   return (
     <Tab.Navigator
@@ -30,12 +32,14 @@ export const BottomTabNavigator = () => {
         tabBarStyle: {
           borderTopWidth: 0,
           backgroundColor: '#F4E8DA',
-          height: sHeight(60),
-          borderTopLeftRadius: sWidth(5),
-          borderTopRightRadius: sWidth(5),
+          height: sHeight(60) + insets.bottom,
+          paddingBottom: insets.bottom > 0 ? insets.bottom / 2 : 0,
+          borderTopLeftRadius: sWidth(15),
+          borderTopRightRadius: sWidth(15),
         },
       }}
     >
+
       <Tab.Screen
         name="Home"
         component={HomeScreen}
