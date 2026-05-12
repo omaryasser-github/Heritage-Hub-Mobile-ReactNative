@@ -1,10 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-import { View, StyleSheet, Animated, Dimensions } from 'react-native';
+import { View, Animated, StyleSheet, Platform } from 'react-native';
 import { Typography } from '../../../shared/components/Typography';
-import { Platform } from 'react-native';
 
+import { useResponsive } from '../../../shared/utils/responsive';
 
-const { width, height } = Dimensions.get('window');
 
 // Using the provided assets from assets/splash
 // (Fallback to local if dynamic loading is needed, but we will require them here)
@@ -12,12 +11,14 @@ const SPHINX_BG = require('../../../../assets/splash/splashBackground.png');
 const LOGO = require('../../../../assets/splash/splash logo.png');
 
 export const SplashAnimation: React.FC = () => {
+  const { sWidth, sFont, screenHeight } = useResponsive();
   const bgOpacity = useRef(new Animated.Value(0)).current;
   const bgScale = useRef(new Animated.Value(1.1)).current;
 
   const logoOpacity = useRef(new Animated.Value(0)).current;
   const textOpacity = useRef(new Animated.Value(0)).current;
   const contentTranslateY = useRef(new Animated.Value(0)).current;
+
 
   useEffect(() => {
     Animated.sequence([
@@ -44,10 +45,11 @@ export const SplashAnimation: React.FC = () => {
       }),
       // 5. Logo and text move upward together
       Animated.timing(contentTranslateY, {
-        toValue: -height * 0.3,
+        toValue: -screenHeight * 0.3,
         duration: 1000,
         useNativeDriver: true,
       }),
+
     ]).start();
   }, [bgOpacity, logoOpacity, textOpacity, contentTranslateY]);
 
@@ -75,19 +77,34 @@ export const SplashAnimation: React.FC = () => {
             source={LOGO}
             style={[
               styles.logo,
-              { opacity: logoOpacity }
+              {
+                opacity: logoOpacity,
+                width: sWidth(150),
+                height: sWidth(150)
+              }
             ]}
             resizeMode="contain"
           />
 
           <Animated.View style={[styles.textContainer, { opacity: textOpacity }]}>
-            <Typography variant="h2" color="white" align="center" style={styles.mainTitle}>
+            <Typography
+              variant="h2"
+              color="white"
+              align="center"
+              style={[styles.mainTitle, { fontSize: sFont(28) }]}
+            >
               Discover Heritage Wonders
             </Typography>
-            <Typography variant="body" color="#FFFFFF" align="center" style={styles.subTitle}>
+            <Typography
+              variant="body"
+              color="#FFFFFF"
+              align="center"
+              style={[styles.subTitle, { fontSize: sFont(14) }]}
+            >
               Explore famous heritage sites, ancient monuments, cultural landmarks.
             </Typography>
           </Animated.View>
+
         </Animated.View>
       </View>
     </View>
@@ -101,8 +118,9 @@ const styles = StyleSheet.create({
     pointerEvents: "none"
   },
   background: {
-    width,
-    height,
+    flex: 1,
+    width: '100%',
+    height: '100%',
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
@@ -111,8 +129,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.4)', // Dark overlay to make logo pop
   },
   logo: {
-    width: width * 0.4,
-    height: width * 0.4,
+    width: 150, // This will be scaled inline
+    height: 150,
   },
   contentContainer: {
     alignItems: 'center',
@@ -123,15 +141,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   mainTitle: {
-    // marginBottom: 10,
-    fontSize: 28,
-    fontWeight: 'semibold',
+    fontWeight: '600',
   },
   subTitle: {
     lineHeight: 22,
     opacity: 0.75,
-    fontSize: 14,
-    fontWeight: 'regular',
-
+    fontWeight: '400',
   },
 });

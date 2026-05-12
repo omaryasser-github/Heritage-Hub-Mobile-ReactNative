@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { View, StyleSheet, Animated } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SplashAnimation } from '../components/SplashAnimation';
@@ -6,11 +6,13 @@ import { PrimaryButton } from '../../../shared/components/PrimaryButton';
 import { useAppBootstrap } from '../hooks/useAppBootstrap';
 import { Typography } from '../../../shared/components/Typography';
 import { useNavigation } from '@react-navigation/native';
+import { useResponsive } from '../../../shared/utils/responsive';
 
 export const SplashScreen = () => {
   const navigation = useNavigation();
   const { isReady, error } = useAppBootstrap();
   const insets = useSafeAreaInsets();
+  const { sWidth } = useResponsive();
 
   // Animation for the Get Started button appearing
   // Animation for the Get Started button and arrow appearing
@@ -67,7 +69,7 @@ export const SplashScreen = () => {
         ]}
       >
 
-        <View style={styles.buttonWrapper}>
+        <View style={[styles.buttonWrapper, { paddingHorizontal: sWidth(54) }]}>
           {error ? (
             <Typography variant="body" color="red" align="center" style={styles.errorText}>
               Failed to load required assets.
@@ -75,6 +77,7 @@ export const SplashScreen = () => {
           ) : null}
           <PrimaryButton title="Get Started" onPress={handleGetStarted} />
         </View>
+
       </Animated.View>
     </View>
   );
@@ -98,6 +101,5 @@ const styles = StyleSheet.create({
   },
   buttonWrapper: {
     width: '100%',
-    paddingHorizontal: 54,
   }
 });
