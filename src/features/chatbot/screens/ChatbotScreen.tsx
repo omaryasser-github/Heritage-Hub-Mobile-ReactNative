@@ -21,8 +21,11 @@ import { SuggestionPill } from '../components/SuggestionPill';
 import { useChatbotStore } from '../store/useChatbotStore';
 import { sendChatMessage, ChatMessage } from '../api/chatService';
 
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+
 export const ChatbotScreen = () => {
   const insets = useSafeAreaInsets();
+  const tabBarHeight = useBottomTabBarHeight();
   const { sWidth, sHeight, sFont } = useResponsive();
   const [inputText, setInputText] = useState('');
   const [suggestions, setSuggestions] = useState<string[]>([
@@ -38,6 +41,7 @@ export const ChatbotScreen = () => {
   const flashListRef = useRef<any>(null);
 
   const [isPending, setIsPending] = useState(false);
+  const [inputHeight, setInputHeight] = useState(sHeight(50));
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -113,7 +117,8 @@ export const ChatbotScreen = () => {
 
       <KeyboardAvoidingView
         style={styles.keyboardAvoidingView}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? tabBarHeight : 0}
       >
         <View style={styles.chatArea}>
           <FlashList
@@ -137,15 +142,27 @@ export const ChatbotScreen = () => {
           />
         </View>
 
-        <View style={[styles.inputContainer, { paddingBottom: Math.max(insets.bottom + sHeight(10), sHeight(20)), paddingHorizontal: sWidth(20), paddingTop: sHeight(15) }]}>
+        <View style={[styles.inputContainer, { paddingHorizontal: sWidth(20), paddingTop: sHeight(10), paddingBottom: sHeight(10) }]}>
           <TextInput
-            style={[styles.input, { height: sHeight(50), borderRadius: sHeight(25), paddingHorizontal: sWidth(20), fontSize: sFont(15) }]}
+            style={[
+              styles.input,
+              {
+                height: Math.min(sHeight(120), Math.max(sHeight(50), inputHeight)),
+                borderRadius: sWidth(25),
+                paddingHorizontal: sWidth(20),
+                paddingVertical: Platform.OS === 'ios' ? sHeight(10) : sHeight(12),
+                fontSize: sFont(15)
+              }
+            ]}
             placeholder="Ask about Egyptian history..."
             placeholderTextColor="#8E8E93"
             value={inputText}
             onChangeText={setInputText}
+            onContentSizeChange={(e) => setInputHeight(e.nativeEvent.contentSize.height)}
             onSubmitEditing={() => handleSend(inputText)}
             returnKeyType="send"
+            multiline={true}
+            textAlignVertical="center"
           />
           <TouchableOpacity
             style={[styles.sendButton, !inputText.trim() && { opacity: 0.7 }, { width: sWidth(50), height: sWidth(50), borderRadius: sWidth(22.5), marginStart: sWidth(5) }]}
@@ -155,10 +172,12 @@ export const ChatbotScreen = () => {
             <Ionicons name="send" size={sWidth(20)} color="#FFFFFF" />
           </TouchableOpacity>
         </View>
+
       </KeyboardAvoidingView>
     </ImageBackground>
   );
 };
+
 
 
 const styles = StyleSheet.create({
@@ -188,7 +207,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingTop: 15,
+    // paddingTop: 15,
     backgroundColor: 'transparent',
     // borderTopLeftRadius: 20,
     // borderTopRightRadius: 20,
