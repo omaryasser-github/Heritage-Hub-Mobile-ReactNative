@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { ChatMessage } from '../api/chatService';
+import { useResponsive } from '../../../shared/utils/responsive';
+
 
 interface ChatBubbleProps {
   message: ChatMessage;
@@ -33,18 +35,30 @@ const renderMarkdown = (text: string) => {
 };
 
 export const ChatBubble = React.memo(({ message }: ChatBubbleProps) => {
+  const { sWidth, sHeight, sFont } = useResponsive();
   const isUser = message.role === 'user';
 
+
   return (
-    <View style={[styles.container, isUser ? styles.userContainer : styles.botContainer]}>
+    <View style={[
+      styles.container, 
+      isUser ? styles.userContainer : styles.botContainer,
+      { 
+        maxWidth: '80%', 
+        padding: sWidth(14), 
+        borderRadius: sWidth(20), 
+        marginVertical: sHeight(4) 
+      }
+    ]}>
       {isUser ? (
-        <Text style={[styles.messageText, styles.userText]}>{message.text}</Text>
+        <Text style={[styles.messageText, styles.userText, { fontSize: sFont(15), lineHeight: sFont(22) }]}>{message.text}</Text>
       ) : (
         <View style={styles.botTextContainer}>
           {renderMarkdown(message.text)}
         </View>
       )}
     </View>
+
   );
 });
 

@@ -8,10 +8,14 @@ import { Typography } from '../../../shared/components/Typography';
 import { PrimaryButton } from '../../../shared/components/PrimaryButton';
 import { useAuthStore } from '../../../core/store/authStore';
 import { useNavigation } from '@react-navigation/native';
+import { useResponsive } from '../../../shared/utils/responsive';
+
 
 export const PersonaQuizScreen = () => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
+  const { sWidth, sHeight, sFont } = useResponsive();
+
   const setPersona = useAuthStore((state: any) => state.setPersona);
 
   const [questions, setQuestions] = useState<any[]>([]);
@@ -100,9 +104,8 @@ export const PersonaQuizScreen = () => {
       <View style={styles.overlay}>
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
 
-          <View style={styles.headerImageContainer}>
+          <View style={[styles.headerImageContainer, { height: sHeight(180) }]}>
             <Image
-              // source={require('../../../../assets/Personality Quiz/quizHeaderImage.png')}
               style={styles.headerImage}
               resizeMode="cover"
             />
@@ -110,9 +113,9 @@ export const PersonaQuizScreen = () => {
 
           <QuizProgressBar currentStep={currentIndex + 1} totalSteps={questions.length} />
 
-          <ScrollView contentContainerStyle={styles.scrollContent}>
-            <View style={styles.card}>
-              <Typography variant="h2" color="#FFFFFF" align="center" style={styles.title}>
+          <ScrollView contentContainerStyle={[styles.scrollContent, { padding: sWidth(10), marginTop: sHeight(40) }]}>
+            <View style={[styles.card, { paddingVertical: sHeight(20) }]}>
+              <Typography variant="h2" color="#FFFFFF" align="center" style={[styles.title, { fontSize: sFont(24), marginBottom: sHeight(32) }]}>
                 Discover Your Persona
               </Typography>
 
@@ -124,22 +127,23 @@ export const PersonaQuizScreen = () => {
             </View>
           </ScrollView>
 
-          <View style={styles.footer}>
+          <View style={[styles.footer, { paddingHorizontal: sWidth(10), gap: sWidth(10) }]}>
             <PrimaryButton
               title={'Back'}
               onPress={handleBack}
               textColor='black'
-              style={styles.backButton}
+              style={[styles.backButton, { marginBottom: Math.max(insets.bottom + sHeight(10), sHeight(40)) }]}
             />
             <PrimaryButton
               title={currentIndex === questions.length - 1 ? (submitting ? 'Submitting...' : 'Finish') : 'Next'}
               onPress={handleNext}
               disabled={!isCurrentAnswered || submitting}
-              style={styles.nextButton}
+              style={[styles.nextButton, { marginBottom: Math.max(insets.bottom + sHeight(10), sHeight(40)) }]}
             />
           </View>
 
         </View>
+
       </View>
     </ImageBackground>
   );
@@ -152,10 +156,7 @@ const styles = StyleSheet.create({
   centered: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000' },
   headerImageContainer: {
     width: '100%',
-    height: 180,
     overflow: 'hidden',
-    // borderBottomLeftRadius: 24,
-    // borderBottomRightRadius: 24,
   },
   headerImage: {
     width: '100%',
@@ -163,36 +164,28 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
-    padding: 10,
-    marginTop: 40,
     justifyContent: 'flex-start',
     overflow: "hidden",
   },
   card: {
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
     borderRadius: 24,
-    paddingVertical: 20,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.2)',
   },
   title: {
-    marginBottom: 32,
     fontWeight: 'bold',
   },
   footer: {
     flexDirection: "row",
     alignItems: 'center',
-    paddingHorizontal: 10,
     width: "50%",
-    gap: 10
   },
   nextButton: {
     width: '100%',
-    marginBottom: 60,
   },
   backButton: {
     width: '100%',
-    marginBottom: 60,
     backgroundColor: "white",
   }
 });

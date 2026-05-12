@@ -9,6 +9,8 @@ import { SearchBar } from '../components/SearchBar';
 import { CategoryPill } from '../components/CategoryPill';
 import { MonumentCard } from '../components/MonumentCard';
 import { HeaderMenu } from '../components/HeaderMenu';
+import { useResponsive } from '../../../shared/utils/responsive';
+
 
 const CATEGORIES = [
   { id: 'recommended', title: 'Recommend', image: require('../../../../assets/Home/icons/recommend-icon.png') },
@@ -28,6 +30,7 @@ export const HomeScreen = () => {
   // Tab bar height from the navigator — used to prevent the last list card from
   // being hidden behind the bottom tab bar on any device.
   const tabBarHeight = useBottomTabBarHeight();
+  const { sWidth, sHeight, sFont } = useResponsive();
 
   // const { data: feed = [], isLoading, isError } = useQuery({
   //   queryKey: ['exploreFeed'],
@@ -35,27 +38,23 @@ export const HomeScreen = () => {
   // });
 
   const renderHeader = () => (
-    <View style={styles.header}>
+    <View style={[styles.header, { marginBottom: sHeight(-70) }]}>
       <ImageBackground
         source={require('../../../../assets/Home/homeBackgroundHeader.png')}
-        // paddingTop uses insets.top so the logo/title clears the notch on all devices.
-        style={[styles.background, { paddingTop: insets.top + 10 }]}
+        style={[styles.background, { paddingTop: insets.top + sHeight(10), height: sHeight(270) }]}
       >
-        <View style={styles.logoContainer}>
+        <View style={[styles.logoContainer, { paddingHorizontal: sWidth(10), gap: sWidth(10) }]}>
           <Image
             source={require('../../../../assets/splash/splash logo.png')}
-            style={styles.logo}
+            style={{ width: sWidth(70), height: sWidth(70) }}
           />
-          <Text style={styles.screenTitle}>Explore Egypt</Text>
-          {/* Shortlist hamburger — positioned at the far right of the header row */}
-          <HeaderMenu
-          // style={{ marginLeft: 'auto' }}
-          />
+          <Text style={[styles.screenTitle, { fontSize: sFont(23), marginEnd: sWidth(80) }]}>Explore Egypt</Text>
+          <HeaderMenu />
         </View>
         <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
 
-        <View style={styles.categoryContainer}>
-          <Text style={styles.categoriesTitle}>Categories</Text>
+        <View style={[styles.categoryContainer, { paddingHorizontal: sWidth(15) }]}>
+          <Text style={[styles.categoriesTitle, { fontSize: sFont(20) }]}>Categories</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categories}>
             {CATEGORIES.map((cat) => (
               <CategoryPill
@@ -73,12 +72,10 @@ export const HomeScreen = () => {
   );
 
   return (
-    // Do NOT pass edges={['top']} here — insets.top is applied manually to the
-    // ImageBackground so it can extend to the very top of the screen (edge-to-edge).
     <View style={styles.container}>
       {renderHeader()}
-      {/* flex: 1 allows the list to fill all remaining space below the header */}
-      <View style={styles.listContainer}>
+      <View style={[styles.listContainer, { paddingHorizontal: sWidth(20), marginTop: sHeight(150) }]}>
+
         {/* {isLoading ? (
           <Text style={styles.loadingText}>Loading...</Text>
         ) : isError ? (
@@ -110,47 +107,32 @@ export const HomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  // flex: 1 fills the full device screen height.
   container: {
     flex: 1,
     backgroundColor: "#F2E8DD",
   },
   background: {
-    // paddingTop is now applied dynamically via insets.top in the JSX above.
-    height: 270,
     backgroundColor: '#F2E8DD',
   },
   logoContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    gap: 10,
     marginBottom: 10,
-    paddingHorizontal: 10,
-  },
-
-  logo: {
-    width: 70,
-    height: 70,
   },
   header: {
-    // Negative marginBottom creates the visual overlap where cards float over the header.
-    marginBottom: -70,
+    // marginBottom is handled inline to maintain responsive ratio
   },
   screenTitle: {
     marginTop: 15,
-    fontSize: 23,
     fontWeight: 'bold',
     color: 'white',
     marginBottom: 20,
-    marginRight: 80
   },
   categoryContainer: {
-    paddingHorizontal: 15,
     marginTop: 15
   },
   categoriesTitle: {
-    fontSize: 20,
     fontWeight: 'bold',
     color: 'white',
     marginBottom: 10,
@@ -158,13 +140,10 @@ const styles = StyleSheet.create({
   categories: {
     flexDirection: 'row',
   },
-  // flex: 1 replaces the broken hardcoded paddingBottom: 700.
-  // The list now stretches to fill all remaining space naturally.
   listContainer: {
     flex: 1,
-    paddingHorizontal: 20,
-    marginTop: 150,
   },
+
   cardContainer: {
     flex: 1,
   },

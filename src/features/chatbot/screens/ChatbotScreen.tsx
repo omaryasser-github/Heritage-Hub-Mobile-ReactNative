@@ -12,6 +12,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { FlashList } from '@shopify/flash-list';
+import { useResponsive } from '../../../shared/utils/responsive';
 
 import { AvatarHeader } from '../components/AvatarHeader';
 import { ChatBubble } from '../components/ChatBubble';
@@ -22,6 +23,7 @@ import { sendChatMessage, ChatMessage } from '../api/chatService';
 
 export const ChatbotScreen = () => {
   const insets = useSafeAreaInsets();
+  const { sWidth, sHeight, sFont } = useResponsive();
   const [inputText, setInputText] = useState('');
   const [suggestions, setSuggestions] = useState<string[]>([
     "Learn about ancient history",
@@ -118,9 +120,8 @@ export const ChatbotScreen = () => {
             ref={flashListRef}
             data={messages}
             keyExtractor={(item) => item.id}
-            // estimatedItemSize={80}
             renderItem={({ item }) => <ChatBubble message={item} />}
-            contentContainerStyle={styles.listContent}
+            contentContainerStyle={[styles.listContent, { paddingHorizontal: sWidth(20), paddingTop: sHeight(20), paddingBottom: sHeight(20) }]}
             ListFooterComponent={() => (
               <View>
                 {isPending && <TypingIndicator />}
@@ -136,9 +137,9 @@ export const ChatbotScreen = () => {
           />
         </View>
 
-        <View style={[styles.inputContainer, { paddingBottom: Math.max(insets.bottom, 20) }]}>
+        <View style={[styles.inputContainer, { paddingBottom: Math.max(insets.bottom + sHeight(10), sHeight(20)), paddingHorizontal: sWidth(20), paddingTop: sHeight(15) }]}>
           <TextInput
-            style={styles.input}
+            style={[styles.input, { height: sHeight(50), borderRadius: sHeight(25), paddingHorizontal: sWidth(20), fontSize: sFont(15) }]}
             placeholder="Ask about Egyptian history..."
             placeholderTextColor="#8E8E93"
             value={inputText}
@@ -147,17 +148,18 @@ export const ChatbotScreen = () => {
             returnKeyType="send"
           />
           <TouchableOpacity
-            style={[styles.sendButton, !inputText.trim() && { opacity: 0.7 }]}
+            style={[styles.sendButton, !inputText.trim() && { opacity: 0.7 }, { width: sWidth(50), height: sWidth(50), borderRadius: sWidth(22.5), marginStart: sWidth(5) }]}
             onPress={() => handleSend(inputText)}
             disabled={!inputText.trim()}
           >
-            <Ionicons name="send" size={20} color="#FFFFFF" />
+            <Ionicons name="send" size={sWidth(20)} color="#FFFFFF" />
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     </ImageBackground>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

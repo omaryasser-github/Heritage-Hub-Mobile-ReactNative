@@ -12,6 +12,8 @@ import { login } from '../api/authService';
 import { useAuthStore } from '../../../core/store/authStore';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useResponsive } from '../../../shared/utils/responsive';
+
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'Invalid email address' }),
@@ -23,6 +25,8 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 export const LoginScreen = () => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
+  const { sWidth, sHeight, sFont } = useResponsive();
+
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState('');
   const setToken = useAuthStore((state: any) => state.setToken);
@@ -58,17 +62,28 @@ export const LoginScreen = () => {
             style={styles.container}
           >
 
-            <ScrollView contentContainerStyle={[styles.scrollContent, { paddingTop: insets.top + 60, paddingBottom: Math.max(insets.bottom + 20, 40) }]} keyboardShouldPersistTaps="handled">
-              <View style={[styles.logoContainer, { top: insets.top + 10 }]}>
+            <ScrollView 
+              contentContainerStyle={[
+                styles.scrollContent, 
+                { 
+                  paddingTop: insets.top + sHeight(60), 
+                  paddingBottom: Math.max(insets.bottom + sHeight(20), sHeight(40)),
+                  paddingHorizontal: sWidth(24)
+                }
+              ]} 
+              keyboardShouldPersistTaps="handled"
+            >
+              <View style={[styles.logoContainer, { top: insets.top + sHeight(10), marginStart: sWidth(15) }]}>
                 <Image
                   source={require('../../../../assets/splash/splash logo.png')}
-                  style={styles.logo}
+                  style={{ width: sWidth(75), height: sWidth(75) }}
                 />
               </View>
               <View style={styles.header}>
-                <Typography variant="h1" color="#FFFFFF" align="center" style={styles.title}>Welcome Back!</Typography>
-                <Typography variant="body" color="#E0E0E0" align="center">Log in to continue your journey</Typography>
+                <Typography variant="h1" color="#FFFFFF" align="center" style={[styles.title, { fontSize: sFont(32) }]}>Welcome Back!</Typography>
+                <Typography variant="body" color="#E0E0E0" align="center" style={{ fontSize: sFont(16) }}>Log in to continue your journey</Typography>
               </View>
+
 
               <View style={styles.formContainer}>
                 <Controller
@@ -144,19 +159,12 @@ const styles = StyleSheet.create({
   background: { flex: 1, resizeMode: 'cover' },
   logoContainer: {
     position: 'absolute',
-    left: 15,
     bottom: 0,
     alignItems: 'flex-start',
-    // zIndex: 50
-  },
-  logo: {
-    width: 75,
-    height: 75,
-    // resizeMode: 'contain',
   },
   overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' },
   container: { flex: 1 },
-  scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 24, },
+  scrollContent: { flexGrow: 1, justifyContent: 'center' },
   header: { marginBottom: 20 },
   title: { marginBottom: 8 },
   formContainer: { width: '100%', display: 'flex', },

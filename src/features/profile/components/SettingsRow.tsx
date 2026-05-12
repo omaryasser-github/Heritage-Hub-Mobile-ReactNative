@@ -1,6 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useResponsive } from '../../../shared/utils/responsive';
 
 interface SettingsProp {
     icon: string | any;
@@ -10,11 +11,17 @@ interface SettingsProp {
 }
 
 export const SettingsRow = ({ icon, label, onPress, isDestructive }: SettingsProp) => {
+    const { sWidth, sHeight, sFont } = useResponsive();
     return (
-        <TouchableOpacity style={styles.container} onPress={onPress}>
-            <Ionicons name={icon} size={24} color={isDestructive ? '#D32F2F' : '#4A3728'} />
-            <Text style={[styles.label, isDestructive && styles.destructiveLabel]}>{label}</Text>
-            <Ionicons name="chevron-forward" size={20} color="#8E8E93" style={styles.chevron} />
+        <TouchableOpacity 
+            style={[styles.container, { paddingVertical: sHeight(16), paddingHorizontal: sWidth(24) }]} 
+            onPress={onPress}
+        >
+            <Ionicons name={icon} size={sWidth(24)} color={isDestructive ? '#D32F2F' : '#4A3728'} />
+            <Text style={[styles.label, { fontSize: sFont(16), marginStart: sWidth(16) }, isDestructive && styles.destructiveLabel]}>
+                {label}
+            </Text>
+            <Ionicons name="chevron-forward" size={sWidth(20)} color="#8E8E93" style={styles.chevron} />
         </TouchableOpacity>
     );
 };
@@ -24,16 +31,12 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingVertical: 16,
-        paddingHorizontal: 24,
         backgroundColor: '#FFFFFF',
         borderBottomWidth: 1,
         borderBottomColor: '#F0F0F0',
     },
     label: {
         flex: 1,
-        fontSize: 16,
-        marginStart: 16,
         color: '#4A3728',
         fontWeight: '500',
     },
@@ -44,3 +47,4 @@ const styles = StyleSheet.create({
         opacity: 0.5,
     }
 });
+

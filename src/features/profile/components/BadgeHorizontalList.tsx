@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import { HexagonBadge } from './HexagonBadge';
+import { useResponsive } from '../../../shared/utils/responsive';
+
 
 interface Badge {
   id: string;
@@ -9,6 +11,8 @@ interface Badge {
 }
 
 export const BadgeHorizontalList = ({ badges }: { badges: Badge[] }) => {
+  const { sWidth, sHeight, sFont } = useResponsive();
+
   if (!badges || badges.length === 0) {
     return (
       <View style={styles.emptyContainer}>
@@ -18,19 +22,21 @@ export const BadgeHorizontalList = ({ badges }: { badges: Badge[] }) => {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.sectionTitle}>My Badges</Text>
-      <View style={styles.listContainer}>
+    <View style={[styles.container, { marginTop: sHeight(24) }]}>
+      <Text style={[styles.sectionTitle, { fontSize: sFont(18), marginStart: sWidth(24), marginBottom: sHeight(12) }]}>
+        My Badges
+      </Text>
+      <View style={[styles.listContainer, { height: sHeight(80) }]}>
         <FlashList
           data={badges}
           renderItem={({ item }) => <HexagonBadge title={item.title} />}
-          // estimatedItemSize={76}
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ paddingHorizontal: 16 }}
+          contentContainerStyle={{ paddingHorizontal: sWidth(16) }}
         />
       </View>
     </View>
+
   );
 };
 

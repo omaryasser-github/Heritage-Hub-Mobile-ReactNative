@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { LikertCircle } from './LikertCircle';
 import { Typography } from '../../../shared/components/Typography';
+import { useResponsive } from '../../../shared/utils/responsive';
 
 interface QuestionRowProps {
   question: { id: string; text: string };
@@ -10,13 +11,19 @@ interface QuestionRowProps {
 }
 
 export const QuestionRow: React.FC<QuestionRowProps> = ({ question, selectedValue, onSelect }) => {
+  const { sWidth, sFont, sHeight } = useResponsive();
+
   return (
-    <View style={styles.container}>
-      <Typography variant="body" color="#FFFFFF" style={styles.questionText}>
+    <View style={[styles.container, { marginBottom: sHeight(12) }]}>
+      <Typography 
+        variant="body" 
+        color="#FFFFFF" 
+        style={[styles.questionText, { fontSize: sFont(18), lineHeight: sFont(26), paddingHorizontal: sWidth(5) }]}
+      >
         {question.text}
       </Typography>
-      <View style={styles.likertContainer}>
-        <Typography variant="caption" style={styles.label}>Disagree</Typography>
+      <View style={[styles.likertContainer, { paddingHorizontal: sWidth(15), gap: sWidth(4) }]}>
+        <Typography variant="caption" style={[styles.label, { width: sWidth(60), fontSize: sFont(12) }]}>Disagree</Typography>
         <View style={styles.circles}>
           {[1, 2, 3, 4, 5].map((val) => (
             <LikertCircle
@@ -27,7 +34,7 @@ export const QuestionRow: React.FC<QuestionRowProps> = ({ question, selectedValu
             />
           ))}
         </View>
-        <Typography variant="caption" style={styles.label}>Agree</Typography>
+        <Typography variant="caption" style={[styles.label, { width: sWidth(60), fontSize: sFont(12) }]}>Agree</Typography>
       </View>
     </View>
   );
@@ -38,30 +45,22 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   questionText: {
-    paddingHorizontal: 5,
     marginBottom: 24,
     textAlign: 'center',
-    fontSize: 18,
     fontWeight: '500',
-    lineHeight: 26,
   },
   likertContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    // justifyContent: 'space-between',
-    gap: 4,
-    paddingHorizontal: 15
   },
   circles: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    // gap: 2,
   },
   label: {
     color: "#AAAAAA",
-    width: 60,
     textAlign: 'center',
-    fontSize: 12
   }
 });
+
