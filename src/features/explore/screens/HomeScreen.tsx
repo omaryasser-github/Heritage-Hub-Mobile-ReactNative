@@ -41,7 +41,7 @@ export const HomeScreen = () => {
     <View style={[styles.header, { marginBottom: sHeight(-70) }]}>
       <ImageBackground
         source={require('../../../../assets/Home/homeBackgroundHeader.png')}
-        style={[styles.background, { paddingTop: insets.top + sHeight(10), height: sHeight(270) }]}
+        style={[styles.background, { paddingTop: insets.top + sHeight(10), height: sHeight(300) }]}
       >
         <View style={[styles.logoContainer, { paddingHorizontal: sWidth(10), gap: sWidth(10) }]}>
           <Image
