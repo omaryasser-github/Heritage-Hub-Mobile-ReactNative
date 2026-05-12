@@ -8,6 +8,7 @@ This phase outlines the strategic plan to implement a robust, responsive archite
 - **No Visual Changes**: The current UI components, styling, color palettes, and core design layouts will **not** change. This is strictly a structural scaling and dynamic layout refactor.
 - **Mobile Only (For Now)**: This phase targets varying mobile phone sizes (e.g., iPhone SE to iPhone 15 Pro Max, and equivalent Android devices). 
 - **Tablet Deferral**: Tablet responsiveness (iPad, Android Tablets) is out of scope for this phase and will be handled as a dedicated submodule in the future.
+- **RTL Integrity**: All responsive adjustments must maintain 100% compatibility with Arabic (RTL) layouts. No hardcoded `Left` or `Right` properties.
 
 ---
 
@@ -25,6 +26,10 @@ Before modifying individual features, we will establish a set of global responsi
    - Strictly enforce `flex: 1`, percentage widths (`width: '90%'`), and flex alignment (`justifyContent`, `alignItems`) to let the React Native Yoga engine handle the heavy lifting.
 4. **Pixel Density Mapping (`PixelRatio`)**
    - Use `PixelRatio.roundToNearestPixel()` for fine details like `borderWidth`, `borderRadius`, and subtle dividers to prevent visual blurring on low-density Android devices.
+5. **RTL-Aware Properties**
+   - Strictly use logical properties (`marginStart`, `paddingEnd`, `left: isRTL ? undefined : 10`) to ensure responsive scaling mirrors correctly in Arabic.
+6. **Safe Area Integration (`useSafeAreaInsets`)**
+   - All dynamic height and padding calculations must account for `insets.top` and `insets.bottom` to avoid "double-padding" or content clipping on notched devices.
 
 ---
 
@@ -78,3 +83,5 @@ Before modifying individual features, we will establish a set of global responsi
 1. **Create Utility Folder**: Setup `src/shared/utils/responsive.ts` to house `scaleFont`, `scaleWidth`, and `scaleHeight` functions.
 2. **Audit & Replace**: Systematically move through the features listed above, replacing fixed numeric values (`px`) with our responsive utilities and percentage/flex values.
 3. **Cross-Device Testing**: Continuously test each feature on an iOS Simulator (iPhone SE + iPhone 15 Pro Max) and an Android Emulator (Pixel 4 + Pixel Fold).
+4. **Unit Testing**: Create `src/shared/utils/responsive.test.ts` to verify scaling logic accuracy across different mock screen dimensions.
+5. **RTL Validation**: Perform a full manual regression in Arabic for every screen modified to ensure `marginStart/End` scales as expected.
