@@ -1,5 +1,7 @@
 import React from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import { useResponsive } from '../utils/responsive';
+
 
 interface ActionModalProps {
   visible: boolean;
@@ -22,6 +24,8 @@ export const ActionModal = ({
   onConfirm,
   onCancel,
 }: ActionModalProps) => {
+  const { sWidth, sHeight, sFont } = useResponsive();
+
   return (
     <Modal
       visible={visible}
@@ -30,26 +34,27 @@ export const ActionModal = ({
       onRequestClose={onCancel}
     >
       <TouchableWithoutFeedback onPress={onCancel}>
-        <View style={styles.overlay}>
+        <View style={[styles.overlay, { padding: sWidth(24) }]}>
           <TouchableWithoutFeedback>
-            <View style={styles.container}>
-              <Text style={styles.title}>{title}</Text>
-              <Text style={styles.message}>{message}</Text>
+            <View style={[styles.container, { borderRadius: sWidth(16), padding: sWidth(24), maxWidth: sWidth(400) }]}>
+              <Text style={[styles.title, { fontSize: sFont(20), marginBottom: sHeight(12) }]}>{title}</Text>
+              <Text style={[styles.message, { fontSize: sFont(16), marginBottom: sHeight(24), lineHeight: sFont(24) }]}>{message}</Text>
               
-              <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.cancelButton} onPress={onCancel}>
-                  <Text style={styles.cancelText}>{cancelText}</Text>
+              <View style={[styles.buttonContainer, { gap: sWidth(12) }]}>
+                <TouchableOpacity style={[styles.cancelButton, { paddingVertical: sHeight(10), paddingHorizontal: sWidth(16), borderRadius: sWidth(8) }]} onPress={onCancel}>
+                  <Text style={[styles.cancelText, { fontSize: sFont(16) }]}>{cancelText}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
-                  style={[styles.confirmButton, isDestructive && styles.destructiveButton]} 
+                  style={[styles.confirmButton, isDestructive && styles.destructiveButton, { paddingVertical: sHeight(10), paddingHorizontal: sWidth(16), borderRadius: sWidth(8) }]} 
                   onPress={onConfirm}
                 >
-                  <Text style={styles.confirmText}>{confirmText}</Text>
+                  <Text style={[styles.confirmText, { fontSize: sFont(16) }]}>{confirmText}</Text>
                 </TouchableOpacity>
               </View>
             </View>
           </TouchableWithoutFeedback>
         </View>
+
       </TouchableWithoutFeedback>
     </Modal>
   );

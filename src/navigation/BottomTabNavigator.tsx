@@ -4,9 +4,11 @@ import { HomeScreen } from '../features/explore/screens/HomeScreen';
 import { ChatbotScreen } from '../features/chatbot/screens/ChatbotScreen';
 import { GameHubScreen } from '../features/gamification/screens/GameHubScreen';
 import { ProfileScreen } from '../features/profile/screens/ProfileScreen';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Image } from 'react-native';
+import { useResponsive } from '../shared/utils/responsive';
+
+const Tab = createBottomTabNavigator();
 
 const PlaceholderScreen = ({ name }: { name: string }) => (
   <View style={styles.placeholderContainer}>
@@ -16,62 +18,67 @@ const PlaceholderScreen = ({ name }: { name: string }) => (
 
 const MapScreen = () => <PlaceholderScreen name="Explore" />;
 
-export const BottomTabNavigator = createBottomTabNavigator({
-  screenOptions: {
-    headerShown: false,
-    tabBarActiveTintColor: '#E0C385',
-    tabBarInactiveTintColor: '#8E8E93',
+export const BottomTabNavigator = () => {
+  const { sWidth, sHeight } = useResponsive();
 
-    tabBarStyle: {
-      borderTopWidth: 0,
-      // elevation: 10,
-      // shadowColor: '#000',
-      // shadowOpacity: 0.05,
-      // shadowOffset: { width: 0, height: -3 },
-      // shadowRadius: 10,
-      backgroundColor: '#F4E8DA',
-      height: 50,
-      // paddingTop: 10,
-      borderTopLeftRadius: 5,
-      borderTopRightRadius: 5,
-      borderBottomLeftRadius: 0,
-      borderBottomRightRadius: 0,
-    },
-  },
-  screens: {
-    Home: {
-      screen: HomeScreen,
-      options: {
-        tabBarIcon: ({ color, size }: any) => <Ionicons name="home" size={size} color={color} />
-      }
-    },
-    Explore: {
-      screen: MapScreen,
-      options: {
-        tabBarIcon: ({ color, size }: any) => <Ionicons name="compass" size={size} color={color} />
-      }
-    },
-    AI_Guide: {
-      screen: ChatbotScreen,
-      options: {
-        tabBarIcon: ({ color, size }: any) => <Image source={require('../../assets/Home/icons/AI-icon.png')} style={{ width: size + 25, height: size + 25 }}
-        />
-      }
-    },
-    Game: {
-      screen: GameHubScreen,
-      options: {
-        tabBarIcon: ({ color, size }: any) => <Ionicons name="game-controller" size={size} color={color} />
-      }
-    },
-    Profile: {
-      screen: ProfileScreen,
-      options: {
-        tabBarIcon: ({ color, size }: any) => <Ionicons name="person" size={size} color={color} />
-      }
-    }
-  }
-});
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: '#E0C385',
+        tabBarInactiveTintColor: '#8E8E93',
+        tabBarStyle: {
+          borderTopWidth: 0,
+          backgroundColor: '#F4E8DA',
+          height: sHeight(60),
+          borderTopLeftRadius: sWidth(5),
+          borderTopRightRadius: sWidth(5),
+        },
+      }}
+    >
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => <Ionicons name="home" size={sWidth(size)} color={color} />
+        }}
+      />
+      <Tab.Screen
+        name="Explore"
+        component={MapScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => <Ionicons name="compass" size={sWidth(size)} color={color} />
+        }}
+      />
+      <Tab.Screen
+        name="AI_Guide"
+        component={ChatbotScreen}
+        options={{
+          tabBarIcon: ({ size }) => (
+            <Image
+              source={require('../../assets/Home/icons/AI-icon.png')}
+              style={{ width: sWidth(size + 25), height: sWidth(size + 25) }}
+            />
+          )
+        }}
+      />
+      <Tab.Screen
+        name="Game"
+        component={GameHubScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => <Ionicons name="game-controller" size={sWidth(size)} color={color} />
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => <Ionicons name="person" size={sWidth(size)} color={color} />
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
 
 const styles = StyleSheet.create({
   placeholderContainer: {
@@ -85,3 +92,4 @@ const styles = StyleSheet.create({
     color: '#8E8E93'
   }
 });
+

@@ -1,5 +1,6 @@
 import React from 'react';
 import { TextInput, TextInputProps, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { useResponsive } from '../../../shared/utils/responsive';
 
 interface AuthInputProps extends TextInputProps {
   label?: string;
@@ -11,15 +12,23 @@ interface AuthInputProps extends TextInputProps {
 export const AuthInput: React.FC<AuthInputProps> = ({ 
   label, error, rightIcon, onRightIconPress, style, ...props 
 }) => {
+  const { sWidth, sHeight, sFont } = useResponsive();
+  
   return (
-    <View style={styles.container}>
-      {label ? <Text style={styles.label}>{label}</Text> : null}
+    <View style={[styles.container, { marginBottom: sHeight(16) }]}>
+      {label ? <Text style={[styles.label, { marginBottom: sHeight(8), fontSize: sFont(14) }]}>{label}</Text> : null}
       <View style={styles.inputWrapper}>
         <TextInput
           style={[
             styles.input, 
+            { 
+              borderRadius: sWidth(12), 
+              paddingHorizontal: sWidth(16), 
+              paddingVertical: sHeight(14), 
+              fontSize: sFont(16) 
+            },
             error ? styles.inputError : null, 
-            rightIcon ? { paddingRight: 45 } : null,
+            rightIcon ? { paddingEnd: sWidth(45) } : null,
             style
           ]}
           placeholderTextColor="rgba(255, 255, 255, 0.6)"
@@ -27,7 +36,7 @@ export const AuthInput: React.FC<AuthInputProps> = ({
         />
         {rightIcon && (
           <TouchableOpacity 
-            style={styles.iconContainer} 
+            style={[styles.iconContainer, { end: sWidth(16) }]} 
             onPress={onRightIconPress}
             disabled={!onRightIconPress}
           >
@@ -35,20 +44,17 @@ export const AuthInput: React.FC<AuthInputProps> = ({
           </TouchableOpacity>
         )}
       </View>
-      {error ? <Text style={styles.errorText}>{error}</Text> : null}
+      {error ? <Text style={[styles.errorText, { fontSize: sFont(12), marginTop: sHeight(4), marginStart: sWidth(4) }]}>{error}</Text> : null}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 16,
     width: '100%',
   },
   label: {
     color: '#FFFFFF',
-    marginBottom: 8,
-    fontSize: 14,
     fontWeight: '500',
   },
   inputWrapper: {
@@ -59,23 +65,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.15)', // Glassmorphism base
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.3)',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
     color: '#FFFFFF',
-    fontSize: 16,
   },
   inputError: {
     borderColor: '#FF6B6B',
   },
   iconContainer: {
     position: 'absolute',
-    right: 16,
   },
   errorText: {
     color: '#FF6B6B',
-    fontSize: 12,
-    marginTop: 4,
-    marginLeft: 4,
   },
 });
+
