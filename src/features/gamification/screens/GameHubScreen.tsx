@@ -15,7 +15,6 @@ export const GameHubScreen = () => {
 
   return (
     <View style={[styles.safeArea, { paddingTop: insets.top }]}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FDF6EC" />
       <View style={[styles.header, { paddingHorizontal: sWidth(24), paddingVertical: sHeight(16) }]}>
         <Text style={[styles.headerTitle, { fontSize: sFont(28) }]}>Gaming Hub</Text>
       </View>
