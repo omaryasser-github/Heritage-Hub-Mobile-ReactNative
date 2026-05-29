@@ -1,9 +1,12 @@
 # Phase 4: Home
 
 ## Folder Structure
-The following files and folders will be added during this phase:
+The following files and folders will be added or modified during this phase:
 ```text
 src/
+├── navigation/
+│   ├── BottomTabNavigator.tsx     (Handles domain routing)
+│   └── MainLayout.tsx             (Global wrapper with Bottom Navbar)
 └── features/
     └── explore/
         ├── api/
@@ -18,8 +21,8 @@ src/
 
 ## Flow
 1. User lands on the Home screen.
-2. The user sees a Search Bar, horizontally scrolling Categories, and a vertical list of "Popular" or "Recommended" monuments.
-3. User taps a Category (e.g., "Museums") to filter the list.
+2. The user sees a Search Bar, horizontally scrolling Categories (e.g., Popular, Recommended, Cities, Museums, Templates), and a vertical list of monuments.
+3. User taps a Category to filter the list.
 4. User types in the Search Bar to find a specific city or monument.
 5. User taps the "Heart" icon on a Monument Card to save it to Favorites.
 6. User taps a Monument Card to navigate to its details.

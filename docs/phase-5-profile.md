@@ -33,6 +33,9 @@ src/
 * **Data Aggregation:** The profile aggregates data from multiple sources (Gamification service for badges/points, Explore service for favorites).
 * **Logout:** Clearing the token from SecureStore and resetting the Zustand `authStore`.
 * **Points Calculation:** Use `useMemo` to safely render formatted point values and progress towards the next rank.
+## Performance (100ms Requirement)
+* **FlashList over ScrollView:** To maintain 60fps and prevent frame drops, use `@shopify/flash-list` for both the vertical "Favorite Places" list and the horizontal "My Badges" list, rather than standard ScrollViews.
+* **SVG Rendering:** `HexagonBadge` displays SVG badges. Heavy SVGs can block the JS thread, so ensure `react-native-svg` is used efficiently by memoizing the SVG components.
 
 ## Components
 * **Atoms:** 

@@ -51,7 +51,8 @@ src/
     ├── explore/          # Cities, Monuments, 360 Panorama
     ├── gamification/     # Quizzes, Leaderboard, Achievements
     ├── ai-agents/        # Chatbot, Recommendations, Awareness
-    └── profile/          # User Settings, Avatar
+    ├── profile/          # User Settings, Avatar
+    └── feedback/         # User feedback and bug reporting
 ```
 
 By keeping separation of concerns localized, debugging and scaling features (like adding a new AI Agent) can happen entirely within one feature folder without touching the rest of the app.
