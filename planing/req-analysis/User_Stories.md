@@ -1,4 +1,4 @@
-Heritage Hub — Revised User Stories (INVEST-Compliant)
+# Heritage Hub — Revised User Stories (INVEST-Compliant)
 
 ## 👥 User Management
 
