@@ -1,53 +1,93 @@
 ---
 name: Heritage Hub
+version: '2.0 — aligned to implemented UI (Jun 2026)'
 colors:
-  surface: '#fcf9f8'
-  surface-dim: '#dcd9d9'
-  surface-bright: '#fcf9f8'
-  surface-container-lowest: '#ffffff'
-  surface-container-low: '#f6f3f2'
-  surface-container: '#f0eded'
-  surface-container-high: '#eae7e7'
-  surface-container-highest: '#e4e2e1'
-  on-surface: '#1b1c1c'
-  on-surface-variant: '#4d4638'
-  inverse-surface: '#303030'
-  inverse-on-surface: '#f3f0f0'
-  outline: '#7f7666'
-  outline-variant: '#d1c5b2'
-  surface-tint: '#785a09'
-  primary: '#785a09'
-  on-primary: '#ffffff'
-  primary-container: '#c5a04d'
-  on-primary-container: '#4c3700'
-  inverse-primary: '#e9c16b'
-  secondary: '#74584a'
-  on-secondary: '#ffffff'
-  secondary-container: '#fed8c5'
-  on-secondary-container: '#795d4e'
-  tertiary: '#645e49'
-  on-tertiary: '#ffffff'
-  tertiary-container: '#aca58d'
-  on-tertiary-container: '#3f3b28'
-  error: '#ba1a1a'
-  on-error: '#ffffff'
-  error-container: '#ffdad6'
-  on-error-container: '#93000a'
-  primary-fixed: '#ffdf9d'
-  primary-fixed-dim: '#e9c16b'
-  on-primary-fixed: '#251a00'
-  on-primary-fixed-variant: '#5b4300'
-  secondary-fixed: '#ffdbca'
-  secondary-fixed-dim: '#e3bfad'
-  on-secondary-fixed: '#2a170c'
-  on-secondary-fixed-variant: '#5a4134'
-  tertiary-fixed: '#ebe2c8'
-  tertiary-fixed-dim: '#cec6ad'
-  on-tertiary-fixed: '#1f1c0b'
-  on-tertiary-fixed-variant: '#4c4733'
-  background: '#fcf9f8'
-  on-background: '#1b1c1c'
-  surface-variant: '#e4e2e1'
+  # ── Primary Gold Scale ──────────────────────────────────────────────
+  primary: '#D9A941'                        # Main gold — buttons, links, progress fill, Likert selected
+  primary-soft: '#E0C385'                   # Soft gold — tab bar active, avatar rings, play buttons
+  primary-deep: '#8B6914'                   # Deep gold — icons, rank labels, user chat bubbles, active accents
+  primary-muted: '#C5A55A'                  # Muted gold — chevrons, secondary nav hints
+  primary-container: '#FFF0D6'              # Pale gold surface — menu icon wrappers
+  primary-button: 'rgba(217, 169, 65, 0.7)' # PrimaryButton default fill (semi-transparent gold)
+  primary-solid: '#D4AF37'                  # Solid gold — modal confirm, save buttons
+  primary-send: '#CCB27B'                   # Chatbot send button
+
+  # ── Warm Surfaces (Backgrounds) ───────────────────────────────────
+  background-home: '#F2E8DD'                # Home screen base + header (warm sand)
+  background-app: '#FDF6EC'                 # Profile, settings, gaming hub, chat bot bubbles
+  background-tab: '#F4E8DA'                 # Bottom tab bar
+  background-suggestion: '#F4E8DA'          # Chatbot suggestion pills
+  background-placeholder: '#FAFAFA'         # Empty / placeholder screens
+  background-neutral: '#F0F0F0'             # Disabled states, carousel placeholders
+  background-search: '#F2F2F7'              # Search bar fill (iOS-style neutral)
+
+  # ── Card & Panel Surfaces ─────────────────────────────────────────
+  surface: '#FFFFFF'                          # Cards, inputs, modals, list rows
+  surface-menu: '#FDF6EC'                   # HeaderMenu / ChatSidebar drawer panel
+  surface-rating: '#FFF4E5'                   # Monument card rating badge background
+
+  # ── Borders & Dividers ────────────────────────────────────────────
+  border-divider: '#E8D5B5'                   # Drawer section dividers
+  border-divider-light: '#F0E2C8'             # Drawer item dividers
+  border-glass: 'rgba(255, 255, 255, 0.3)'    # Auth input glass border
+  border-glass-subtle: 'rgba(255, 255, 255, 0.2)' # Auth social buttons, quiz back button
+
+  # ── Text ──────────────────────────────────────────────────────────
+  text-primary: '#4A3728'                   # Headings, labels, body on light surfaces (burnt umber)
+  text-secondary: '#333333'                   # Secondary body, chat input text
+  text-title: '#1A1A1A'                      # Monument card titles
+  text-muted: '#666666'                       # Modal descriptions, game card subtitles
+  text-subtle: '#8E8E93'                      # Inactive tabs, section labels, empty states
+  text-disabled: '#B8A080'                    # Inactive language label, muted menu text
+  text-quiz-muted: '#AAAAAA'                  # Personality quiz secondary text
+  text-on-dark: '#FFFFFF'                     # Text on dark/image overlays
+  text-on-dark-muted: '#E0E0E0'               # Auth subtitles, OR divider label
+  text-on-dark-accent: '#D4C09A'             # Chat avatar subtitle on dark header
+  text-link: '#D9A941'                        # Forgot password, sign-up links on auth screens
+
+  # ── Semantic ──────────────────────────────────────────────────────
+  error: '#FF6B6B'                            # Auth form validation errors
+  error-strong: '#FF3B30'                     # Home feed error text
+  error-destructive: '#D32F2F'                # Logout / delete confirm buttons
+  rating: '#FF9500'                           # Monument star rating text
+
+  # ── Overlays & Backdrops ──────────────────────────────────────────
+  overlay-auth: 'rgba(0, 0, 0, 0.5)'          # Login / sign-up screen dim
+  overlay-quiz: 'rgba(0, 0, 0, 0.6)'          # Personality quiz background dim
+  overlay-splash: 'rgba(0, 0, 0, 0.4)'        # Splash logo overlay
+  overlay-drawer: 'rgba(30, 18, 8, 0.45)'     # HeaderMenu / sidebar warm backdrop
+  overlay-modal: 'rgba(0, 0, 0, 0.5)'         # ActionModal backdrop
+  overlay-glass: 'rgba(255, 255, 255, 0.15)'  # Auth input glassmorphism fill
+  overlay-glass-button: 'rgba(255, 255, 255, 0.1)' # Social login button fill
+  overlay-progress-track: 'rgba(255, 255, 255, 0.2)' # Quiz progress bar track
+
+  # ── Dark Surfaces ─────────────────────────────────────────────────
+  surface-dark: '#000000'                     # Splash screen base
+
+  # ── Tab Navigation ────────────────────────────────────────────────
+  tab-active: '#E0C385'
+  tab-inactive: '#8E8E93'
+  tab-bar-background: '#F4E8DA'
+
+  # ── Chat ──────────────────────────────────────────────────────────
+  chat-user-bubble: '#8B6914'
+  chat-bot-bubble: '#FDF6EC'
+  chat-bot-text: '#4A3728'
+  chat-user-text: '#FFFFFF'
+  chat-input-background: '#F2F2F2'
+  chat-avatar-header: '#E0C385'
+
+  # ── Third-Party / Platform (keep as-is) ───────────────────────────
+  social-google: '#DB4437'
+  social-facebook: '#4267B2'
+  switch-track-off: '#E0E0E0'
+
+  # ── Outliers (used in 1–2 places — consider aligning during token migration) ──
+  category-pill-bg: '#E6F2FF'               # CategoryPill default background (iOS blue tint)
+  category-pill-text: '#007AFF'             # CategoryPill selected text (iOS blue)
+  category-pill-label: '#333333'            # CategoryPill default label
+  monument-location: 'blue'                 # MonumentCard location icon — hardcoded, should become primary-deep
+
 typography:
   headline-lg:
     fontFamily: Libre Caslon Text
@@ -108,55 +148,137 @@ spacing:
 
 ## Brand & Style
 
-The design system is built upon a **Modern-Tactile** aesthetic that bridges the gap between ancient history and contemporary travel technology. It targets curious explorers, history enthusiasts, and luxury travelers seeking an immersive, curated experience of Egypt.
+The design system is built upon a **Modern-Tactile** aesthetic that bridges ancient history and contemporary travel technology. It targets curious explorers, history enthusiasts, and luxury travelers seeking an immersive, curated experience of Egypt.
 
-The personality is authoritative yet welcoming—evoking the feeling of a premium guided tour through a desert oasis at sunset. Visually, the design system utilizes a light, warm palette that mimics the natural textures of papyrus, sandstone, and limestone, accented by the regal brilliance of Egyptian gold. It avoids the coldness of standard tech apps, opting instead for a "museum-digital" feel that is sophisticated, academic, and deeply atmospheric.
+The personality is authoritative yet welcoming — evoking a premium guided tour through a desert oasis at sunset. Visually, the palette uses warm sand and cream surfaces accented by a layered gold scale, avoiding cold tech-app greys on primary screens.
+
+> **Source of truth:** Color values in this document were extracted from the implemented React Native codebase (`src/`) as of June 2026. Use these tokens when building `src/shared/constants/colors.ts` in Phase 11.1.
+
+---
 
 ## Colors
 
-The palette is anchored in the warm spectrum of the Egyptian landscape.
+The app uses a **layered warm palette** — not a single gold, but a family of golds that create depth without gradients.
 
-- **Primary (Gold):** A rich, metallic-inspired gold used for primary actions, progression markers, and high-value accents. It should be applied as a subtle linear gradient (Top: #D4AF37 to Bottom: #B8860B) on large interactive surfaces to simulate luster.
-- **Secondary (Burnt Umber):** A deep, earthy brown used for headings and navigational elements to provide strong contrast against light backgrounds.
-- **Surface (Papyrus):** The foundational background is a soft, textured beige (#F5F0E1). Avoid pure white to reduce eye strain and maintain the historical theme.
-- **Body (Charcoal):** A softened black (#2D2D2D) for long-form reading, ensuring high legibility without the harshness of pure black.
+### Primary Gold Scale
+
+| Token | Hex | Used for |
+|---|---|---|
+| **Primary** | `#D9A941` | Primary actions, auth links, progress fill, Likert selected state |
+| **Primary Soft** | `#E0C385` | Tab bar active tint, avatar rings, play buttons, chat header |
+| **Primary Deep** | `#8B6914` | Icons, rank badges, user chat bubbles, active language label |
+| **Primary Muted** | `#C5A55A` | Chevrons, secondary navigation hints |
+| **Primary Container** | `#FFF0D6` | Menu icon wrapper backgrounds |
+| **Primary Button** | `rgba(217, 169, 65, 0.7)` | `PrimaryButton` default fill |
+| **Primary Solid** | `#D4AF37` | Modal confirm, save profile button |
+
+### Backgrounds & Surfaces
+
+| Token | Hex | Used for |
+|---|---|---|
+| **Background Home** | `#F2E8DD` | Home screen base and header area (warm sand) |
+| **Background App** | `#FDF6EC` | Profile, settings, gaming hub, bot chat bubbles |
+| **Background Tab** | `#F4E8DA` | Bottom tab bar |
+| **Surface** | `#FFFFFF` | Cards, inputs, modals, settings rows |
+| **Surface Menu** | `#FDF6EC` | HeaderMenu and ChatSidebar drawer panels |
+
+### Text
+
+| Token | Hex | Used for |
+|---|---|---|
+| **Text Primary** | `#4A3728` | Headings, labels, body on light surfaces |
+| **Text Title** | `#1A1A1A` | Monument card titles |
+| **Text Secondary** | `#333333` | Secondary body, chat input |
+| **Text Subtle** | `#8E8E93` | Inactive tabs, section labels, empty states |
+| **Text Muted** | `#666666` | Modal descriptions |
+| **Text on Dark** | `#FFFFFF` | Text on image overlays and dark backgrounds |
+| **Text Link** | `#D9A941` | Forgot password, sign-up links |
+
+### Semantic
+
+| Token | Hex | Used for |
+|---|---|---|
+| **Error** | `#FF6B6B` | Form validation errors |
+| **Error Strong** | `#FF3B30` | Feed / data error messages |
+| **Error Destructive** | `#D32F2F` | Logout and delete account confirm |
+| **Rating** | `#FF9500` | Star rating on monument cards |
+
+### Overlays
+
+| Token | Value | Used for |
+|---|---|---|
+| **Overlay Auth** | `rgba(0, 0, 0, 0.5)` | Login / sign-up background dim |
+| **Overlay Drawer** | `rgba(30, 18, 8, 0.45)` | HeaderMenu warm backdrop |
+| **Overlay Glass** | `rgba(255, 255, 255, 0.15)` | Auth input glassmorphism |
+
+### Screen-to-Background Map
+
+Quick reference for which background each major screen uses today:
+
+| Screen | Background token |
+|---|---|
+| Splash | `#000000` (dark) |
+| Auth (Login / SignUp) | Image + `overlay-auth` |
+| Home | `#F2E8DD` |
+| Profile / Settings / Gaming Hub | `#FDF6EC` |
+| Chatbot | Image background + `#FDF6EC` bubbles |
+| Personality Quiz | Image + `overlay-quiz` |
+
+### Known Outliers (align during token migration)
+
+These colors appear in only one or two components and break the warm palette. Consider replacing them with existing tokens when refactoring:
+
+- **CategoryPill** uses iOS blue (`#E6F2FF` / `#007AFF`) — candidate for `primary-container` / `primary-deep`
+- **SearchBar** uses iOS grey (`#F2F2F7`) — candidate for `surface` with a warm border
+- **MonumentCard** location icon uses hardcoded `blue` — should become `primary-deep`
+
+---
 
 ## Typography
 
 This design system employs a sophisticated pairing of a classic serif for storytelling and a clean sans-serif for utility.
 
-- **Headlines:** Use **Libre Caslon Text**. This typeface provides a literary, authoritative feel reminiscent of historical manuscripts and museum placards. It should primarily be rendered in the Secondary (Burnt Umber) color.
-- **UI & Body:** Use **Work Sans**. Its clean, neutral proportions balance the decorative nature of the serif. Use varied weights (400 for body, 600 for labels) to establish a clear information hierarchy.
-- **Styling:** Headings should use tight tracking, while labels and small captions benefit from a slight increase in letter-spacing (+0.05em) to maintain clarity against textured backgrounds.
+- **Headlines:** Use **Libre Caslon Text**. Render primarily in **Text Primary** (`#4A3728`) on light surfaces, or **Text on Dark** (`#FFFFFF`) on image overlays.
+- **UI & Body:** Use **Work Sans**. Varied weights (400 for body, 600 for labels) establish hierarchy.
+- **Styling:** Headings use tight tracking; labels and captions use slight letter-spacing (+0.05em).
+
+---
 
 ## Layout & Spacing
 
-The layout follows a **Fixed-Fluid hybrid** model. On mobile, content uses a 4-column system with generous 20px (1.25rem) side margins to create a "framed" feel. On desktop, the content centers within a 12-column grid capped at 1280px.
+The layout follows a **Fixed-Fluid hybrid** model. On mobile, content uses a 4-column system with generous 20px (1.25rem) side margins.
 
-A strict vertical rhythm is maintained using 8px increments. Components like cards and list items should utilize "Internal Safe Areas" (padding) of 16px to 24px to ensure the content feels airy and premium. Group related elements with 8px gaps, while distinct sections should be separated by 32px or 48px to allow the "Papyrus" background to act as a visual breather.
+Vertical rhythm uses 8px increments. Internal card padding is 16px–24px. Related elements are grouped with 8px gaps; distinct sections are separated by 32px.
+
+Responsive scaling is handled at runtime via `useResponsive()` (`sWidth`, `sHeight`, `sFont`) — baseline device is 375×812.
+
+---
 
 ## Elevation & Depth
 
-Hierarchy is established through **Tonal Layers** and **Ambient Shadows**.
+Hierarchy is established through tonal layers and warm-tinted shadows.
 
-- **Level 0 (Base):** The textured background.
-- **Level 1 (Cards):** Surfaces use a solid light cream color (#FCFAED) with a very soft, diffused shadow (0px 4px 20px rgba(78, 54, 41, 0.08)). The shadow color is tinted with the secondary brown rather than grey to maintain warmth.
-- **Level 2 (Interactive):** Elements like "Primary Buttons" or "Active Quests" use a thin 1px gold border and a slightly more pronounced shadow to indicate clickability.
-- **Overlays:** Modals and bottom sheets use a 20% opacity backdrop tint of the secondary color to dim the background while maintaining the warm atmosphere.
+- **Level 0 (Base):** Warm sand or cream background (`#F2E8DD` or `#FDF6EC`).
+- **Level 1 (Cards):** White surface (`#FFFFFF`) on cream/sand base. No heavy shadow — separation comes from background contrast.
+- **Level 2 (Interactive):** Gold-accented elements (`#E0C385`, `#D9A941`) on cards and tab bar.
+- **Overlays:** Warm brown-tinted drawer backdrop (`rgba(30, 18, 8, 0.45)`) or neutral black dim (`rgba(0, 0, 0, 0.5)`) for modals.
+
+---
 
 ## Shapes
 
-The shape language is defined by **Softened Geometry**. While the subject matter is ancient and structural, the UI is approachable.
+- **Standard Radius:** 8px (0.5rem) — cards, inputs, standard buttons.
+- **Large Radius:** 16px (1rem) — feature containers, game launch card.
+- **Pill / Full:** 9999px — primary buttons, suggestion pills, category pills.
 
-- **Standard Radius:** 0.5rem (8px) for cards, input fields, and standard buttons.
-- **Large Radius:** 1rem (16px) for main feature containers and "Quest" cards.
-- **Decorative Frames:** Certain high-level containers (like the "Active Quest" header) may feature an inner 1px gold border with decorative corner "glyphs" or brackets, nodding to traditional Egyptian framing motifs without being overly ornate.
+---
 
 ## Components
 
-- **Buttons:** Primary buttons must feature the Gold gradient with white or dark-gold text. Secondary buttons are outlined in Burnt Umber with no fill.
-- **Cards:** All cards should have a 1px border (#E5D9B6) and the Level 1 shadow. Image-heavy cards (like destination cards) should use a subtle dark-to-transparent gradient overlay at the bottom to ensure white text legibility.
-- **Progress Bars:** Designed as "Gold Tubes." The unfilled portion is a desaturated tan, while the filled portion is the Primary Gold gradient.
-- **Chips/Badges:** Small, rounded-pill shapes used for "Difficulty" or "Tags." Use high-contrast Burnt Umber text on a pale gold background.
-- **Navigation:** The bottom navigation bar uses a blur-effect background with the Secondary color for active icons and labels.
-- **Interactive Map Nodes:** Circular elements with a Gold "glow" outer shadow to represent the current active location in a quest.
+- **Buttons:** Primary uses semi-transparent gold (`rgba(217, 169, 65, 0.7)`) with white text. Solid gold (`#D4AF37`) for confirm/save. Play CTAs use `#E0C385`.
+- **Cards:** White (`#FFFFFF`) on warm backgrounds. Monument cards use `#FFF4E5` rating badge.
+- **Progress Bars:** Track `rgba(255, 255, 255, 0.2)` on dark overlays; fill `#D9A941`.
+- **Chips / Badges:** Pale gold container (`#FFF0D6`) with deep gold icon (`#8B6914`).
+- **Navigation:** Tab bar background `#F4E8DA`; active tint `#E0C385`; inactive `#8E8E93`.
+- **Chat Bubbles:** User `#8B6914` / white text; Bot `#FDF6EC` / `#4A3728` text.
+- **Drawers (HeaderMenu):** Panel `#FDF6EC`, dividers `#E8D5B5` / `#F0E2C8`, icon wrappers `#FFF0D6`.
