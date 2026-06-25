@@ -79,7 +79,8 @@
     "logoutTitle": "Log Out?",
     "logoutMessage": "Are you sure you want to log out?",
     "deleteTitle": "Delete Account?",
-    "deleteMessage": "This action is permanent and cannot be undone."
+    "deleteMessage": "This action is permanent and cannot be undone.",
+    "selectLanguage": "Select Language / اختر اللغة"
   },
   "quiz": {
     "loading": "Loading quiz...",

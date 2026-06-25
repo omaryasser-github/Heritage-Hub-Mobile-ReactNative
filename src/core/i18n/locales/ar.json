@@ -79,7 +79,8 @@
     "logoutTitle": "تسجيل الخروج؟",
     "logoutMessage": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
     "deleteTitle": "حذف الحساب؟",
-    "deleteMessage": "هذا الإجراء دائم ولا يمكن التراجع عنه."
+    "deleteMessage": "هذا الإجراء دائم ولا يمكن التراجع عنه.",
+    "selectLanguage": "Select Language / اختر اللغة"
   },
   "quiz": {
     "loading": "جاري تحميل الاختبار...",
