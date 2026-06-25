@@ -1,20 +1,21 @@
 import { Dimensions, PixelRatio, useWindowDimensions } from 'react-native';
 
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
-
 // Guideline sizes are based on standard ~5" screen mobile device (e.g., iPhone 11 Pro / iPhone X)
 const guidelineBaseWidth = 375;
 const guidelineBaseHeight = 812;
 
 /**
  * Static scaling functions for one-off calculations outside of components.
- * Note: These do not update automatically on orientation or foldable state changes.
  */
-export const scaleWidth = (size: number) =>
-  PixelRatio.roundToNearestPixel((SCREEN_WIDTH / guidelineBaseWidth) * size);
+export const scaleWidth = (size: number) => {
+  const { width } = Dimensions.get('window');
+  return PixelRatio.roundToNearestPixel((width / guidelineBaseWidth) * size);
+};
 
-export const scaleHeight = (size: number) =>
-  PixelRatio.roundToNearestPixel((SCREEN_HEIGHT / guidelineBaseHeight) * size);
+export const scaleHeight = (size: number) => {
+  const { height } = Dimensions.get('window');
+  return PixelRatio.roundToNearestPixel((height / guidelineBaseHeight) * size);
+};
 
 /**
  * Moderate scale for fonts to prevent them from becoming too large on Pro Max devices.

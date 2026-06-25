@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Platform } from 'react-native';
+import { Colors } from '../constants/colors';
 
 interface SwitchToggleProps {
   value: boolean;
@@ -13,9 +14,15 @@ export const SwitchToggle = ({ value, onValueChange, disabled }: SwitchTogglePro
       value={value}
       onValueChange={onValueChange}
       disabled={disabled}
-      trackColor={{ false: '#E0E0E0', true: '#D4AF37' }}
-      thumbColor={Platform.OS === 'android' ? (value ? '#FFFFFF' : '#F4F3F4') : ''}
-      ios_backgroundColor="#E0E0E0"
+      trackColor={{ false: Colors.switchTrackOff, true: Colors.primarySolid }}
+      thumbColor={
+        Platform.OS === 'android'
+          ? value
+            ? Colors.textOnDark
+            : Colors.switchThumbAndroid
+          : undefined
+      }
+      ios_backgroundColor={Colors.switchTrackOff}
     />
   );
 };
