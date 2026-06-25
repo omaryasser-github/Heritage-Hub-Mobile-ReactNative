@@ -6,6 +6,7 @@ import { PrimaryButton } from '../../../shared/components/PrimaryButton';
 import { useAppBootstrap } from '../hooks/useAppBootstrap';
 import { Typography } from '../../../shared/components/Typography';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 import { useResponsive } from '../../../shared/utils/responsive';
 
 export const SplashScreen = () => {
@@ -13,6 +14,7 @@ export const SplashScreen = () => {
   const { isReady, error } = useAppBootstrap();
   const insets = useSafeAreaInsets();
   const { sWidth } = useResponsive();
+  const { t } = useTranslation();
 
   // Animation for the Get Started button appearing
   // Animation for the Get Started button and arrow appearing
@@ -72,10 +74,10 @@ export const SplashScreen = () => {
         <View style={[styles.buttonWrapper, { paddingHorizontal: sWidth(54) }]}>
           {error ? (
             <Typography variant="body" color="red" align="center" style={styles.errorText}>
-              Failed to load required assets.
+              {t('splash.bootstrapError')}
             </Typography>
           ) : null}
-          <PrimaryButton title="Get Started" onPress={handleGetStarted} />
+          <PrimaryButton title={t('splash.getStarted')} onPress={handleGetStarted} />
         </View>
 
       </Animated.View>
