@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { LikertCircle } from './LikertCircle';
 import { Typography } from '../../../shared/components/Typography';
 import { useResponsive } from '../../../shared/utils/responsive';
+import { Colors } from '../../../shared/constants/colors';
 
 interface QuestionRowProps {
   question: { id: string; text: string };
@@ -17,7 +18,7 @@ export const QuestionRow: React.FC<QuestionRowProps> = ({ question, selectedValu
     <View style={[styles.container, { marginBottom: sHeight(12) }]}>
       <Typography 
         variant="body" 
-        color="#FFFFFF" 
+        color={Colors.textOnDark} 
         style={[styles.questionText, { fontSize: sFont(18), lineHeight: sFont(26), paddingHorizontal: sWidth(5) }]}
       >
         {question.text}
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   label: {
-    color: "#AAAAAA",
+    color: Colors.textQuizMuted,
     textAlign: 'center',
   }
 });

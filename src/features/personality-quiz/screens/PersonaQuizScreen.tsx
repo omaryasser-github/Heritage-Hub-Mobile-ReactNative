@@ -9,6 +9,7 @@ import { PrimaryButton } from '../../../shared/components/PrimaryButton';
 import { useAuthStore } from '../../../core/store/authStore';
 import { useNavigation } from '@react-navigation/native';
 import { useResponsive } from '../../../shared/utils/responsive';
+import { Colors } from '../../../shared/constants/colors';
 
 
 export const PersonaQuizScreen = () => {
@@ -77,8 +78,8 @@ export const PersonaQuizScreen = () => {
   if (loading) {
     return (
       <View style={styles.centered}>
-        <ActivityIndicator size="large" color="#D9A941" />
-        <Typography color="#FFF" style={{ marginTop: 16 }}>Loading quiz...</Typography>
+        <ActivityIndicator size="large" color={Colors.primary} />
+        <Typography color={Colors.textOnDark} style={{ marginTop: 16 }}>Loading quiz...</Typography>
       </View>
     );
   }
@@ -86,7 +87,7 @@ export const PersonaQuizScreen = () => {
   if (error) {
     return (
       <View style={styles.centered}>
-        <Typography color="red">{error}</Typography>
+        <Typography color={Colors.errorStrong}>{error}</Typography>
         <PrimaryButton title="Retry" onPress={loadQuestions} style={{ marginTop: 16 }} />
       </View>
     );
@@ -115,7 +116,7 @@ export const PersonaQuizScreen = () => {
 
           <ScrollView contentContainerStyle={[styles.scrollContent, { padding: sWidth(10), marginTop: sHeight(40) }]}>
             <View style={[styles.card, { paddingVertical: sHeight(20) }]}>
-              <Typography variant="h2" color="#FFFFFF" align="center" style={[styles.title, { fontSize: sFont(24), marginBottom: sHeight(32) }]}>
+              <Typography variant="h2" color={Colors.textOnDark} align="center" style={[styles.title, { fontSize: sFont(24), marginBottom: sHeight(32) }]}>
                 Discover Your Persona
               </Typography>
 
@@ -131,7 +132,7 @@ export const PersonaQuizScreen = () => {
             <PrimaryButton
               title={'Back'}
               onPress={handleBack}
-              textColor='black'
+              textColor={Colors.textTitle}
               style={[styles.backButton, { marginBottom: Math.max(insets.bottom + sHeight(10), sHeight(40)) }]}
             />
             <PrimaryButton
@@ -151,9 +152,9 @@ export const PersonaQuizScreen = () => {
 
 const styles = StyleSheet.create({
   background: { flex: 1, resizeMode: 'cover' },
-  overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)' },
+  overlay: { flex: 1, backgroundColor: Colors.overlayQuiz },
   container: { flex: 1 },
-  centered: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000' },
+  centered: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: Colors.surfaceDark },
   headerImageContainer: {
     width: '100%',
     overflow: 'hidden',
@@ -168,10 +169,10 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   card: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: Colors.overlayGlassButton,
     borderRadius: 24,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.2)',
+    borderColor: Colors.borderGlassSubtle,
   },
   title: {
     fontWeight: 'bold',
@@ -186,6 +187,6 @@ const styles = StyleSheet.create({
   },
   backButton: {
     width: '100%',
-    backgroundColor: "white",
+    backgroundColor: Colors.surface,
   }
 });

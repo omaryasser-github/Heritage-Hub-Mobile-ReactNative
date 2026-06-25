@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Animated, StyleSheet } from 'react-native';
+import { Colors } from '../../../shared/constants/colors';
 
 export const TypingIndicator = () => {
   const dot1 = useRef(new Animated.Value(0)).current;
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FDF6EC',
+    backgroundColor: Colors.chatBotBubble,
     alignSelf: 'flex-start',
     paddingHorizontal: 16,
     paddingVertical: 14,
@@ -62,6 +63,6 @@ const styles = StyleSheet.create({
     width: 6,
     height: 6,
     borderRadius: 3,
-    backgroundColor: '#8B6914',
+    backgroundColor: Colors.chatUserBubble,
   },
 });

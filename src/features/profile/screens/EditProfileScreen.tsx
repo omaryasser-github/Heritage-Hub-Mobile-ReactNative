@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
-
+import { Colors } from '../../../shared/constants/colors';
+import { Spacing } from '../../../shared/constants/spacing';
 
 export const EditProfileScreen = ({ navigation }: any) => {
   const insets = useSafeAreaInsets();
@@ -12,7 +21,6 @@ export const EditProfileScreen = ({ navigation }: any) => {
 
   const handleSave = () => {
     setIsSaving(true);
-    // Simulate API call
     setTimeout(() => {
       setIsSaving(false);
       navigation.goBack();
@@ -20,7 +28,17 @@ export const EditProfileScreen = ({ navigation }: any) => {
   };
 
   return (
-    <View style={[styles.safeArea, { paddingTop: insets.top, paddingBottom: Math.max(insets.bottom, 16), paddingLeft: insets.left, paddingRight: insets.right }]}>
+    <View
+      style={[
+        styles.safeArea,
+        {
+          paddingTop: insets.top,
+          paddingBottom: Math.max(insets.bottom, 16),
+          paddingLeft: insets.left,
+          paddingRight: insets.right,
+        },
+      ]}
+    >
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -35,7 +53,7 @@ export const EditProfileScreen = ({ navigation }: any) => {
               value={name}
               onChangeText={setName}
               placeholder="Enter your name"
-              placeholderTextColor="#8E8E93"
+              placeholderTextColor={Colors.textSubtle}
             />
           </View>
 
@@ -48,7 +66,7 @@ export const EditProfileScreen = ({ navigation }: any) => {
               placeholder="Enter your email"
               keyboardType="email-address"
               autoCapitalize="none"
-              placeholderTextColor="#8E8E93"
+              placeholderTextColor={Colors.textSubtle}
             />
           </View>
 
@@ -70,18 +88,18 @@ export const EditProfileScreen = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#FDF6EC',
+    backgroundColor: Colors.backgroundApp,
   },
   container: {
     flex: 1,
   },
   scrollContent: {
-    padding: 24,
+    padding: Spacing.screenPadding,
   },
   headerTitle: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#4A3728',
+    color: Colors.textPrimary,
     marginBottom: 32,
   },
   formGroup: {
@@ -90,31 +108,31 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#4A3728',
+    color: Colors.textPrimary,
     marginBottom: 8,
   },
   input: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Colors.surface,
     borderWidth: 1,
-    borderColor: '#E0E0E0',
-    borderRadius: 12,
-    paddingHorizontal: 16,
+    borderColor: Colors.switchTrackOff,
+    borderRadius: Spacing.borderRadius.md,
+    paddingHorizontal: Spacing.gutter,
     paddingVertical: 14,
     fontSize: 16,
-    color: '#333333',
+    color: Colors.textSecondary,
   },
   saveButton: {
-    backgroundColor: '#D4AF37',
-    borderRadius: 12,
-    paddingVertical: 16,
+    backgroundColor: Colors.primarySolid,
+    borderRadius: Spacing.borderRadius.md,
+    paddingVertical: Spacing.gutter,
     alignItems: 'center',
-    marginTop: 16,
+    marginTop: Spacing.gutter,
   },
   saveButtonDisabled: {
-    backgroundColor: '#E0E0E0',
+    backgroundColor: Colors.switchTrackOff,
   },
   saveButtonText: {
-    color: '#FFFFFF',
+    color: Colors.textOnDark,
     fontSize: 16,
     fontWeight: 'bold',
   },

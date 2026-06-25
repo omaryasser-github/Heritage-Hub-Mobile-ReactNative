@@ -13,6 +13,7 @@ import { useAuthStore } from '../../../core/store/authStore';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useResponsive } from '../../../shared/utils/responsive';
+import { Colors } from '../../../shared/constants/colors';
 
 
 const loginSchema = z.object({
@@ -80,8 +81,8 @@ export const LoginScreen = () => {
                 />
               </View>
               <View style={styles.header}>
-                <Typography variant="h1" color="#FFFFFF" align="center" style={[styles.title, { fontSize: sFont(32) }]}>Welcome Back!</Typography>
-                <Typography variant="body" color="#E0E0E0" align="center" style={{ fontSize: sFont(16) }}>Log in to continue your journey</Typography>
+                <Typography variant="h1" color={Colors.textOnDark} align="center" style={[styles.title, { fontSize: sFont(32) }]}>Welcome Back!</Typography>
+                <Typography variant="body" color={Colors.textOnDarkMuted} align="center" style={{ fontSize: sFont(16) }}>Log in to continue your journey</Typography>
               </View>
 
 
@@ -118,10 +119,10 @@ export const LoginScreen = () => {
                   )}
                 />
 
-                {apiError ? <Typography color="#FF6B6B" style={styles.apiError}>{apiError}</Typography> : null}
+                {apiError ? <Typography color={Colors.error} style={styles.apiError}>{apiError}</Typography> : null}
 
                 <TouchableOpacity style={styles.forgotPassword}>
-                  <Typography color="#D9A941" variant="caption">Forgot Password?</Typography>
+                  <Typography color={Colors.textLink} variant="caption">Forgot Password?</Typography>
                 </TouchableOpacity>
 
                 <PrimaryButton
@@ -132,14 +133,14 @@ export const LoginScreen = () => {
                 />
 
                 <View style={styles.footer}>
-                  <Typography color="#FFFFFF">Don't have an account? </Typography>
+                  <Typography color={Colors.textOnDark}>Don't have an account? </Typography>
                   <TouchableOpacity onPress={() => navigation.navigate('AuthStack', { screen: 'SignUp' })}>
-                    <Typography color="#D9A941" style={{ fontWeight: 'bold' }}>Sign Up</Typography>
+                    <Typography color={Colors.textLink} style={{ fontWeight: 'bold' }}>Sign Up</Typography>
                   </TouchableOpacity>
                 </View>
                 <View style={styles.divider}>
                   <View style={styles.line} />
-                  <Typography color="#E0E0E0" style={styles.orText}>OR</Typography>
+                  <Typography color={Colors.textOnDarkMuted} style={styles.orText}>OR</Typography>
                   <View style={styles.line} />
                 </View>
 
@@ -162,7 +163,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     alignItems: 'flex-start',
   },
-  overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' },
+  overlay: { flex: 1, backgroundColor: Colors.overlayAuth },
   container: { flex: 1 },
   scrollContent: { flexGrow: 1, justifyContent: 'center' },
   header: { marginBottom: 20 },
@@ -172,7 +173,7 @@ const styles = StyleSheet.create({
   forgotPassword: { alignSelf: 'flex-end', marginBottom: 24 },
   submitButton: { marginBottom: 24, width: '100%' },
   divider: { flexDirection: 'row', alignItems: 'center', marginBottom: 24 },
-  line: { flex: 1, height: 1, backgroundColor: 'rgba(255,255,255,0.2)' },
+  line: { flex: 1, height: 1, backgroundColor: Colors.borderGlassSubtle },
   orText: { marginHorizontal: 16 },
   footer: { flexDirection: 'row', justifyContent: 'center', marginBottom: 15 }
 });

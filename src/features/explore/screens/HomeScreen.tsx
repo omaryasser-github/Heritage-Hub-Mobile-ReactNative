@@ -10,6 +10,7 @@ import { CategoryPill } from '../components/CategoryPill';
 import { MonumentCard } from '../components/MonumentCard';
 import { HeaderMenu } from '../components/HeaderMenu';
 import { useResponsive } from '../../../shared/utils/responsive';
+import { Colors } from '../../../shared/constants/colors';
 
 
 const CATEGORIES = [
@@ -109,10 +110,10 @@ export const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F2E8DD",
+    backgroundColor: Colors.backgroundHome,
   },
   background: {
-    backgroundColor: '#F2E8DD',
+    backgroundColor: Colors.backgroundHome,
   },
   logoContainer: {
     flexDirection: 'row',
@@ -126,7 +127,7 @@ const styles = StyleSheet.create({
   screenTitle: {
     marginTop: 15,
     fontWeight: 'bold',
-    color: 'white',
+    color: Colors.textOnDark,
     marginBottom: 20,
   },
   categoryContainer: {
@@ -134,7 +135,7 @@ const styles = StyleSheet.create({
   },
   categoriesTitle: {
     fontWeight: 'bold',
-    color: 'white',
+    color: Colors.textOnDark,
     marginBottom: 10,
   },
   categories: {
@@ -150,19 +151,19 @@ const styles = StyleSheet.create({
   loadingText: {
     textAlign: 'center',
     marginTop: 40,
-    color: '#8E8E93',
+    color: Colors.textSubtle,
     fontSize: 16,
   },
   errorText: {
     textAlign: 'center',
     marginTop: 40,
-    color: '#FF3B30',
+    color: Colors.errorStrong,
     fontSize: 16,
   },
   emptyText: {
     textAlign: 'center',
     marginTop: 40,
-    color: '#8E8E93',
+    color: Colors.textSubtle,
     fontSize: 16,
   }
 });

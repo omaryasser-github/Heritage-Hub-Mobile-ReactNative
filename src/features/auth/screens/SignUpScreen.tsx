@@ -13,6 +13,7 @@ import { useAuthStore } from '../../../core/store/authStore';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useResponsive } from '../../../shared/utils/responsive';
+import { Colors } from '../../../shared/constants/colors';
 
 
 const signUpSchema = z.object({
@@ -84,8 +85,8 @@ export const SignUpScreen = () => {
                 />
               </View>
               <View style={styles.header}>
-                <Typography variant="h1" color="#FFFFFF" align="center" style={[styles.title, { fontSize: sFont(32) }]}>Create Account!</Typography>
-                <Typography variant="body" color="#E0E0E0" align="center" style={{ fontSize: sFont(16) }}>Start your journey today</Typography>
+                <Typography variant="h1" color={Colors.textOnDark} align="center" style={[styles.title, { fontSize: sFont(32) }]}>Create Account!</Typography>
+                <Typography variant="body" color={Colors.textOnDarkMuted} align="center" style={{ fontSize: sFont(16) }}>Start your journey today</Typography>
               </View>
 
 
@@ -151,7 +152,7 @@ export const SignUpScreen = () => {
                   )}
                 />
 
-                {apiError ? <Typography color="#FF6B6B" style={styles.apiError}>{apiError}</Typography> : null}
+                {apiError ? <Typography color={Colors.error} style={styles.apiError}>{apiError}</Typography> : null}
 
                 <PrimaryButton
                   title={isLoading ? 'Creating account...' : 'Sign Up'}
@@ -160,14 +161,14 @@ export const SignUpScreen = () => {
                   style={styles.submitButton}
                 />
                 <View style={styles.footer}>
-                  <Typography color="#FFFFFF">Already have an account? </Typography>
+                  <Typography color={Colors.textOnDark}>Already have an account? </Typography>
                   <TouchableOpacity onPress={() => navigation.navigate('AuthStack', { screen: 'Login' })}>
-                    <Typography color="#D9A941" style={{ fontWeight: 'bold' }}>Log In</Typography>
+                    <Typography color={Colors.textLink} style={{ fontWeight: 'bold' }}>Log In</Typography>
                   </TouchableOpacity>
                 </View>
                 <View style={styles.divider}>
                   <View style={styles.line} />
-                  <Typography color="#E0E0E0" style={styles.orText}>OR</Typography>
+                  <Typography color={Colors.textOnDarkMuted} style={styles.orText}>OR</Typography>
                   <View style={styles.line} />
                 </View>
                 <SocialLoginButton provider="google" onPress={() => { }} />
@@ -188,7 +189,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignItems: 'flex-start',
   },
-  overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', },
+  overlay: { flex: 1, backgroundColor: Colors.overlayAuth, },
   container: { flex: 1 },
   scrollContent: { flexGrow: 1, justifyContent: 'center' },
   header: { marginBottom: 20 },
@@ -197,7 +198,7 @@ const styles = StyleSheet.create({
   apiError: { marginBottom: 16, textAlign: 'center' },
   submitButton: { marginTop: 24, marginBottom: 24, width: '100%' },
   divider: { flexDirection: 'row', alignItems: 'center', marginBottom: 24 },
-  line: { flex: 1, height: 1, backgroundColor: 'rgba(255,255,255,0.2)' },
+  line: { flex: 1, height: 1, backgroundColor: Colors.borderGlassSubtle },
   orText: { marginHorizontal: 16 },
   footer: { flexDirection: 'row', justifyContent: 'center', marginBottom: 15 }
 });

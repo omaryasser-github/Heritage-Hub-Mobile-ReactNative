@@ -13,6 +13,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { FlashList } from '@shopify/flash-list';
 import { useResponsive } from '../../../shared/utils/responsive';
+import { Colors } from '../../../shared/constants/colors';
 
 import { AvatarHeader } from '../components/AvatarHeader';
 import { ChatBubble } from '../components/ChatBubble';
@@ -155,7 +156,7 @@ export const ChatbotScreen = () => {
               }
             ]}
             placeholder="Ask about Egyptian history..."
-            placeholderTextColor="#8E8E93"
+            placeholderTextColor={Colors.textSubtle}
             value={inputText}
             onChangeText={setInputText}
             onContentSizeChange={(e) => setInputHeight(e.nativeEvent.contentSize.height)}
@@ -169,7 +170,7 @@ export const ChatbotScreen = () => {
             onPress={() => handleSend(inputText)}
             disabled={!inputText.trim()}
           >
-            <Ionicons name="send" size={sWidth(20)} color="#FFFFFF" />
+            <Ionicons name="send" size={sWidth(20)} color={Colors.textOnDark} />
           </TouchableOpacity>
         </View>
 
@@ -220,16 +221,16 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     height: 50,
-    backgroundColor: '#F2F2F2',
+    backgroundColor: Colors.chatInputBackground,
     borderRadius: 25,
     paddingHorizontal: 20,
     fontSize: 15,
-    color: '#333333',
+    color: Colors.textSecondary,
   },
   sendButton: {
     width: 50,
     height: 50,
-    backgroundColor: '#CCB27B',
+    backgroundColor: Colors.primarySend,
     borderRadius: 22.5,
     alignItems: 'center',
     justifyContent: 'center',

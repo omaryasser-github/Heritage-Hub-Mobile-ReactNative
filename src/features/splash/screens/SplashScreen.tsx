@@ -8,6 +8,7 @@ import { Typography } from '../../../shared/components/Typography';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { useResponsive } from '../../../shared/utils/responsive';
+import { Colors } from '../../../shared/constants/colors';
 
 export const SplashScreen = () => {
   const navigation = useNavigation();
@@ -73,7 +74,7 @@ export const SplashScreen = () => {
 
         <View style={[styles.buttonWrapper, { paddingHorizontal: sWidth(54) }]}>
           {error ? (
-            <Typography variant="body" color="red" align="center" style={styles.errorText}>
+            <Typography variant="body" color={Colors.errorStrong} align="center" style={styles.errorText}>
               {t('splash.bootstrapError')}
             </Typography>
           ) : null}
@@ -88,7 +89,7 @@ export const SplashScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: Colors.surfaceDark,
   },
   bottomContainer: {
     position: 'absolute',

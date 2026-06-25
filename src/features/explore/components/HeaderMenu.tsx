@@ -13,6 +13,7 @@ import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-cont
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useResponsive } from '../../../shared/utils/responsive';
+import { Colors } from '../../../shared/constants/colors';
 
 
 export const HeaderMenu = () => {
@@ -95,7 +96,7 @@ export const HeaderMenu = () => {
           <View style={[styles.panelHeader, { marginBottom: sHeight(16) }]}>
             <Text style={[styles.panelTitle, { fontSize: sFont(20) }]}>Menu</Text>
             <TouchableOpacity onPress={closeMenu} style={[styles.closeBtn, { padding: sWidth(4) }]}>
-              <Ionicons name="close" size={sWidth(22)} color="#4A3728" />
+              <Ionicons name="close" size={sWidth(22)} color={Colors.textPrimary} />
             </TouchableOpacity>
           </View>
 
@@ -104,11 +105,11 @@ export const HeaderMenu = () => {
           <TouchableOpacity style={[styles.menuItem, { paddingVertical: sHeight(14) }]} activeOpacity={0.7}>
             <View style={[styles.menuItemLeft, { gap: sWidth(14) }]}>
               <View style={[styles.iconWrapper, { width: sWidth(36), height: sWidth(36), borderRadius: sWidth(10) }]}>
-                <Ionicons name="notifications-outline" size={sWidth(20)} color="#8B6914" />
+                <Ionicons name="notifications-outline" size={sWidth(20)} color={Colors.primaryDeep} />
               </View>
               <Text style={[styles.menuItemText, { fontSize: sFont(15) }]}>Notifications</Text>
             </View>
-            <Ionicons name="chevron-forward" size={sWidth(16)} color="#C5A55A" />
+            <Ionicons name="chevron-forward" size={sWidth(16)} color={Colors.primaryMuted} />
           </TouchableOpacity>
 
           <View style={[styles.itemDivider, { marginVertical: sHeight(4), marginStart: sWidth(52) }]} />
@@ -116,7 +117,7 @@ export const HeaderMenu = () => {
           <View style={[styles.menuItem, { paddingVertical: sHeight(14) }]}>
             <View style={[styles.menuItemLeft, { gap: sWidth(14) }]}>
               <View style={[styles.iconWrapper, { width: sWidth(36), height: sWidth(36), borderRadius: sWidth(10) }]}>
-                <Ionicons name="language-outline" size={sWidth(20)} color="#8B6914" />
+                <Ionicons name="language-outline" size={sWidth(20)} color={Colors.primaryDeep} />
               </View>
               <Text style={[styles.menuItemText, { fontSize: sFont(15) }]}>Language</Text>
             </View>
@@ -125,8 +126,8 @@ export const HeaderMenu = () => {
               <Switch
                 value={isArabic}
                 onValueChange={setIsArabic}
-                thumbColor="#8B6914"
-                trackColor={{ false: '#E0C385', true: '#E0C385' }}
+                thumbColor={Colors.primaryDeep}
+                trackColor={{ false: Colors.primarySoft, true: Colors.primarySoft }}
                 style={styles.switch}
               />
               <Text style={[styles.langLabel, { fontSize: sFont(13) }, isArabic && styles.langActive]}>AR</Text>
@@ -145,11 +146,11 @@ export const HeaderMenu = () => {
           >
             <View style={[styles.menuItemLeft, { gap: sWidth(14) }]}>
               <View style={[styles.iconWrapper, { width: sWidth(36), height: sWidth(36), borderRadius: sWidth(10) }]}>
-                <Ionicons name="settings-outline" size={sWidth(20)} color="#8B6914" />
+                <Ionicons name="settings-outline" size={sWidth(20)} color={Colors.primaryDeep} />
               </View>
               <Text style={[styles.menuItemText, { fontSize: sFont(15) }]}>Settings</Text>
             </View>
-            <Ionicons name="chevron-forward" size={sWidth(16)} color="#C5A55A" />
+            <Ionicons name="chevron-forward" size={sWidth(16)} color={Colors.primaryMuted} />
           </TouchableOpacity>
         </Animated.View>
       </Modal>
@@ -165,19 +166,19 @@ const styles = StyleSheet.create({
   line: {
     height: 2.5,
     borderRadius: 2,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Colors.textOnDark,
   },
   backdrop: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(30, 18, 8, 0.45)',
+    backgroundColor: Colors.overlayDrawer,
   },
   panel: {
     position: 'absolute',
     end: 0,
     top: 0,
     bottom: 0,
-    backgroundColor: '#FDF6EC',
-    shadowColor: '#000',
+    backgroundColor: Colors.backgroundApp,
+    shadowColor: Colors.shadow,
     shadowOpacity: 0.18,
     shadowOffset: { width: -4, height: 0 },
     shadowRadius: 16,
@@ -190,18 +191,18 @@ const styles = StyleSheet.create({
   },
   panelTitle: {
     fontWeight: '700',
-    color: '#4A3728',
+    color: Colors.textPrimary,
     letterSpacing: 0.4,
   },
   closeBtn: {
   },
   divider: {
     height: 1,
-    backgroundColor: '#E8D5B5',
+    backgroundColor: Colors.borderDivider,
   },
   itemDivider: {
     height: 1,
-    backgroundColor: '#F0E2C8',
+    backgroundColor: Colors.borderDividerLight,
   },
   menuItem: {
     flexDirection: 'row',
@@ -213,13 +214,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   iconWrapper: {
-    backgroundColor: '#FFF0D6',
+    backgroundColor: Colors.primaryContainer,
     alignItems: 'center',
     justifyContent: 'center',
   },
   menuItemText: {
     fontWeight: '600',
-    color: '#4A3728',
+    color: Colors.textPrimary,
   },
   langToggleRow: {
     flexDirection: 'row',
@@ -227,10 +228,10 @@ const styles = StyleSheet.create({
   },
   langLabel: {
     fontWeight: '700',
-    color: '#B8A080',
+    color: Colors.textDisabled,
   },
   langActive: {
-    color: '#8B6914',
+    color: Colors.primaryDeep,
   },
   switch: {
     transform: [{ scaleX: 0.85 }, { scaleY: 0.85 }],

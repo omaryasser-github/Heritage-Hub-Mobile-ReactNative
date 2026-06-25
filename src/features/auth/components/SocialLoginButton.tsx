@@ -1,6 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { Colors } from '../../../shared/constants/colors';
 
 interface SocialLoginButtonProps {
   provider: 'google' | 'facebook';
@@ -15,7 +16,7 @@ export const SocialLoginButton: React.FC<SocialLoginButtonProps> = ({ provider, 
       <Ionicons 
         name={isGoogle ? 'logo-google' : 'logo-facebook'} 
         size={24} 
-        color={isGoogle ? '#DB4437' : '#4267B2'} 
+        color={isGoogle ? Colors.socialGoogle : Colors.socialFacebook} 
       />
       <Text style={styles.text}>
         Continue with {isGoogle ? 'Google' : 'Facebook'}
@@ -29,9 +30,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: Colors.overlayGlassButton,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.2)',
+    borderColor: Colors.borderGlassSubtle,
     borderRadius: 12,
     paddingVertical: 14,
     paddingHorizontal: 20,
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   text: {
-    color: '#FFFFFF',
+    color: Colors.textOnDark,
     fontSize: 16,
     fontWeight: '500',
     marginLeft: 16,

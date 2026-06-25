@@ -1,17 +1,30 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Alert, View, Text } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
+import { Ionicons } from '@expo/vector-icons';
 import { SettingsGroup } from '../components/SettingsGroup';
 import { SettingsRow } from '../components/SettingsRow';
+import { LanguageSelector } from '../components/LanguageSelector';
 import { SwitchToggle } from '../../../shared/components/SwitchToggle';
 import { ActionModal } from '../../../shared/components/ActionModal';
-import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { Colors } from '../../../shared/constants/colors';
+import { useLanguage } from '../../../shared/hooks/useLanguage';
 
-// Local component to handle toggle rows without modifying the original SettingsRow
-const SettingsToggleRow = ({ icon, label, value, onValueChange }: any) => (
+const SettingsToggleRow = ({
+  icon,
+  label,
+  value,
+  onValueChange,
+}: {
+  icon: keyof typeof Ionicons.glyphMap;
+  label: string;
+  value: boolean;
+  onValueChange: (value: boolean) => void;
+}) => (
   <View style={styles.rowContainer}>
-    <Ionicons name={icon} size={24} color="#4A3728" />
+    <Ionicons name={icon} size={24} color={Colors.textPrimary} />
     <Text style={styles.rowLabel}>{label}</Text>
     <SwitchToggle value={value} onValueChange={onValueChange} />
   </View>
@@ -19,26 +32,17 @@ const SettingsToggleRow = ({ icon, label, value, onValueChange }: any) => (
 
 export const SettingsScreen = () => {
   const insets = useSafeAreaInsets();
-  // State for switches
-  const [isArabic, setIsArabic] = useState(false);
+  const navigation = useNavigation<any>();
+  const { t } = useTranslation();
+  const { currentLanguage, supportedLanguages } = useLanguage();
+
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [locationEnabled, setLocationEnabled] = useState(false);
-
-  // State for modals
+  const [languageModalVisible, setLanguageModalVisible] = useState(false);
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
-  const navigation = useNavigation<any>();
-
-  const handleNavigateToEditProfile = () => {
-    navigation.navigate('EditProfile');
-  };
-
-  // Handlers
-  const handleToggleLanguage = (value: boolean) => {
-    setIsArabic(value);
-    // TODO: In a real implementation, use I18nManager.forceRTL(value) and trigger an app reload
-  };
+  const activeLanguageLabel = supportedLanguages[currentLanguage].nativeLabel;
 
   const handleLogout = () => {
     setLogoutModalVisible(false);
@@ -51,55 +55,63 @@ export const SettingsScreen = () => {
   };
 
   const handleOpenLink = (url: string) => {
-    // In a real app, use Linking.openURL(url)
     Alert.alert('Opening Link', url);
   };
 
   return (
-    <View style={[styles.safeArea, { paddingTop: insets.top + 10, paddingBottom: Math.max(insets.bottom, 16), paddingLeft: insets.left, paddingRight: insets.right }]}>
+    <View
+      style={[
+        styles.safeArea,
+        {
+          paddingTop: insets.top + 10,
+          paddingBottom: Math.max(insets.bottom, 16),
+          paddingLeft: insets.left,
+          paddingRight: insets.right,
+        },
+      ]}
+    >
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-
-        <SettingsGroup title="Account">
+        <SettingsGroup title={t('settings.account')}>
           <SettingsRow
             icon="person-outline"
-            label="Edit Profile"
-            onPress={() => handleNavigateToEditProfile()}
+            label={t('profile.editProfile')}
+            onPress={() => navigation.navigate('EditProfile')}
           />
         </SettingsGroup>
 
-        <SettingsGroup title="Preferences">
-          <SettingsToggleRow
+        <SettingsGroup title={t('settings.preferences')}>
+          <SettingsRow
             icon="language-outline"
-            label="Arabic Language (RTL)"
-            value={isArabic}
-            onValueChange={handleToggleLanguage}
+            label={t('common.language')}
+            value={activeLanguageLabel}
+            onPress={() => setLanguageModalVisible(true)}
           />
         </SettingsGroup>
 
-        <SettingsGroup title="Permissions">
+        <SettingsGroup title={t('settings.permissions')}>
           <SettingsToggleRow
             icon="notifications-outline"
-            label="Push Notifications"
+            label={t('settings.pushNotifications')}
             value={notificationsEnabled}
             onValueChange={setNotificationsEnabled}
           />
           <SettingsToggleRow
             icon="location-outline"
-            label="Location Services"
+            label={t('settings.locationServices')}
             value={locationEnabled}
             onValueChange={setLocationEnabled}
           />
         </SettingsGroup>
 
-        <SettingsGroup title="Support">
+        <SettingsGroup title={t('settings.legal')}>
           <SettingsRow
             icon="document-text-outline"
-            label="Privacy Policy"
+            label={t('settings.privacyPolicy')}
             onPress={() => handleOpenLink('https://heritagehub.example.com/privacy')}
           />
           <SettingsRow
             icon="information-circle-outline"
-            label="Terms of Service"
+            label={t('settings.termsOfService')}
             onPress={() => handleOpenLink('https://heritagehub.example.com/terms')}
           />
           <SettingsRow
@@ -109,42 +121,47 @@ export const SettingsScreen = () => {
           />
         </SettingsGroup>
 
-        <SettingsGroup title="Danger Zone">
+        <SettingsGroup title={t('settings.dangerZone')}>
           <SettingsRow
             icon="log-out-outline"
-            label="Log Out"
+            label={t('profile.logOut')}
             onPress={() => setLogoutModalVisible(true)}
             isDestructive
           />
           <SettingsRow
             icon="trash-outline"
-            label="Delete Account"
+            label={t('settings.deleteAccount')}
             onPress={() => setDeleteModalVisible(true)}
             isDestructive
           />
         </SettingsGroup>
 
-        {/* Modals */}
+        <LanguageSelector
+          visible={languageModalVisible}
+          onClose={() => setLanguageModalVisible(false)}
+        />
+
         <ActionModal
           visible={logoutModalVisible}
-          title="Log Out"
-          message="Are you sure you want to log out of your account?"
-          confirmText="Log Out"
-          isDestructive={true}
+          title={t('settings.logoutTitle')}
+          message={t('settings.logoutMessage')}
+          confirmText={t('profile.logOut')}
+          cancelText={t('common.cancel')}
+          isDestructive
           onConfirm={handleLogout}
           onCancel={() => setLogoutModalVisible(false)}
         />
 
         <ActionModal
           visible={deleteModalVisible}
-          title="Delete Account"
-          message="This action is permanent and cannot be undone. All your progress, badges, and favorites will be lost. Are you absolutely sure?"
-          confirmText="Delete"
-          isDestructive={true}
+          title={t('settings.deleteTitle')}
+          message={t('settings.deleteMessage')}
+          confirmText={t('settings.deleteAccount')}
+          cancelText={t('common.cancel')}
+          isDestructive
           onConfirm={handleDeleteAccount}
           onCancel={() => setDeleteModalVisible(false)}
         />
-
       </ScrollView>
     </View>
   );
@@ -153,7 +170,7 @@ export const SettingsScreen = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#FDF6EC',
+    backgroundColor: Colors.backgroundApp,
   },
   container: {
     flex: 1,
@@ -164,15 +181,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 16,
     paddingHorizontal: 24,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Colors.surface,
     borderBottomWidth: 1,
-    borderBottomColor: '#F0F0F0',
+    borderBottomColor: Colors.backgroundNeutral,
   },
   rowLabel: {
     flex: 1,
     fontSize: 16,
     marginStart: 16,
-    color: '#4A3728',
+    color: Colors.textPrimary,
     fontWeight: '500',
   },
 });

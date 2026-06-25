@@ -1,11 +1,12 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import { ProfileHeader } from '../components/ProfileHeader';
 import { BadgeHorizontalList } from '../components/BadgeHorizontalList';
 import { FavoriteCarousel } from '../components/FavoriteCarousel';
 import { SettingsRow } from '../components/SettingsRow';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
+import { Colors } from '../../../shared/constants/colors';
 
 const MOCK_BADGES = [
   { id: '1', title: 'First\nSteps' },
@@ -22,31 +23,34 @@ const MOCK_FAVORITES = [
 export const ProfileScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<any>();
+
   const handleNavigateToSettings = () => {
     navigation.navigate('Settings');
   };
+
   const handleLogout = () => {
     console.log('Logging out...');
-    // Reset Zustand authStore here
   };
 
   return (
     <View style={[styles.safeArea, { paddingTop: insets.top }]}>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        <ProfileHeader
-          name="Omar Yasser"
-          rank="Gold Explorer"
-          points={1250}
-        />
-
+        <ProfileHeader name="Omar Yasser" rank="Gold Explorer" points={1250} />
         <BadgeHorizontalList badges={MOCK_BADGES} />
-
         <FavoriteCarousel favorites={MOCK_FAVORITES} />
-
         <View style={styles.settingsSection}>
-          <SettingsRow icon="settings-outline" label="Account Settings" onPress={() => handleNavigateToSettings()} />
-          <SettingsRow icon="notifications-outline" label="Notifications" onPress={() => { }} />
-          <SettingsRow icon="log-out-outline" label="Log Out" onPress={handleLogout} isDestructive />
+          <SettingsRow
+            icon="settings-outline"
+            label="Account Settings"
+            onPress={handleNavigateToSettings}
+          />
+          <SettingsRow icon="notifications-outline" label="Notifications" onPress={() => {}} />
+          <SettingsRow
+            icon="log-out-outline"
+            label="Log Out"
+            onPress={handleLogout}
+            isDestructive
+          />
         </View>
       </ScrollView>
     </View>
@@ -56,7 +60,7 @@ export const ProfileScreen = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#FDF6EC',
+    backgroundColor: Colors.backgroundApp,
   },
   container: {
     flex: 1,
@@ -65,6 +69,6 @@ const styles = StyleSheet.create({
     marginTop: 45,
     marginBottom: 40,
     borderTopWidth: 1,
-    borderTopColor: '#F0F0F0',
-  }
+    borderTopColor: Colors.backgroundNeutral,
+  },
 });

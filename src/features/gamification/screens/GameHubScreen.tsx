@@ -3,6 +3,7 @@ import { View, StyleSheet, StatusBar, Text } from 'react-native';
 import { GameLaunchCard } from '../components/GameLaunchCard';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useResponsive } from '../../../shared/utils/responsive';
+import { Colors } from '../../../shared/constants/colors';
 
 export const GameHubScreen = () => {
   const insets = useSafeAreaInsets();
@@ -28,14 +29,14 @@ export const GameHubScreen = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#FDF6EC',
+    backgroundColor: Colors.backgroundApp,
   },
   header: {
-    backgroundColor: '#FDF6EC',
+    backgroundColor: Colors.backgroundApp,
   },
   headerTitle: {
     fontWeight: 'bold',
-    color: '#4A3728',
+    color: Colors.textPrimary,
   },
   container: {
     flex: 1,

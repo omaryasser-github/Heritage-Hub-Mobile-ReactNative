@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useResponsive } from '../../../shared/utils/responsive';
+import { Colors } from '../../../shared/constants/colors';
 
 
 // const { width } = Dimensions.get('window');
@@ -41,10 +42,10 @@ export const GameLaunchCard: React.FC<GameLaunchCardProps> = ({ onPlayPress }) =
 
 const styles = StyleSheet.create({
   cardContainer: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Colors.surface,
     borderRadius: 24,
     overflow: 'hidden',
-    shadowColor: '#000',
+    shadowColor: Colors.shadow,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 10,
@@ -64,32 +65,32 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#4A3728',
+    color: Colors.textPrimary,
     marginBottom: 8,
     textAlign: 'center',
   },
   subtitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#8B6914',
+    color: Colors.primaryDeep,
     marginBottom: 16,
     textAlign: 'center',
   },
   description: {
     fontSize: 14,
-    color: '#666666',
+    color: Colors.textMuted,
     textAlign: 'center',
     marginBottom: 24,
     lineHeight: 20,
   },
   playButton: {
-    backgroundColor: '#E0C385', // Primary gold color
+    backgroundColor: Colors.primarySoft,
     paddingVertical: 14,
     paddingHorizontal: 32,
     borderRadius: 30,
     width: '100%',
     alignItems: 'center',
-    shadowColor: '#E0C385',
+    shadowColor: Colors.primarySoft,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.4,
     shadowRadius: 8,
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
   playButtonText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: Colors.textOnDark,
     textTransform: 'uppercase',
     letterSpacing: 1,
   },

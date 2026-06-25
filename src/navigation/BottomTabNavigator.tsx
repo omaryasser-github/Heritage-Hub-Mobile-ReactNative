@@ -8,6 +8,7 @@ import { View, Text, StyleSheet, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useResponsive } from '../shared/utils/responsive';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Colors } from '../shared/constants/colors';
 
 const Tab = createBottomTabNavigator();
 
@@ -27,11 +28,11 @@ export const BottomTabNavigator = () => {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: '#E0C385',
-        tabBarInactiveTintColor: '#8E8E93',
+        tabBarActiveTintColor: Colors.tabActive,
+        tabBarInactiveTintColor: Colors.tabInactive,
         tabBarStyle: {
           borderTopWidth: 0,
-          backgroundColor: '#F4E8DA',
+          backgroundColor: Colors.tabBarBackground,
           height: sHeight(60) + insets.bottom,
           paddingBottom: insets.bottom > 0 ? insets.bottom / 2 : 0,
           borderTopLeftRadius: sWidth(15),
@@ -89,11 +90,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FAFAFA'
+    backgroundColor: Colors.backgroundPlaceholder,
   },
   placeholderText: {
     fontSize: 18,
-    color: '#8E8E93'
+    color: Colors.textSubtle,
   }
 });
 

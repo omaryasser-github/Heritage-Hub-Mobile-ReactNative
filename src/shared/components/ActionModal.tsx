@@ -1,7 +1,9 @@
 import React from 'react';
-import { Modal, View, Text, TouchableOpacity, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import { Modal, View, TouchableOpacity, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import { Colors } from '../constants/colors';
+import { Spacing } from '../constants/spacing';
+import { Typography } from './Typography';
 import { useResponsive } from '../utils/responsive';
-
 
 interface ActionModalProps {
   visible: boolean;
@@ -24,37 +26,79 @@ export const ActionModal = ({
   onConfirm,
   onCancel,
 }: ActionModalProps) => {
-  const { sWidth, sHeight, sFont } = useResponsive();
+  const { sWidth, sHeight } = useResponsive();
 
   return (
     <Modal
       visible={visible}
-      transparent={true}
+      transparent
       animationType="fade"
       onRequestClose={onCancel}
     >
       <TouchableWithoutFeedback onPress={onCancel}>
-        <View style={[styles.overlay, { padding: sWidth(24) }]}>
+        <View style={[styles.overlay, { padding: sWidth(Spacing.screenPadding) }]}>
           <TouchableWithoutFeedback>
-            <View style={[styles.container, { borderRadius: sWidth(16), padding: sWidth(24), maxWidth: sWidth(400) }]}>
-              <Text style={[styles.title, { fontSize: sFont(20), marginBottom: sHeight(12) }]}>{title}</Text>
-              <Text style={[styles.message, { fontSize: sFont(16), marginBottom: sHeight(24), lineHeight: sFont(24) }]}>{message}</Text>
-              
-              <View style={[styles.buttonContainer, { gap: sWidth(12) }]}>
-                <TouchableOpacity style={[styles.cancelButton, { paddingVertical: sHeight(10), paddingHorizontal: sWidth(16), borderRadius: sWidth(8) }]} onPress={onCancel}>
-                  <Text style={[styles.cancelText, { fontSize: sFont(16) }]}>{cancelText}</Text>
+            <View
+              style={[
+                styles.container,
+                {
+                  borderRadius: sWidth(Spacing.borderRadius.lg),
+                  padding: sWidth(Spacing.screenPadding),
+                  maxWidth: sWidth(400),
+                },
+              ]}
+            >
+              <Typography
+                variant="headlineSm"
+                color={Colors.textPrimary}
+                style={{ marginBottom: sHeight(Spacing.stackMd) }}
+              >
+                {title}
+              </Typography>
+              <Typography
+                variant="bodyMd"
+                color={Colors.textMuted}
+                style={{ marginBottom: sHeight(Spacing.stackLg), lineHeight: sHeight(24) }}
+              >
+                {message}
+              </Typography>
+
+              <View style={[styles.buttonContainer, { gap: sWidth(Spacing.stackMd) }]}>
+                <TouchableOpacity
+                  style={[
+                    styles.cancelButton,
+                    {
+                      paddingVertical: sHeight(10),
+                      paddingHorizontal: sWidth(Spacing.gutter),
+                      borderRadius: sWidth(Spacing.borderRadius.default),
+                    },
+                  ]}
+                  onPress={onCancel}
+                >
+                  <Typography variant="labelLg" color={Colors.textPrimary}>
+                    {cancelText}
+                  </Typography>
                 </TouchableOpacity>
-                <TouchableOpacity 
-                  style={[styles.confirmButton, isDestructive && styles.destructiveButton, { paddingVertical: sHeight(10), paddingHorizontal: sWidth(16), borderRadius: sWidth(8) }]} 
+                <TouchableOpacity
+                  style={[
+                    styles.confirmButton,
+                    isDestructive && styles.destructiveButton,
+                    {
+                      paddingVertical: sHeight(10),
+                      paddingHorizontal: sWidth(Spacing.gutter),
+                      borderRadius: sWidth(Spacing.borderRadius.default),
+                    },
+                  ]}
                   onPress={onConfirm}
                 >
-                  <Text style={[styles.confirmText, { fontSize: sFont(16) }]}>{confirmText}</Text>
+                  <Typography variant="labelLg" color={Colors.textOnDark}>
+                    {confirmText}
+                  </Typography>
                 </TouchableOpacity>
               </View>
             </View>
           </TouchableWithoutFeedback>
         </View>
-
       </TouchableWithoutFeedback>
     </Modal>
   );
@@ -63,63 +107,30 @@ export const ActionModal = ({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: Colors.overlayModal,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 24,
   },
   container: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    padding: 24,
+    backgroundColor: Colors.surface,
     width: '100%',
-    maxWidth: 400,
-    shadowColor: '#000',
+    shadowColor: Colors.shadow,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 12,
     elevation: 8,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#4A3728',
-    marginBottom: 12,
-  },
-  message: {
-    fontSize: 16,
-    color: '#666666',
-    marginBottom: 24,
-    lineHeight: 24,
-  },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    gap: 12,
   },
   cancelButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    backgroundColor: '#F0F0F0',
-  },
-  cancelText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#4A3728',
+    backgroundColor: Colors.backgroundNeutral,
   },
   confirmButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    backgroundColor: '#D4AF37',
+    backgroundColor: Colors.primarySolid,
   },
   destructiveButton: {
-    backgroundColor: '#D32F2F',
-  },
-  confirmText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#FFFFFF',
+    backgroundColor: Colors.errorDestructive,
   },
 });

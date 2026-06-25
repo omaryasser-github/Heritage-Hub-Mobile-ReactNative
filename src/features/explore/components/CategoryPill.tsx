@@ -1,5 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, Text, Image, StyleSheet, ImageSourcePropType, View } from 'react-native';
+import { Colors } from '../../../shared/constants/colors';
 
 interface CategoryPillProps {
   title: string;
@@ -39,8 +40,8 @@ const styles = StyleSheet.create({
 
   },
   selectedContainer: {
-    backgroundColor: '#E6F2FF',
-    borderColor: '#FFCE51',
+    backgroundColor: Colors.categoryPillBg,
+    borderColor: Colors.primary,
     borderWidth: 3,
   },
   image: {
@@ -51,10 +52,10 @@ const styles = StyleSheet.create({
   text: {
     // paddingLeft: 20,
     fontSize: 14,
-    color: '#333',
+    color: Colors.categoryPillLabel,
     fontWeight: '600',
   },
   selectedText: {
-    color: '#007AFF',
+    color: Colors.categoryPillText,
   }
 });

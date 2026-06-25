@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ChatSidebarMenu } from './ChatSidebarMenu';
+import { Colors } from '../../../shared/constants/colors';
 
 interface AvatarHeaderProps {
   onReset: () => void;
@@ -24,7 +25,7 @@ export const AvatarHeader = ({ onReset }: AvatarHeaderProps) => {
       </View>
       <View style={styles.right}>
         <TouchableOpacity style={styles.resetBtn} onPress={onReset}>
-          <Ionicons name="refresh-outline" size={20} color="#FFFFFF" />
+          <Ionicons name="refresh-outline" size={20} color={Colors.textOnDark} />
         </TouchableOpacity>
         <ChatSidebarMenu />
       </View>
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: '#E0C385',
+    backgroundColor: Colors.chatAvatarHeader,
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
@@ -66,11 +67,11 @@ const styles = StyleSheet.create({
   greeting: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#FFFFFF',
+    color: Colors.textOnDark,
   },
   subtitle: {
     fontSize: 13,
-    color: '#D4C09A',
+    color: Colors.textOnDarkAccent,
   },
   right: {
     flexDirection: 'row',

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AuthInput } from './AuthInput';
 import { Ionicons } from '@expo/vector-icons';
+import { Colors } from '../../../shared/constants/colors';
 
 interface PasswordInputProps extends React.ComponentProps<typeof AuthInput> {}
 
@@ -15,7 +16,7 @@ export const PasswordInput: React.FC<PasswordInputProps> = (props) => {
         <Ionicons
           name={isVisible ? 'eye-off-outline' : 'eye-outline'}
           size={20}
-          color="rgba(255, 255, 255, 0.6)"
+          color={Colors.textOnDarkMuted}
         />
       }
       onRightIconPress={() => setIsVisible(!isVisible)}
