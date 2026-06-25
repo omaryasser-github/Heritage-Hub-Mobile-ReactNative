@@ -1,0 +1,97 @@
+{
+  "common": {
+    "loading": "جاري التحميل...",
+    "error": "حدث خطأ ما",
+    "retry": "حاول مرة أخرى",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "save": "حفظ",
+    "next": "التالي",
+    "back": "رجوع",
+    "or": "أو",
+    "menu": "القائمة",
+    "settings": "الإعدادات",
+    "notifications": "الإشعارات",
+    "language": "اللغة"
+  },
+  "splash": {
+    "getStarted": "ابدأ الآن",
+    "bootstrapError": "فشل تحميل الموارد المطلوبة."
+  },
+  "auth": {
+    "welcomeBack": "مرحباً بعودتك!",
+    "loginSubtitle": "سجّل الدخول لمتابعة رحلتك",
+    "createAccount": "إنشاء حساب!",
+    "signupSubtitle": "ابدأ رحلتك اليوم",
+    "email": "البريد الإلكتروني",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
+    "password": "كلمة المرور",
+    "passwordPlaceholder": "أدخل كلمة المرور",
+    "name": "الاسم",
+    "namePlaceholder": "أدخل اسمك",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "confirmPasswordPlaceholder": "أكّد كلمة المرور",
+    "login": "تسجيل الدخول",
+    "loggingIn": "جاري تسجيل الدخول...",
+    "signUp": "إنشاء حساب",
+    "signingUp": "جاري إنشاء الحساب...",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "noAccount": "ليس لديك حساب؟",
+    "hasAccount": "لديك حساب بالفعل؟",
+    "continueWithGoogle": "المتابعة مع Google",
+    "continueWithFacebook": "المتابعة مع Facebook",
+    "loginFailed": "فشل تسجيل الدخول",
+    "signupFailed": "فشل إنشاء الحساب"
+  },
+  "tabs": {
+    "home": "الرئيسية",
+    "explore": "استكشف",
+    "aiGuide": "الدليل الذكي",
+    "game": "الألعاب",
+    "profile": "الملف الشخصي"
+  },
+  "home": {
+    "title": "استكشف مصر",
+    "categories": "التصنيفات",
+    "loadingFeed": "جاري التحميل...",
+    "feedError": "فشل تحميل المحتوى. اسحب للتحديث.",
+    "emptyFeed": "لم يتم العثور على معالم."
+  },
+  "profile": {
+    "accountSettings": "إعدادات الحساب",
+    "logOut": "تسجيل الخروج",
+    "favoritePlaces": "الأماكن المفضلة",
+    "noFavorites": "لا توجد مفضلات بعد. ابدأ الاستكشاف!",
+    "editProfile": "تعديل الملف الشخصي"
+  },
+  "settings": {
+    "account": "الحساب",
+    "preferences": "التفضيلات",
+    "permissions": "الأذونات",
+    "arabicLanguage": "اللغة العربية (RTL)",
+    "pushNotifications": "إشعارات الدفع",
+    "locationServices": "خدمات الموقع",
+    "legal": "قانوني",
+    "privacyPolicy": "سياسة الخصوصية",
+    "termsOfService": "شروط الخدمة",
+    "dangerZone": "منطقة الخطر",
+    "deleteAccount": "حذف الحساب",
+    "logoutTitle": "تسجيل الخروج؟",
+    "logoutMessage": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+    "deleteTitle": "حذف الحساب؟",
+    "deleteMessage": "هذا الإجراء دائم ولا يمكن التراجع عنه."
+  },
+  "quiz": {
+    "loading": "جاري تحميل الاختبار...",
+    "loadError": "فشل تحميل الأسئلة.",
+    "submitError": "فشل إرسال الإجابات."
+  },
+  "chatbot": {
+    "greeting": "مرحباً! أنا دليلك الذكي للتراث.",
+    "sendPlaceholder": "اسألني أي شيء عن مصر...",
+    "connectionError": "فشل الاتصال بالذكاء الاصطناعي. حاول مرة أخرى."
+  },
+  "gaming": {
+    "hubTitle": "مركز الألعاب"
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Try again",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "next": "Next",
+    "back": "Back",
+    "or": "OR",
+    "menu": "Menu",
+    "settings": "Settings",
+    "notifications": "Notifications",
+    "language": "Language"
+  },
+  "splash": {
+    "getStarted": "Get Started",
+    "bootstrapError": "Failed to load required assets."
+  },
+  "auth": {
+    "welcomeBack": "Welcome Back!",
+    "loginSubtitle": "Log in to continue your journey",
+    "createAccount": "Create Account!",
+    "signupSubtitle": "Start your journey today",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "name": "Name",
+    "namePlaceholder": "Enter your name",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordPlaceholder": "Confirm your password",
+    "login": "Login",
+    "loggingIn": "Logging in...",
+    "signUp": "Sign Up",
+    "signingUp": "Signing up...",
+    "forgotPassword": "Forgot Password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "continueWithGoogle": "Continue with Google",
+    "continueWithFacebook": "Continue with Facebook",
+    "loginFailed": "Login failed",
+    "signupFailed": "Registration failed"
+  },
+  "tabs": {
+    "home": "Home",
+    "explore": "Explore",
+    "aiGuide": "AI Guide",
+    "game": "Game",
+    "profile": "Profile"
+  },
+  "home": {
+    "title": "Explore Egypt",
+    "categories": "Categories",
+    "loadingFeed": "Loading...",
+    "feedError": "Failed to load feed. Pull to refresh.",
+    "emptyFeed": "No monuments found."
+  },
+  "profile": {
+    "accountSettings": "Account Settings",
+    "logOut": "Log Out",
+    "favoritePlaces": "Favorite Places",
+    "noFavorites": "No favorites yet. Start exploring!",
+    "editProfile": "Edit Profile"
+  },
+  "settings": {
+    "account": "Account",
+    "preferences": "Preferences",
+    "permissions": "Permissions",
+    "arabicLanguage": "Arabic Language (RTL)",
+    "pushNotifications": "Push Notifications",
+    "locationServices": "Location Services",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "dangerZone": "Danger Zone",
+    "deleteAccount": "Delete Account",
+    "logoutTitle": "Log Out?",
+    "logoutMessage": "Are you sure you want to log out?",
+    "deleteTitle": "Delete Account?",
+    "deleteMessage": "This action is permanent and cannot be undone."
+  },
+  "quiz": {
+    "loading": "Loading quiz...",
+    "loadError": "Failed to load questions.",
+    "submitError": "Failed to submit answers."
+  },
+  "chatbot": {
+    "greeting": "Hello! I'm your AI heritage guide.",
+    "sendPlaceholder": "Ask me anything about Egypt...",
+    "connectionError": "Failed to connect to AI. Please try again."
+  },
+  "gaming": {
+    "hubTitle": "Gaming Hub"
+  }
+}
