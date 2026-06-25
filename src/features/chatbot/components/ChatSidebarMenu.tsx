@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import {
   View,
   Text,
@@ -8,24 +8,30 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   FlatList,
+  I18nManager,
 } from 'react-native';
 import { useSafeAreaFrame } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 import { Colors } from '../../../shared/constants/colors';
 
 export const ChatSidebarMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { width } = useSafeAreaFrame();
+  const { t } = useTranslation();
   const panelWidth = width * 0.72;
-  const slideAnim = useRef(new Animated.Value(panelWidth)).current;
+  const closedOffset = I18nManager.isRTL ? -panelWidth : panelWidth;
+  const slideAnim = useRef(new Animated.Value(closedOffset)).current;
   const backdropOpacity = useRef(new Animated.Value(0)).current;
 
-  // Mock history chats for phase 6 MVP
-  const historyChats = [
-    { id: '1', title: 'The Great Sphinx' },
-    { id: '2', title: 'Pyramids of Giza' },
-    { id: '3', title: 'King Tutankhamun' },
-  ];
+  const historyChats = useMemo(
+    () => [
+      { id: '1', title: t('chatbot.historySphinx') },
+      { id: '2', title: t('chatbot.historyPyramids') },
+      { id: '3', title: t('chatbot.historyTut') },
+    ],
+    [t]
+  );
 
   const openMenu = () => {
     setIsOpen(true);
@@ -47,7 +53,7 @@ export const ChatSidebarMenu = () => {
   const closeMenu = () => {
     Animated.parallel([
       Animated.timing(slideAnim, {
-        toValue: panelWidth,
+        toValue: closedOffset,
         duration: 220,
         useNativeDriver: true,
       }),
@@ -86,7 +92,7 @@ export const ChatSidebarMenu = () => {
           style={[styles.panel, { width: panelWidth, transform: [{ translateX: slideAnim }] }]}
         >
           <View style={styles.panelHeader}>
-            <Text style={styles.panelTitle}>Chat Menu</Text>
+            <Text style={styles.panelTitle}>{t('chatbot.chatMenu')}</Text>
             <TouchableOpacity onPress={closeMenu} style={styles.closeBtn}>
               <Ionicons name="close" size={22} color={Colors.textPrimary} />
             </TouchableOpacity>
@@ -94,19 +100,18 @@ export const ChatSidebarMenu = () => {
 
           <View style={styles.divider} />
 
-          {/* New Chat Button */}
           <TouchableOpacity style={styles.newChatBtn} activeOpacity={0.7} onPress={closeMenu}>
             <View style={styles.newChatBtnLeft}>
               <View style={styles.iconWrapper}>
                 <Ionicons name="add" size={22} color={Colors.primaryDeep} />
               </View>
-              <Text style={styles.newChatText}>New Chat</Text>
+              <Text style={styles.newChatText}>{t('chatbot.newChat')}</Text>
             </View>
           </TouchableOpacity>
 
           <View style={styles.itemDivider} />
-          
-          <Text style={styles.sectionTitle}>Recent History</Text>
+
+          <Text style={styles.sectionTitle}>{t('chatbot.recentHistory')}</Text>
 
           <FlatList
             data={historyChats}
@@ -147,7 +152,7 @@ const styles = StyleSheet.create({
   },
   panel: {
     position: 'absolute',
-    right: 0,
+    end: 0,
     top: 0,
     bottom: 0,
     backgroundColor: Colors.backgroundApp,
@@ -183,7 +188,7 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: Colors.borderDividerLight,
     marginVertical: 8,
-    marginLeft: 52,
+    marginStart: 52,
   },
   newChatBtn: {
     flexDirection: 'row',
@@ -223,7 +228,7 @@ const styles = StyleSheet.create({
     color: Colors.textDisabled,
     marginTop: 16,
     marginBottom: 8,
-    marginLeft: 4,
+    marginStart: 4,
     textTransform: 'uppercase',
   },
   menuItem: {

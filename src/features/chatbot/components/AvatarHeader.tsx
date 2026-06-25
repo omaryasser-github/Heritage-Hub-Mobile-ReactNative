@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 import { ChatSidebarMenu } from './ChatSidebarMenu';
 import { Colors } from '../../../shared/constants/colors';
 
@@ -9,18 +10,16 @@ interface AvatarHeaderProps {
 }
 
 export const AvatarHeader = ({ onReset }: AvatarHeaderProps) => {
+  const { t } = useTranslation();
+
   return (
     <View style={styles.container}>
       <View style={styles.left}>
         <View style={styles.avatarContainer}>
-          {/* Fallback to local asset since AI-icon.png exists in BottomTabNavigator code */}
-          <Image
-            // source={require('../../../../../assets/Home/icons/AI-icon.png')}
-            style={styles.avatar}
-          />
+          <Image style={styles.avatar} />
         </View>
         <View style={styles.textContainer}>
-          <Text style={styles.greeting}>User Name</Text>
+          <Text style={styles.greeting}>{t('chatbot.userName')}</Text>
         </View>
       </View>
       <View style={styles.right}>
@@ -41,7 +40,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
     paddingBottom: 15,
-    // backgroundColor: 'rgba(0,0,0,0.3)',
   },
   left: {
     flexDirection: 'row',
@@ -62,16 +60,12 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   textContainer: {
-    marginLeft: 12,
+    marginStart: 12,
   },
   greeting: {
     fontSize: 18,
     fontWeight: '700',
     color: Colors.textOnDark,
-  },
-  subtitle: {
-    fontSize: 13,
-    color: Colors.textOnDarkAccent,
   },
   right: {
     flexDirection: 'row',

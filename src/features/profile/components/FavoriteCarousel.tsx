@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
+import { useTranslation } from 'react-i18next';
 import { Colors } from '../../../shared/constants/colors';
 import { Spacing } from '../../../shared/constants/spacing';
 import { useResponsive } from '../../../shared/utils/responsive';
@@ -52,6 +53,7 @@ const FavoriteCard = ({
 
 export const FavoriteCarousel = ({ favorites }: { favorites: FavoritePlace[] }) => {
   const { sWidth, sHeight, sFont } = useResponsive();
+  const { t } = useTranslation();
 
   return (
     <View style={[styles.container, { marginTop: sHeight(24) }]}>
@@ -61,11 +63,11 @@ export const FavoriteCarousel = ({ favorites }: { favorites: FavoritePlace[] }) 
           { fontSize: sFont(18), marginStart: sWidth(24), marginBottom: sHeight(12) },
         ]}
       >
-        Favorite Places
+        {t('profile.favoritePlaces')}
       </Text>
       {favorites.length === 0 ? (
         <Text style={[styles.emptyText, { marginStart: sWidth(24) }]}>
-          No favorites yet. Start exploring!
+          {t('profile.noFavorites')}
         </Text>
       ) : (
         <View style={{ height: sHeight(160) }}>

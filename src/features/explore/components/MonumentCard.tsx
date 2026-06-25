@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 import { Monument } from '../api/exploreService';
 import { useResponsive } from '../../../shared/utils/responsive';
 import { Colors } from '../../../shared/constants/colors';
@@ -13,6 +14,7 @@ interface MonumentCardProps {
 
 export const MonumentCard = ({ monument, onPress, onFavorite }: MonumentCardProps) => {
   const { sWidth, sHeight, sFont } = useResponsive();
+  const { t } = useTranslation();
 
   return (
     <TouchableOpacity 
@@ -30,7 +32,9 @@ export const MonumentCard = ({ monument, onPress, onFavorite }: MonumentCardProp
       </TouchableOpacity>
       <View style={[styles.info, { padding: sWidth(16) }]}>
         <View style={[styles.headerRow, { marginBottom: sHeight(6) }]}>
-          <Text style={[styles.title, { fontSize: sFont(16), marginEnd: sWidth(10) }]} numberOfLines={1}>{monument.title}</Text>
+          <Text style={[styles.title, { fontSize: sFont(16), marginEnd: sWidth(10) }]} numberOfLines={1}>
+            {t(monument.titleKey)}
+          </Text>
           <View style={[styles.ratingBadge, { paddingHorizontal: sWidth(8), paddingVertical: sHeight(4), borderRadius: sWidth(12) }]}>
             <Ionicons name="star" size={sWidth(12)} color={Colors.rating} />
             <Text style={[styles.ratingText, { marginStart: sWidth(4), fontSize: sFont(12) }]}>{monument.rating}</Text>
@@ -38,7 +42,9 @@ export const MonumentCard = ({ monument, onPress, onFavorite }: MonumentCardProp
         </View>
         <View style={styles.locationRow}>
           <Ionicons name="location-outline" size={sWidth(14)} color={Colors.primaryDeep} />
-          <Text style={[styles.locationText, { marginStart: sWidth(4), fontSize: sFont(14) }]}>{monument.location}</Text>
+          <Text style={[styles.locationText, { marginStart: sWidth(4), fontSize: sFont(14) }]}>
+            {t(monument.locationKey)}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>

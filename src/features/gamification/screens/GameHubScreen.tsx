@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, StatusBar, Text } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { GameLaunchCard } from '../components/GameLaunchCard';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useResponsive } from '../../../shared/utils/responsive';
@@ -8,16 +9,16 @@ import { Colors } from '../../../shared/constants/colors';
 export const GameHubScreen = () => {
   const insets = useSafeAreaInsets();
   const { sWidth, sHeight, sFont } = useResponsive();
+  const { t } = useTranslation();
 
   const handlePlayPress = () => {
-    // Navigate to game challenge (placeholder for now)
-    console.log("Play button pressed. Navigating to Quiz...");
+    console.log('Play button pressed. Navigating to Quiz...');
   };
 
   return (
     <View style={[styles.safeArea, { paddingTop: insets.top }]}>
       <View style={[styles.header, { paddingHorizontal: sWidth(24), paddingVertical: sHeight(16) }]}>
-        <Text style={[styles.headerTitle, { fontSize: sFont(28) }]}>Gaming Hub</Text>
+        <Text style={[styles.headerTitle, { fontSize: sFont(28) }]}>{t('gaming.hubTitle')}</Text>
       </View>
       <View style={[styles.container, { paddingTop: sHeight(10) }]}>
         <GameLaunchCard onPlayPress={handlePlayPress} />
@@ -43,4 +44,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-

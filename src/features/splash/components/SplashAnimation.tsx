@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Animated, StyleSheet, Platform } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { Typography } from '../../../shared/components/Typography';
 
 import { useResponsive } from '../../../shared/utils/responsive';
@@ -13,6 +14,7 @@ const LOGO = require('../../../../assets/splash/splash logo.png');
 
 export const SplashAnimation: React.FC = () => {
   const { sWidth, sFont, screenHeight } = useResponsive();
+  const { t } = useTranslation();
   const bgOpacity = useRef(new Animated.Value(0)).current;
   const bgScale = useRef(new Animated.Value(1.1)).current;
 
@@ -94,7 +96,7 @@ export const SplashAnimation: React.FC = () => {
               align="center"
               style={[styles.mainTitle, { fontSize: sFont(28) }]}
             >
-              Discover Heritage Wonders
+              {t('splash.mainTitle')}
             </Typography>
             <Typography
               variant="body"
@@ -102,7 +104,7 @@ export const SplashAnimation: React.FC = () => {
               align="center"
               style={[styles.subTitle, { fontSize: sFont(14) }]}
             >
-              Explore famous heritage sites, ancient monuments, cultural landmarks.
+              {t('splash.subTitle')}
             </Typography>
           </Animated.View>
 

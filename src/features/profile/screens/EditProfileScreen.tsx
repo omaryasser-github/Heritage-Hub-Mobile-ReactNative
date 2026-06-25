@@ -10,11 +10,13 @@ import {
   ScrollView,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
 import { Colors } from '../../../shared/constants/colors';
 import { Spacing } from '../../../shared/constants/spacing';
 
 export const EditProfileScreen = ({ navigation }: any) => {
   const insets = useSafeAreaInsets();
+  const { t } = useTranslation();
   const [name, setName] = useState('Omar Yasser');
   const [email, setEmail] = useState('omar.yasser@example.com');
   const [isSaving, setIsSaving] = useState(false);
@@ -44,26 +46,26 @@ export const EditProfileScreen = ({ navigation }: any) => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <ScrollView contentContainerStyle={styles.scrollContent}>
-          <Text style={styles.headerTitle}>Edit Profile</Text>
+          <Text style={styles.headerTitle}>{t('profile.editProfile')}</Text>
 
           <View style={styles.formGroup}>
-            <Text style={styles.label}>Full Name</Text>
+            <Text style={styles.label}>{t('auth.fullName')}</Text>
             <TextInput
               style={styles.input}
               value={name}
               onChangeText={setName}
-              placeholder="Enter your name"
+              placeholder={t('auth.namePlaceholder')}
               placeholderTextColor={Colors.textSubtle}
             />
           </View>
 
           <View style={styles.formGroup}>
-            <Text style={styles.label}>Email Address</Text>
+            <Text style={styles.label}>{t('auth.emailAddress')}</Text>
             <TextInput
               style={styles.input}
               value={email}
               onChangeText={setEmail}
-              placeholder="Enter your email"
+              placeholder={t('auth.emailPlaceholder')}
               keyboardType="email-address"
               autoCapitalize="none"
               placeholderTextColor={Colors.textSubtle}
@@ -76,7 +78,7 @@ export const EditProfileScreen = ({ navigation }: any) => {
             disabled={isSaving}
           >
             <Text style={styles.saveButtonText}>
-              {isSaving ? 'Saving...' : 'Save Changes'}
+              {isSaving ? t('common.saving') : t('auth.saveChanges')}
             </Text>
           </TouchableOpacity>
         </ScrollView>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, View, TouchableOpacity, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { Colors } from '../constants/colors';
 import { Spacing } from '../constants/spacing';
 import { Typography } from './Typography';
@@ -20,13 +21,16 @@ export const ActionModal = ({
   visible,
   title,
   message,
-  confirmText = 'Confirm',
-  cancelText = 'Cancel',
+  confirmText,
+  cancelText,
   isDestructive = false,
   onConfirm,
   onCancel,
 }: ActionModalProps) => {
   const { sWidth, sHeight } = useResponsive();
+  const { t } = useTranslation();
+  const resolvedConfirmText = confirmText ?? t('common.confirm');
+  const resolvedCancelText = cancelText ?? t('common.cancel');
 
   return (
     <Modal
@@ -76,7 +80,7 @@ export const ActionModal = ({
                   onPress={onCancel}
                 >
                   <Typography variant="labelLg" color={Colors.textPrimary}>
-                    {cancelText}
+                    {resolvedCancelText}
                   </Typography>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -92,7 +96,7 @@ export const ActionModal = ({
                   onPress={onConfirm}
                 >
                   <Typography variant="labelLg" color={Colors.textOnDark}>
-                    {confirmText}
+                    {resolvedConfirmText}
                   </Typography>
                 </TouchableOpacity>
               </View>

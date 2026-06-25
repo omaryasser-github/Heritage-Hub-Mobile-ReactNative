@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { Colors } from '../../../shared/constants/colors';
 import { AvatarImage } from './AvatarImage';
 
@@ -11,6 +12,8 @@ interface ProfileHeaderProps {
 }
 
 export const ProfileHeader = ({ name, rank, points, avatarUrl }: ProfileHeaderProps) => {
+  const { t } = useTranslation();
+
   return (
     <View style={styles.container}>
       <AvatarImage size={90} />
@@ -18,7 +21,7 @@ export const ProfileHeader = ({ name, rank, points, avatarUrl }: ProfileHeaderPr
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.rank}>{rank}</Text>
         <View style={styles.pointsBadge}>
-          <Text style={styles.pointsText}>{points} XP</Text>
+          <Text style={styles.pointsText}>{t('profile.pointsXp', { points })}</Text>
         </View>
       </View>
     </View>

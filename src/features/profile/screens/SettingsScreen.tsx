@@ -55,7 +55,7 @@ export const SettingsScreen = () => {
   };
 
   const handleOpenLink = (url: string) => {
-    Alert.alert('Opening Link', url);
+    Alert.alert(t('common.openingLink'), url);
   };
 
   return (
@@ -116,7 +116,7 @@ export const SettingsScreen = () => {
           />
           <SettingsRow
             icon="mail-outline"
-            label="Contact Us"
+            label={t('common.contactUs')}
             onPress={() => handleOpenLink('mailto:support@heritagehub.example.com')}
           />
         </SettingsGroup>
@@ -155,7 +155,7 @@ export const SettingsScreen = () => {
         <ActionModal
           visible={deleteModalVisible}
           title={t('settings.deleteTitle')}
-          message={t('settings.deleteMessage')}
+          message={t('settings.deleteMessageLong')}
           confirmText={t('settings.deleteAccount')}
           cancelText={t('common.cancel')}
           isDestructive
