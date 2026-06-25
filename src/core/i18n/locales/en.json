@@ -6,17 +6,34 @@
     "cancel": "Cancel",
     "confirm": "Confirm",
     "save": "Save",
+    "saving": "Saving...",
     "next": "Next",
     "back": "Back",
+    "finish": "Finish",
+    "submitting": "Submitting...",
     "or": "OR",
     "menu": "Menu",
     "settings": "Settings",
     "notifications": "Notifications",
-    "language": "Language"
+    "language": "Language",
+    "english": "EN",
+    "arabic": "AR",
+    "screen": "Screen",
+    "contactUs": "Contact Us",
+    "openingLink": "Opening Link"
+  },
+  "validation": {
+    "invalidEmail": "Invalid email address",
+    "passwordMin": "Password must be at least 6 characters",
+    "nameMin": "Name must be at least 2 characters",
+    "confirmPasswordMin": "Confirm Password must be at least 6 characters",
+    "passwordsMismatch": "Passwords do not match"
   },
   "splash": {
     "getStarted": "Get Started",
-    "bootstrapError": "Failed to load required assets."
+    "bootstrapError": "Failed to load required assets.",
+    "mainTitle": "Discover Heritage Wonders",
+    "subTitle": "Explore famous heritage sites, ancient monuments, cultural landmarks."
   },
   "auth": {
     "welcomeBack": "Welcome Back!",
@@ -27,21 +44,28 @@
     "emailPlaceholder": "Enter your email",
     "password": "Password",
     "passwordPlaceholder": "Enter your password",
+    "passwordCreatePlaceholder": "Create a secure password",
     "name": "Name",
+    "fullName": "Full Name",
     "namePlaceholder": "Enter your name",
+    "fullNamePlaceholder": "Enter your full name",
     "confirmPassword": "Confirm Password",
     "confirmPasswordPlaceholder": "Confirm your password",
     "login": "Login",
+    "logIn": "Log In",
     "loggingIn": "Logging in...",
     "signUp": "Sign Up",
     "signingUp": "Signing up...",
+    "creatingAccount": "Creating account...",
     "forgotPassword": "Forgot Password?",
     "noAccount": "Don't have an account?",
     "hasAccount": "Already have an account?",
     "continueWithGoogle": "Continue with Google",
     "continueWithFacebook": "Continue with Facebook",
     "loginFailed": "Login failed",
-    "signupFailed": "Registration failed"
+    "signupFailed": "Registration failed",
+    "emailAddress": "Email Address",
+    "saveChanges": "Save Changes"
   },
   "tabs": {
     "home": "Home",
@@ -53,22 +77,49 @@
   "home": {
     "title": "Explore Egypt",
     "categories": "Categories",
+    "searchPlaceholder": "Search cities or monuments...",
     "loadingFeed": "Loading...",
     "feedError": "Failed to load feed. Pull to refresh.",
-    "emptyFeed": "No monuments found."
+    "emptyFeed": "No monuments found.",
+    "categoryRecommended": "Recommend",
+    "categoryPopular": "Popular",
+    "categoryCities": "Cities",
+    "categoryMuseums": "Museums",
+    "categoryTemples": "Temples",
+    "monuments": {
+      "pyramid": "The Great Pyramid of Giza",
+      "petra": "Petra",
+      "colosseum": "Colosseum"
+    },
+    "locations": {
+      "giza": "Giza, Egypt",
+      "petra": "Ma'an, Jordan",
+      "rome": "Rome, Italy"
+    }
   },
   "profile": {
     "accountSettings": "Account Settings",
     "logOut": "Log Out",
     "favoritePlaces": "Favorite Places",
     "noFavorites": "No favorites yet. Start exploring!",
-    "editProfile": "Edit Profile"
+    "editProfile": "Edit Profile",
+    "myBadges": "My Badges",
+    "noBadges": "No badges earned yet. Keep exploring!",
+    "rankGoldExplorer": "Gold Explorer",
+    "badgeFirstSteps": "First\nSteps",
+    "badgePyramidMaster": "Pyramid\nMaster",
+    "badgeQuizWhiz": "Quiz\nWhiz",
+    "badgeSocialBee": "Social\nBee",
+    "pointsXp": "{{points}} XP",
+    "favoritePyramid": "Great Pyramid of Giza",
+    "favoritePyramidLocation": "Giza, Egypt",
+    "favoriteKarnak": "Karnak Temple",
+    "favoriteKarnakLocation": "Luxor, Egypt"
   },
   "settings": {
     "account": "Account",
     "preferences": "Preferences",
     "permissions": "Permissions",
-    "arabicLanguage": "Arabic Language (RTL)",
     "pushNotifications": "Push Notifications",
     "locationServices": "Location Services",
     "legal": "Legal",
@@ -80,19 +131,49 @@
     "logoutMessage": "Are you sure you want to log out?",
     "deleteTitle": "Delete Account?",
     "deleteMessage": "This action is permanent and cannot be undone.",
+    "deleteMessageLong": "This action is permanent and cannot be undone. All your progress, badges, and favorites will be lost. Are you absolutely sure?",
     "selectLanguage": "Select Language / اختر اللغة"
   },
   "quiz": {
     "loading": "Loading quiz...",
     "loadError": "Failed to load questions.",
-    "submitError": "Failed to submit answers."
+    "submitError": "Failed to submit answers.",
+    "title": "Discover Your Persona",
+    "disagree": "Disagree",
+    "agree": "Agree",
+    "questions": {
+      "1": "I see myself as someone who loves discovering hidden places.",
+      "2": "I am fascinated by ancient history and artifacts.",
+      "3": "I prefer thrilling outdoor activities over museums.",
+      "4": "I enjoy taking pictures and documenting every detail.",
+      "5": "I seek experiences that connect me with local cultures.",
+      "6": "I find peace in exploring natural landscapes.",
+      "7": "I like my travel itinerary to be completely unplanned."
+    }
   },
   "chatbot": {
     "greeting": "Hello! I'm your AI heritage guide.",
-    "sendPlaceholder": "Ask me anything about Egypt...",
-    "connectionError": "Failed to connect to AI. Please try again."
+    "userName": "Explorer",
+    "sendPlaceholder": "Ask about Egyptian history...",
+    "connectionError": "**Error:** Failed to connect to AI. Please try again.",
+    "chatMenu": "Chat Menu",
+    "newChat": "New Chat",
+    "recentHistory": "Recent History",
+    "suggestion1": "Learn about ancient history",
+    "suggestion2": "Who built the Sphinx?",
+    "suggestion3": "What are the Pyramids?",
+    "historySphinx": "The Great Sphinx",
+    "historyPyramids": "Pyramids of Giza",
+    "historyTut": "King Tutankhamun",
+    "mockReply": "This is a simulated AI response to: \"{{message}}\".\n\n• The Great Sphinx was built around 2500 BC.\n• It represents a mythical creature with a lion's body and a human head.\n\nEnjoy your exploration!",
+    "followUp1": "Tell me more about the Pyramids",
+    "followUp2": "Who was King Tut?"
   },
   "gaming": {
-    "hubTitle": "Gaming Hub"
+    "hubTitle": "Gaming Hub",
+    "cardTitle": "Heritage Hub",
+    "cardSubtitle": "Bridging History and Technology",
+    "cardDescription": "Test your knowledge about Egyptian history, earn XP, and climb the leaderboard!",
+    "playNow": "Play Now"
   }
 }

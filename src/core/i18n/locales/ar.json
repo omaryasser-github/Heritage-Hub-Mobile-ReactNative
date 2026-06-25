@@ -6,17 +6,34 @@
     "cancel": "إلغاء",
     "confirm": "تأكيد",
     "save": "حفظ",
+    "saving": "جاري الحفظ...",
     "next": "التالي",
     "back": "رجوع",
+    "finish": "إنهاء",
+    "submitting": "جاري الإرسال...",
     "or": "أو",
     "menu": "القائمة",
     "settings": "الإعدادات",
     "notifications": "الإشعارات",
-    "language": "اللغة"
+    "language": "اللغة",
+    "english": "EN",
+    "arabic": "AR",
+    "screen": "شاشة",
+    "contactUs": "تواصل معنا",
+    "openingLink": "فتح الرابط"
+  },
+  "validation": {
+    "invalidEmail": "البريد الإلكتروني غير صالح",
+    "passwordMin": "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل",
+    "nameMin": "يجب أن يتكون الاسم من حرفين على الأقل",
+    "confirmPasswordMin": "يجب أن يتكون تأكيد كلمة المرور من 6 أحرف على الأقل",
+    "passwordsMismatch": "كلمتا المرور غير متطابقتين"
   },
   "splash": {
     "getStarted": "ابدأ الآن",
-    "bootstrapError": "فشل تحميل الموارد المطلوبة."
+    "bootstrapError": "فشل تحميل الموارد المطلوبة.",
+    "mainTitle": "اكتشف عجائب التراث",
+    "subTitle": "استكشف مواقع التراث الشهيرة والآثار القديمة والمعالم الثقافية."
   },
   "auth": {
     "welcomeBack": "مرحباً بعودتك!",
@@ -27,21 +44,28 @@
     "emailPlaceholder": "أدخل بريدك الإلكتروني",
     "password": "كلمة المرور",
     "passwordPlaceholder": "أدخل كلمة المرور",
+    "passwordCreatePlaceholder": "أنشئ كلمة مرور آمنة",
     "name": "الاسم",
+    "fullName": "الاسم الكامل",
     "namePlaceholder": "أدخل اسمك",
+    "fullNamePlaceholder": "أدخل اسمك الكامل",
     "confirmPassword": "تأكيد كلمة المرور",
     "confirmPasswordPlaceholder": "أكّد كلمة المرور",
     "login": "تسجيل الدخول",
+    "logIn": "تسجيل الدخول",
     "loggingIn": "جاري تسجيل الدخول...",
     "signUp": "إنشاء حساب",
     "signingUp": "جاري إنشاء الحساب...",
+    "creatingAccount": "جاري إنشاء الحساب...",
     "forgotPassword": "نسيت كلمة المرور؟",
     "noAccount": "ليس لديك حساب؟",
     "hasAccount": "لديك حساب بالفعل؟",
     "continueWithGoogle": "المتابعة مع Google",
     "continueWithFacebook": "المتابعة مع Facebook",
     "loginFailed": "فشل تسجيل الدخول",
-    "signupFailed": "فشل إنشاء الحساب"
+    "signupFailed": "فشل إنشاء الحساب",
+    "emailAddress": "البريد الإلكتروني",
+    "saveChanges": "حفظ التغييرات"
   },
   "tabs": {
     "home": "الرئيسية",
@@ -53,22 +77,49 @@
   "home": {
     "title": "استكشف مصر",
     "categories": "التصنيفات",
+    "searchPlaceholder": "ابحث عن مدن أو معالم...",
     "loadingFeed": "جاري التحميل...",
     "feedError": "فشل تحميل المحتوى. اسحب للتحديث.",
-    "emptyFeed": "لم يتم العثور على معالم."
+    "emptyFeed": "لم يتم العثور على معالم.",
+    "categoryRecommended": "مُوصى به",
+    "categoryPopular": "الأكثر شعبية",
+    "categoryCities": "المدن",
+    "categoryMuseums": "المتاحف",
+    "categoryTemples": "المعابد",
+    "monuments": {
+      "pyramid": "الهرم الأكبر بالجيزة",
+      "petra": "البتراء",
+      "colosseum": "الكولوسيوم"
+    },
+    "locations": {
+      "giza": "الجيزة، مصر",
+      "petra": "معان، الأردن",
+      "rome": "روما، إيطاليا"
+    }
   },
   "profile": {
     "accountSettings": "إعدادات الحساب",
     "logOut": "تسجيل الخروج",
     "favoritePlaces": "الأماكن المفضلة",
     "noFavorites": "لا توجد مفضلات بعد. ابدأ الاستكشاف!",
-    "editProfile": "تعديل الملف الشخصي"
+    "editProfile": "تعديل الملف الشخصي",
+    "myBadges": "شاراتي",
+    "noBadges": "لم تُكتسب أي شارات بعد. واصل الاستكشاف!",
+    "rankGoldExplorer": "مستكشف ذهبي",
+    "badgeFirstSteps": "الخطوات\nالأولى",
+    "badgePyramidMaster": "سيد\nالأهرام",
+    "badgeQuizWhiz": "عبقري\nالاختبارات",
+    "badgeSocialBee": "نحلة\nاجتماعية",
+    "pointsXp": "{{points}} نقطة",
+    "favoritePyramid": "الهرم الأكبر بالجيزة",
+    "favoritePyramidLocation": "الجيزة، مصر",
+    "favoriteKarnak": "معبد الكرنك",
+    "favoriteKarnakLocation": "الأقصر، مصر"
   },
   "settings": {
     "account": "الحساب",
     "preferences": "التفضيلات",
     "permissions": "الأذونات",
-    "arabicLanguage": "اللغة العربية (RTL)",
     "pushNotifications": "إشعارات الدفع",
     "locationServices": "خدمات الموقع",
     "legal": "قانوني",
@@ -80,19 +131,49 @@
     "logoutMessage": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
     "deleteTitle": "حذف الحساب؟",
     "deleteMessage": "هذا الإجراء دائم ولا يمكن التراجع عنه.",
+    "deleteMessageLong": "هذا الإجراء دائم ولا يمكن التراجع عنه. سيتم فقدان كل تقدمك وشاراتك ومفضلاتك. هل أنت متأكد تماماً؟",
     "selectLanguage": "Select Language / اختر اللغة"
   },
   "quiz": {
     "loading": "جاري تحميل الاختبار...",
     "loadError": "فشل تحميل الأسئلة.",
-    "submitError": "فشل إرسال الإجابات."
+    "submitError": "فشل إرسال الإجابات.",
+    "title": "اكتشف شخصيتك",
+    "disagree": "لا أوافق",
+    "agree": "أوافق",
+    "questions": {
+      "1": "أرى نفسي شخصاً يحب اكتشاف الأماكن المخفية.",
+      "2": "أنا مُفتون بالتاريخ القديم والقطع الأثرية.",
+      "3": "أفضل الأنشطة الخارجية المثيرة على المتاحف.",
+      "4": "أستمتع بالتقاط الصور وتوثيق كل التفاصيل.",
+      "5": "أسعى لتجارب تربطني بالثقافات المحلية.",
+      "6": "أجد السلام في استكشاف المناظر الطبيعية.",
+      "7": "أحب أن تكون خطتي للسفر غير مخططة تماماً."
+    }
   },
   "chatbot": {
     "greeting": "مرحباً! أنا دليلك الذكي للتراث.",
-    "sendPlaceholder": "اسألني أي شيء عن مصر...",
-    "connectionError": "فشل الاتصال بالذكاء الاصطناعي. حاول مرة أخرى."
+    "userName": "المستكشف",
+    "sendPlaceholder": "اسأل عن التاريخ المصري...",
+    "connectionError": "**خطأ:** فشل الاتصال بالذكاء الاصطناعي. حاول مرة أخرى.",
+    "chatMenu": "قائمة المحادثة",
+    "newChat": "محادثة جديدة",
+    "recentHistory": "السجل الأخير",
+    "suggestion1": "تعرّف على التاريخ القديم",
+    "suggestion2": "من بنى أبو الهول؟",
+    "suggestion3": "ما هي الأهرامات؟",
+    "historySphinx": "أبو الهول العظيم",
+    "historyPyramids": "أهرامات الجيزة",
+    "historyTut": "الملك توت عنخ آمون",
+    "mockReply": "هذه استجابة محاكاة للذكاء الاصطناعي على: \"{{message}}\".\n\n• بُني أبو الهول العظيم حوالي 2500 قبل الميلاد.\n• يمثل مخلوقاً أسطورياً بجسم أسد ورأس إنسان.\n\nاستمتع باستكشافك!",
+    "followUp1": "أخبرني المزيد عن الأهرامات",
+    "followUp2": "من كان الملك توت؟"
   },
   "gaming": {
-    "hubTitle": "مركز الألعاب"
+    "hubTitle": "مركز الألعاب",
+    "cardTitle": "Heritage Hub",
+    "cardSubtitle": "جسر بين التاريخ والتكنولوجيا",
+    "cardDescription": "اختبر معرفتك بالتاريخ المصري، اكسب نقاط XP، وتسلق لوحة المتصدرين!",
+    "playNow": "العب الآن"
   }
 }
