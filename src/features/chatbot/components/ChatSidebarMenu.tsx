@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import {
   View,
   Text,
@@ -8,23 +8,30 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   FlatList,
+  I18nManager,
 } from 'react-native';
 import { useSafeAreaFrame } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
+import { Colors } from '../../../shared/constants/colors';
 
 export const ChatSidebarMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { width } = useSafeAreaFrame();
+  const { t } = useTranslation();
   const panelWidth = width * 0.72;
-  const slideAnim = useRef(new Animated.Value(panelWidth)).current;
+  const closedOffset = I18nManager.isRTL ? -panelWidth : panelWidth;
+  const slideAnim = useRef(new Animated.Value(closedOffset)).current;
   const backdropOpacity = useRef(new Animated.Value(0)).current;
 
-  // Mock history chats for phase 6 MVP
-  const historyChats = [
-    { id: '1', title: 'The Great Sphinx' },
-    { id: '2', title: 'Pyramids of Giza' },
-    { id: '3', title: 'King Tutankhamun' },
-  ];
+  const historyChats = useMemo(
+    () => [
+      { id: '1', title: t('chatbot.historySphinx') },
+      { id: '2', title: t('chatbot.historyPyramids') },
+      { id: '3', title: t('chatbot.historyTut') },
+    ],
+    [t]
+  );
 
   const openMenu = () => {
     setIsOpen(true);
@@ -46,7 +53,7 @@ export const ChatSidebarMenu = () => {
   const closeMenu = () => {
     Animated.parallel([
       Animated.timing(slideAnim, {
-        toValue: panelWidth,
+        toValue: closedOffset,
         duration: 220,
         useNativeDriver: true,
       }),
@@ -85,27 +92,26 @@ export const ChatSidebarMenu = () => {
           style={[styles.panel, { width: panelWidth, transform: [{ translateX: slideAnim }] }]}
         >
           <View style={styles.panelHeader}>
-            <Text style={styles.panelTitle}>Chat Menu</Text>
+            <Text style={styles.panelTitle}>{t('chatbot.chatMenu')}</Text>
             <TouchableOpacity onPress={closeMenu} style={styles.closeBtn}>
-              <Ionicons name="close" size={22} color="#4A3728" />
+              <Ionicons name="close" size={22} color={Colors.textPrimary} />
             </TouchableOpacity>
           </View>
 
           <View style={styles.divider} />
 
-          {/* New Chat Button */}
           <TouchableOpacity style={styles.newChatBtn} activeOpacity={0.7} onPress={closeMenu}>
             <View style={styles.newChatBtnLeft}>
               <View style={styles.iconWrapper}>
-                <Ionicons name="add" size={22} color="#8B6914" />
+                <Ionicons name="add" size={22} color={Colors.primaryDeep} />
               </View>
-              <Text style={styles.newChatText}>New Chat</Text>
+              <Text style={styles.newChatText}>{t('chatbot.newChat')}</Text>
             </View>
           </TouchableOpacity>
 
           <View style={styles.itemDivider} />
-          
-          <Text style={styles.sectionTitle}>Recent History</Text>
+
+          <Text style={styles.sectionTitle}>{t('chatbot.recentHistory')}</Text>
 
           <FlatList
             data={historyChats}
@@ -114,11 +120,11 @@ export const ChatSidebarMenu = () => {
               <TouchableOpacity style={styles.menuItem} activeOpacity={0.7} onPress={closeMenu}>
                 <View style={styles.menuItemLeft}>
                   <View style={styles.iconWrapperSmall}>
-                    <Ionicons name="chatbubble-outline" size={16} color="#8B6914" />
+                    <Ionicons name="chatbubble-outline" size={16} color={Colors.primaryDeep} />
                   </View>
                   <Text style={styles.menuItemText}>{item.title}</Text>
                 </View>
-                <Ionicons name="chevron-forward" size={16} color="#C5A55A" />
+                <Ionicons name="chevron-forward" size={16} color={Colors.primaryMuted} />
               </TouchableOpacity>
             )}
           />
@@ -138,21 +144,21 @@ const styles = StyleSheet.create({
   line: {
     height: 2.5,
     borderRadius: 2,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Colors.textOnDark,
   },
   backdrop: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(30, 18, 8, 0.45)',
+    backgroundColor: Colors.overlayDrawer,
   },
   panel: {
     position: 'absolute',
-    right: 0,
+    end: 0,
     top: 0,
     bottom: 0,
-    backgroundColor: '#FDF6EC',
+    backgroundColor: Colors.backgroundApp,
     paddingTop: 56,
     paddingHorizontal: 20,
-    shadowColor: '#000',
+    shadowColor: Colors.shadow,
     shadowOpacity: 0.18,
     shadowOffset: { width: -4, height: 0 },
     shadowRadius: 16,
@@ -167,7 +173,7 @@ const styles = StyleSheet.create({
   panelTitle: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#4A3728',
+    color: Colors.textPrimary,
     letterSpacing: 0.4,
   },
   closeBtn: {
@@ -175,14 +181,14 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 1,
-    backgroundColor: '#E8D5B5',
+    backgroundColor: Colors.borderDivider,
     marginBottom: 12,
   },
   itemDivider: {
     height: 1,
-    backgroundColor: '#F0E2C8',
+    backgroundColor: Colors.borderDividerLight,
     marginVertical: 8,
-    marginLeft: 52,
+    marginStart: 52,
   },
   newChatBtn: {
     flexDirection: 'row',
@@ -199,7 +205,7 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 10,
-    backgroundColor: '#FFF0D6',
+    backgroundColor: Colors.primaryContainer,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -207,22 +213,22 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 8,
-    backgroundColor: '#FFF0D6',
+    backgroundColor: Colors.primaryContainer,
     alignItems: 'center',
     justifyContent: 'center',
   },
   newChatText: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#4A3728',
+    color: Colors.textPrimary,
   },
   sectionTitle: {
     fontSize: 13,
     fontWeight: '700',
-    color: '#B8A080',
+    color: Colors.textDisabled,
     marginTop: 16,
     marginBottom: 8,
-    marginLeft: 4,
+    marginStart: 4,
     textTransform: 'uppercase',
   },
   menuItem: {
@@ -239,6 +245,6 @@ const styles = StyleSheet.create({
   menuItemText: {
     fontSize: 15,
     fontWeight: '600',
-    color: '#4A3728',
+    color: Colors.textPrimary,
   },
 });

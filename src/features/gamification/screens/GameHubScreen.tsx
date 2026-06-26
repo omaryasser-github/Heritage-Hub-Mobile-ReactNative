@@ -1,22 +1,38 @@
-import React from 'react';
-import { View, StyleSheet, StatusBar, Text } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, Text } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { GameLaunchCard } from '../components/GameLaunchCard';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useResponsive } from '../../../shared/utils/responsive';
+import { Colors } from '../../../shared/constants/colors';
+import { useAuthStore } from '../../../core/store/authStore';
+import { GuestGateScreen } from '../../../shared/components/GuestGateScreen';
 
 export const GameHubScreen = () => {
   const insets = useSafeAreaInsets();
   const { sWidth, sHeight, sFont } = useResponsive();
+  const { t } = useTranslation();
+  const isGuest = useAuthStore((state) => state.isGuest);
+  const [showPlayGate, setShowPlayGate] = useState(false);
 
   const handlePlayPress = () => {
-    // Navigate to game challenge (placeholder for now)
-    console.log("Play button pressed. Navigating to Quiz...");
+    if (isGuest) {
+      setShowPlayGate(true);
+      return;
+    }
+    // TODO: Navigate to active game / quiz when Phase 7 is implemented
   };
+
+  if (showPlayGate) {
+    return (
+      <GuestGateScreen variant="game" onContinueBrowsing={() => setShowPlayGate(false)} />
+    );
+  }
 
   return (
     <View style={[styles.safeArea, { paddingTop: insets.top }]}>
       <View style={[styles.header, { paddingHorizontal: sWidth(24), paddingVertical: sHeight(16) }]}>
-        <Text style={[styles.headerTitle, { fontSize: sFont(28) }]}>Gaming Hub</Text>
+        <Text style={[styles.headerTitle, { fontSize: sFont(28) }]}>{t('gaming.hubTitle')}</Text>
       </View>
       <View style={[styles.container, { paddingTop: sHeight(10) }]}>
         <GameLaunchCard onPlayPress={handlePlayPress} />
@@ -28,18 +44,17 @@ export const GameHubScreen = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#FDF6EC',
+    backgroundColor: Colors.backgroundApp,
   },
   header: {
-    backgroundColor: '#FDF6EC',
+    backgroundColor: Colors.backgroundApp,
   },
   headerTitle: {
     fontWeight: 'bold',
-    color: '#4A3728',
+    color: Colors.textPrimary,
   },
   container: {
     flex: 1,
     alignItems: 'center',
   },
 });
-

@@ -1,41 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { View, StyleSheet, ScrollView, Text, Image, ImageBackground } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { FlashList } from '@shopify/flash-list';
-// import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { exploreService, Monument } from '../api/exploreService';
 import { SearchBar } from '../components/SearchBar';
 import { CategoryPill } from '../components/CategoryPill';
 import { MonumentCard } from '../components/MonumentCard';
 import { HeaderMenu } from '../components/HeaderMenu';
 import { useResponsive } from '../../../shared/utils/responsive';
-
-
-const CATEGORIES = [
-  { id: 'recommended', title: 'Recommend', image: require('../../../../assets/Home/icons/recommend-icon.png') },
-  { id: 'popular', title: 'Popular', image: require('../../../../assets/Home/icons/popular.png') },
-  { id: 'cities', title: 'Cities', image: require('../../../../assets/Home/icons/cities.png') },
-  { id: 'museums', title: 'Museums', image: require('../../../../assets/Home/icons/museums.png') },
-  { id: 'temples', title: 'Temples', image: require('../../../../assets/Home/icons/temples.png') },
-];
+import { Colors } from '../../../shared/constants/colors';
 
 export const HomeScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('popular');
+  const { t } = useTranslation();
 
-  // Dynamic safe area values — avoids hardcoded spacing for notch/status bar/gesture area.
+  const categories = useMemo(
+    () => [
+      {
+        id: 'recommended',
+        title: t('home.categoryRecommended'),
+        image: require('../../../../assets/Home/icons/recommend-icon.png'),
+      },
+      {
+        id: 'popular',
+        title: t('home.categoryPopular'),
+        image: require('../../../../assets/Home/icons/popular.png'),
+      },
+      {
+        id: 'cities',
+        title: t('home.categoryCities'),
+        image: require('../../../../assets/Home/icons/cities.png'),
+      },
+      {
+        id: 'museums',
+        title: t('home.categoryMuseums'),
+        image: require('../../../../assets/Home/icons/museums.png'),
+      },
+      {
+        id: 'temples',
+        title: t('home.categoryTemples'),
+        image: require('../../../../assets/Home/icons/temples.png'),
+      },
+    ],
+    [t]
+  );
+
   const insets = useSafeAreaInsets();
-
-  // Tab bar height from the navigator — used to prevent the last list card from
-  // being hidden behind the bottom tab bar on any device.
   const tabBarHeight = useBottomTabBarHeight();
   const { sWidth, sHeight, sFont } = useResponsive();
-
-  // const { data: feed = [], isLoading, isError } = useQuery({
-  //   queryKey: ['exploreFeed'],
-  //   queryFn: exploreService.getFeed,
-  // });
 
   const renderHeader = () => (
     <View style={[styles.header, { marginBottom: sHeight(-70) }]}>
@@ -48,15 +63,19 @@ export const HomeScreen = () => {
             source={require('../../../../assets/splash/splash logo.png')}
             style={{ width: sWidth(70), height: sWidth(70) }}
           />
-          <Text style={[styles.screenTitle, { fontSize: sFont(23), marginEnd: sWidth(80) }]}>Explore Egypt</Text>
+          <Text style={[styles.screenTitle, { fontSize: sFont(23), marginEnd: sWidth(80) }]}>
+            {t('home.title')}
+          </Text>
           <HeaderMenu />
         </View>
         <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
 
         <View style={[styles.categoryContainer, { paddingHorizontal: sWidth(15) }]}>
-          <Text style={[styles.categoriesTitle, { fontSize: sFont(20) }]}>Categories</Text>
+          <Text style={[styles.categoriesTitle, { fontSize: sFont(20) }]}>
+            {t('home.categories')}
+          </Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categories}>
-            {CATEGORIES.map((cat) => (
+            {categories.map((cat) => (
               <CategoryPill
                 key={cat.id}
                 title={cat.title}
@@ -75,14 +94,6 @@ export const HomeScreen = () => {
     <View style={styles.container}>
       {renderHeader()}
       <View style={[styles.listContainer, { paddingHorizontal: sWidth(20), marginTop: sHeight(150) }]}>
-
-        {/* {isLoading ? (
-          <Text style={styles.loadingText}>Loading...</Text>
-        ) : isError ? (
-          <Text style={styles.errorText}>Failed to load feed. Pull to refresh.</Text>
-        ) : feed.length === 0 ? (
-          <Text style={styles.emptyText}>No monuments found.</Text>
-        ) : ( */}
         <FlashList
           data={exploreService.getFeed()}
           numColumns={2}
@@ -91,16 +102,15 @@ export const HomeScreen = () => {
               <MonumentCard
                 monument={item}
                 onPress={() => console.log('Navigate to', item.id)}
-                onFavorite={() => { item.isFavorite = !item.isFavorite }}
+                onFavorite={() => {
+                  item.isFavorite = !item.isFavorite;
+                }}
               />
             </View>
           )}
-          // tabBarHeight + insets.bottom ensures the last card is always fully
-          // visible above the tab bar and the device's bottom gesture area.
           contentContainerStyle={{ paddingBottom: tabBarHeight + insets.bottom }}
           showsVerticalScrollIndicator={false}
         />
-        {/* )} */}
       </View>
     </View>
   );
@@ -109,10 +119,10 @@ export const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F2E8DD",
+    backgroundColor: Colors.backgroundHome,
   },
   background: {
-    backgroundColor: '#F2E8DD',
+    backgroundColor: Colors.backgroundHome,
   },
   logoContainer: {
     flexDirection: 'row',
@@ -120,21 +130,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 10,
   },
-  header: {
-    // marginBottom is handled inline to maintain responsive ratio
-  },
+  header: {},
   screenTitle: {
     marginTop: 15,
     fontWeight: 'bold',
-    color: 'white',
+    color: Colors.textOnDark,
     marginBottom: 20,
   },
   categoryContainer: {
-    marginTop: 15
+    marginTop: 15,
   },
   categoriesTitle: {
     fontWeight: 'bold',
-    color: 'white',
+    color: Colors.textOnDark,
     marginBottom: 10,
   },
   categories: {
@@ -143,26 +151,25 @@ const styles = StyleSheet.create({
   listContainer: {
     flex: 1,
   },
-
   cardContainer: {
     flex: 1,
   },
   loadingText: {
     textAlign: 'center',
     marginTop: 40,
-    color: '#8E8E93',
+    color: Colors.textSubtle,
     fontSize: 16,
   },
   errorText: {
     textAlign: 'center',
     marginTop: 40,
-    color: '#FF3B30',
+    color: Colors.errorStrong,
     fontSize: 16,
   },
   emptyText: {
     textAlign: 'center',
     marginTop: 40,
-    color: '#8E8E93',
+    color: Colors.textSubtle,
     fontSize: 16,
-  }
+  },
 });

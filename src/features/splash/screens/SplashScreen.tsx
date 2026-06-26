@@ -2,82 +2,119 @@ import React, { useEffect, useRef } from 'react';
 import { View, StyleSheet, Animated } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SplashAnimation } from '../components/SplashAnimation';
+import { SplashSkipButton } from '../components/SplashSkipButton';
 import { PrimaryButton } from '../../../shared/components/PrimaryButton';
 import { useAppBootstrap } from '../hooks/useAppBootstrap';
 import { Typography } from '../../../shared/components/Typography';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 import { useResponsive } from '../../../shared/utils/responsive';
+import { Colors } from '../../../shared/constants/colors';
+import { useAuthStore } from '../../../core/store/authStore';
+
+const SPLASH_CTA_DELAY_MS = 4000;
 
 export const SplashScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
   const { isReady, error } = useAppBootstrap();
   const insets = useSafeAreaInsets();
-  const { sWidth } = useResponsive();
+  const { sWidth, sHeight } = useResponsive();
+  const { t } = useTranslation();
+  const token = useAuthStore((state) => state.token);
+  const enterAsGuest = useAuthStore((state) => state.enterAsGuest);
 
-  // Animation for the Get Started button appearing
-  // Animation for the Get Started button and arrow appearing
-  const bottomOpacity = useRef(new Animated.Value(0)).current;
+  const ctaOpacity = useRef(new Animated.Value(0)).current;
   const bottomTranslateY = useRef(new Animated.Value(30)).current;
+  const headerTranslateY = useRef(new Animated.Value(-16)).current;
 
   useEffect(() => {
-    if (isReady) {
-      // Trigger the bottom section animation after the main splash sequence (~4s)
-      Animated.parallel([
-        Animated.timing(bottomOpacity, {
-          toValue: 1,
-          duration: 800,
-          delay: 4000,
-          useNativeDriver: true,
-        }),
-        Animated.timing(bottomTranslateY, {
-          toValue: 0,
-          duration: 1000,
-          delay: 4000,
-          useNativeDriver: true,
-        })
-      ]).start();
-    }
-  }, [isReady, bottomOpacity, bottomTranslateY]);
+    if (!isReady) return;
 
-  const handleGetStarted = () => {
-    // Navigation logic based on auth store (to be handled in RootNavigator or here)
-    // For now, we will let RootNavigator handle the auth switch, or we can explicitly route
-    // According to docs: "check the Zustand authStore. If token exists, navigate to MainTabNavigator, else navigate to AuthStack."
+    Animated.parallel([
+      Animated.timing(ctaOpacity, {
+        toValue: 1,
+        duration: 800,
+        delay: SPLASH_CTA_DELAY_MS,
+        useNativeDriver: true,
+      }),
+      Animated.timing(bottomTranslateY, {
+        toValue: 0,
+        duration: 1000,
+        delay: SPLASH_CTA_DELAY_MS,
+        useNativeDriver: true,
+      }),
+      Animated.timing(headerTranslateY, {
+        toValue: 0,
+        duration: 1000,
+        delay: SPLASH_CTA_DELAY_MS,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, [isReady, ctaOpacity, bottomTranslateY, headerTranslateY]);
 
-    // We can explicitly navigate to a 'Gate' route, or just push Auth/Main manually.
-    // For MVP setup, let's navigate to AuthStack directly as we default to null token
+  const navigateToMain = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'MainTabNavigator' }],
+    });
+  };
+
+  const navigateToAuth = () => {
     navigation.reset({
       index: 0,
       routes: [{ name: 'AuthStack' }],
     });
   };
 
+  const handleSkip = () => {
+    enterAsGuest();
+    navigateToMain();
+  };
+
+  const handleGetStarted = () => {
+    if (token) {
+      navigateToMain();
+      return;
+    }
+    navigateToAuth();
+  };
+
   return (
     <View style={styles.container}>
-      {/* Background and Logo Animation */}
       <SplashAnimation />
 
-      {/* Bottom section: Arrow + Content */}
+      <Animated.View
+        style={[
+          styles.headerRow,
+          {
+            paddingTop: insets.top + sHeight(12),
+            paddingHorizontal: sWidth(20),
+            opacity: ctaOpacity,
+            transform: [{ translateY: headerTranslateY }],
+          },
+        ]}
+      >
+        <SplashSkipButton onPress={handleSkip} disabled={!isReady} />
+      </Animated.View>
+
       <Animated.View
         style={[
           styles.bottomContainer,
           {
-            opacity: bottomOpacity,
+            opacity: ctaOpacity,
             transform: [{ translateY: bottomTranslateY }],
-            paddingBottom: Math.max(insets.bottom, 24)
-          }
+            paddingBottom: Math.max(insets.bottom, 24),
+          },
         ]}
       >
-
         <View style={[styles.buttonWrapper, { paddingHorizontal: sWidth(54) }]}>
           {error ? (
-            <Typography variant="body" color="red" align="center" style={styles.errorText}>
-              Failed to load required assets.
+            <Typography variant="body" color={Colors.errorStrong} align="center" style={styles.errorText}>
+              {t('splash.bootstrapError')}
             </Typography>
           ) : null}
-          <PrimaryButton title="Get Started" onPress={handleGetStarted} />
+          <PrimaryButton title={t('splash.getStarted')} onPress={handleGetStarted} disabled={!isReady} />
         </View>
-
       </Animated.View>
     </View>
   );
@@ -86,7 +123,17 @@ export const SplashScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: Colors.surfaceDark,
+  },
+  headerRow: {
+    position: 'absolute',
+    top: 0,
+    start: 0,
+    end: 0,
+    zIndex: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
   },
   bottomContainer: {
     position: 'absolute',
@@ -101,5 +148,5 @@ const styles = StyleSheet.create({
   },
   buttonWrapper: {
     width: '100%',
-  }
+  },
 });

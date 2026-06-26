@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
+import { Colors } from '../../../shared/constants/colors';
 
 interface AvatarImageProps {
   source?: any;
@@ -15,13 +16,13 @@ export const AvatarImage = ({ source, size = 80 }: AvatarImageProps) => (
 const styles = StyleSheet.create({
   container: {
     overflow: 'hidden',
-    backgroundColor: '#E0C385',
+    backgroundColor: Colors.primarySoft,
     borderWidth: 2,
-    borderColor: '#E0C385',
+    borderColor: Colors.primarySoft,
   },
   image: {
     width: '100%',
     height: '100%',
     resizeMode: 'cover',
-  }
+  },
 });

@@ -1,8 +1,10 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 import { Monument } from '../api/exploreService';
 import { useResponsive } from '../../../shared/utils/responsive';
+import { Colors } from '../../../shared/constants/colors';
 
 interface MonumentCardProps {
   monument: Monument;
@@ -12,6 +14,7 @@ interface MonumentCardProps {
 
 export const MonumentCard = ({ monument, onPress, onFavorite }: MonumentCardProps) => {
   const { sWidth, sHeight, sFont } = useResponsive();
+  const { t } = useTranslation();
 
   return (
     <TouchableOpacity 
@@ -24,20 +27,24 @@ export const MonumentCard = ({ monument, onPress, onFavorite }: MonumentCardProp
         <Ionicons
           name={monument.isFavorite ? "heart" : "heart-outline"}
           size={sWidth(24)}
-          color={monument.isFavorite ? "#FF3B30" : "#FFFFFF"}
+          color={monument.isFavorite ? Colors.errorStrong : Colors.textOnDark}
         />
       </TouchableOpacity>
       <View style={[styles.info, { padding: sWidth(16) }]}>
         <View style={[styles.headerRow, { marginBottom: sHeight(6) }]}>
-          <Text style={[styles.title, { fontSize: sFont(16), marginEnd: sWidth(10) }]} numberOfLines={1}>{monument.title}</Text>
+          <Text style={[styles.title, { fontSize: sFont(16), marginEnd: sWidth(10) }]} numberOfLines={1}>
+            {t(monument.titleKey)}
+          </Text>
           <View style={[styles.ratingBadge, { paddingHorizontal: sWidth(8), paddingVertical: sHeight(4), borderRadius: sWidth(12) }]}>
-            <Ionicons name="star" size={sWidth(12)} color="#FF9500" />
+            <Ionicons name="star" size={sWidth(12)} color={Colors.rating} />
             <Text style={[styles.ratingText, { marginStart: sWidth(4), fontSize: sFont(12) }]}>{monument.rating}</Text>
           </View>
         </View>
         <View style={styles.locationRow}>
-          <Ionicons name="location-outline" size={sWidth(14)} color="blue" />
-          <Text style={[styles.locationText, { marginStart: sWidth(4), fontSize: sFont(14) }]}>{monument.location}</Text>
+          <Ionicons name="location-outline" size={sWidth(14)} color={Colors.primaryDeep} />
+          <Text style={[styles.locationText, { marginStart: sWidth(4), fontSize: sFont(14) }]}>
+            {t(monument.locationKey)}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -46,9 +53,9 @@ export const MonumentCard = ({ monument, onPress, onFavorite }: MonumentCardProp
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Colors.surface,
     overflow: 'hidden',
-    shadowColor: '#000',
+    shadowColor: Colors.shadow,
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 12,
@@ -71,24 +78,24 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: 'bold',
-    color: '#1A1A1A',
+    color: Colors.textTitle,
     flex: 1,
   },
   ratingBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFF4E5',
+    backgroundColor: Colors.surfaceRating,
   },
   ratingText: {
     fontWeight: 'bold',
-    color: '#FF9500',
+    color: Colors.rating,
   },
   locationRow: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   locationText: {
-    color: 'blue',
+    color: Colors.primaryDeep,
   }
 });
 

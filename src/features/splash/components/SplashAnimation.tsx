@@ -1,8 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Animated, StyleSheet, Platform } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { Typography } from '../../../shared/components/Typography';
 
 import { useResponsive } from '../../../shared/utils/responsive';
+import { Colors } from '../../../shared/constants/colors';
 
 
 // Using the provided assets from assets/splash
@@ -12,6 +14,7 @@ const LOGO = require('../../../../assets/splash/splash logo.png');
 
 export const SplashAnimation: React.FC = () => {
   const { sWidth, sFont, screenHeight } = useResponsive();
+  const { t } = useTranslation();
   const bgOpacity = useRef(new Animated.Value(0)).current;
   const bgScale = useRef(new Animated.Value(1.1)).current;
 
@@ -89,19 +92,19 @@ export const SplashAnimation: React.FC = () => {
           <Animated.View style={[styles.textContainer, { opacity: textOpacity }]}>
             <Typography
               variant="h2"
-              color="white"
+              color={Colors.textOnDark}
               align="center"
               style={[styles.mainTitle, { fontSize: sFont(28) }]}
             >
-              Discover Heritage Wonders
+              {t('splash.mainTitle')}
             </Typography>
             <Typography
               variant="body"
-              color="#FFFFFF"
+              color={Colors.textOnDark}
               align="center"
               style={[styles.subTitle, { fontSize: sFont(14) }]}
             >
-              Explore famous heritage sites, ancient monuments, cultural landmarks.
+              {t('splash.subTitle')}
             </Typography>
           </Animated.View>
 
@@ -114,7 +117,7 @@ export const SplashAnimation: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: '#000',
+    backgroundColor: Colors.surfaceDark,
     pointerEvents: "none"
   },
   background: {
@@ -126,7 +129,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.4)', // Dark overlay to make logo pop
+    backgroundColor: Colors.overlaySplash,
   },
   logo: {
     width: 150, // This will be scaled inline

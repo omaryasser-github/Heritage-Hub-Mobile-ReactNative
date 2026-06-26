@@ -1,6 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
+import { useTranslation } from 'react-i18next';
+import { Colors } from '../../../shared/constants/colors';
+import { Spacing } from '../../../shared/constants/spacing';
 import { useResponsive } from '../../../shared/utils/responsive';
 
 interface FavoritePlace {
@@ -9,31 +12,73 @@ interface FavoritePlace {
   location: string;
 }
 
-const FavoriteCard = ({ place, sWidth, sFont, sHeight }: { place: FavoritePlace; sWidth: any; sFont: any; sHeight: any }) => (
-  <View style={[styles.card, { width: sWidth(150), marginHorizontal: sWidth(8), padding: sWidth(12), borderRadius: sWidth(16) }]}>
-    <View style={[styles.cardImagePlaceholder, { height: sHeight(80), borderRadius: sWidth(8), marginBottom: sHeight(12) }]} />
+const FavoriteCard = ({
+  place,
+  sWidth,
+  sFont,
+  sHeight,
+}: {
+  place: FavoritePlace;
+  sWidth: (n: number) => number;
+  sFont: (n: number) => number;
+  sHeight: (n: number) => number;
+}) => (
+  <View
+    style={[
+      styles.card,
+      {
+        width: sWidth(150),
+        marginHorizontal: sWidth(8),
+        padding: sWidth(12),
+        borderRadius: sWidth(Spacing.borderRadius.lg),
+      },
+    ]}
+  >
+    <View
+      style={[
+        styles.cardImagePlaceholder,
+        { height: sHeight(80), borderRadius: sWidth(Spacing.borderRadius.default), marginBottom: sHeight(12) },
+      ]}
+    />
     <View style={styles.cardInfo}>
-      <Text style={[styles.cardTitle, { fontSize: sFont(14) }]} numberOfLines={1}>{place.name}</Text>
-      <Text style={[styles.cardSubtitle, { fontSize: sFont(12) }]} numberOfLines={1}>{place.location}</Text>
+      <Text style={[styles.cardTitle, { fontSize: sFont(14) }]} numberOfLines={1}>
+        {place.name}
+      </Text>
+      <Text style={[styles.cardSubtitle, { fontSize: sFont(12) }]} numberOfLines={1}>
+        {place.location}
+      </Text>
     </View>
   </View>
 );
 
 export const FavoriteCarousel = ({ favorites }: { favorites: FavoritePlace[] }) => {
   const { sWidth, sHeight, sFont } = useResponsive();
+  const { t } = useTranslation();
+
   return (
     <View style={[styles.container, { marginTop: sHeight(24) }]}>
-      <Text style={[styles.sectionTitle, { fontSize: sFont(18), marginStart: sWidth(24), marginBottom: sHeight(12) }]}>Favorite Places</Text>
+      <Text
+        style={[
+          styles.sectionTitle,
+          { fontSize: sFont(18), marginStart: sWidth(24), marginBottom: sHeight(12) },
+        ]}
+      >
+        {t('profile.favoritePlaces')}
+      </Text>
       {favorites.length === 0 ? (
-        <Text style={[styles.emptyText, { marginStart: sWidth(24) }]}>No favorites yet. Start exploring!</Text>
+        <Text style={[styles.emptyText, { marginStart: sWidth(24) }]}>
+          {t('profile.noFavorites')}
+        </Text>
       ) : (
         <View style={{ height: sHeight(160) }}>
           <FlashList
             data={favorites}
-            renderItem={({ item }) => <FavoriteCard place={item} sWidth={sWidth} sFont={sFont} sHeight={sHeight} />}
+            renderItem={({ item }) => (
+              <FavoriteCard place={item} sWidth={sWidth} sFont={sFont} sHeight={sHeight} />
+            )}
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: sWidth(16) }}
+            contentContainerStyle={{ paddingHorizontal: sWidth(Spacing.gutter) }}
           />
         </View>
       )}
@@ -42,15 +87,14 @@ export const FavoriteCarousel = ({ favorites }: { favorites: FavoritePlace[] }) 
 };
 
 const styles = StyleSheet.create({
-  container: {
-  },
+  container: {},
   sectionTitle: {
     fontWeight: 'bold',
-    color: '#4A3728',
+    color: Colors.textPrimary,
   },
   card: {
-    backgroundColor: '#FFFFFF',
-    shadowColor: '#000',
+    backgroundColor: Colors.surface,
+    shadowColor: Colors.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
     shadowRadius: 5,
@@ -59,22 +103,21 @@ const styles = StyleSheet.create({
   },
   cardImagePlaceholder: {
     width: '100%',
-    backgroundColor: '#F0F0F0',
+    backgroundColor: Colors.backgroundNeutral,
   },
   cardInfo: {
     justifyContent: 'center',
   },
   cardTitle: {
     fontWeight: 'bold',
-    color: '#4A3728',
+    color: Colors.textPrimary,
   },
   cardSubtitle: {
-    color: '#8E8E93',
+    color: Colors.textSubtle,
     marginTop: 2,
   },
   emptyText: {
-    color: '#8E8E93',
+    color: Colors.textSubtle,
     fontStyle: 'italic',
-  }
+  },
 });
-

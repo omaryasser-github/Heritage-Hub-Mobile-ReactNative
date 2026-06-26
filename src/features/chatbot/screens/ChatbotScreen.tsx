@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import {
   View,
   StyleSheet,
@@ -12,38 +12,43 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { FlashList } from '@shopify/flash-list';
+import { useTranslation } from 'react-i18next';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { useResponsive } from '../../../shared/utils/responsive';
-
+import { Colors } from '../../../shared/constants/colors';
 import { AvatarHeader } from '../components/AvatarHeader';
 import { ChatBubble } from '../components/ChatBubble';
 import { TypingIndicator } from '../components/TypingIndicator';
 import { SuggestionPill } from '../components/SuggestionPill';
 import { useChatbotStore } from '../store/useChatbotStore';
-import { sendChatMessage, ChatMessage } from '../api/chatService';
-
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import { sendChatMessage } from '../api/chatService';
 
 export const ChatbotScreen = () => {
   const insets = useSafeAreaInsets();
   const tabBarHeight = useBottomTabBarHeight();
   const { sWidth, sHeight, sFont } = useResponsive();
+  const { t } = useTranslation();
+
+  const defaultSuggestions = useMemo(
+    () => [t('chatbot.suggestion1'), t('chatbot.suggestion2'), t('chatbot.suggestion3')],
+    [t]
+  );
+
   const [inputText, setInputText] = useState('');
-  const [suggestions, setSuggestions] = useState<string[]>([
-    "Learn about ancient history",
-    "Who built the Sphinx?",
-    "What are the Pyramids?"
-  ]);
+  const [suggestions, setSuggestions] = useState<string[]>(defaultSuggestions);
 
   const messages = useChatbotStore((state) => state.messages);
   const addMessage = useChatbotStore((state) => state.addMessage);
   const clearMessages = useChatbotStore((state) => state.clearMessages);
 
   const flashListRef = useRef<any>(null);
-
   const [isPending, setIsPending] = useState(false);
   const [inputHeight, setInputHeight] = useState(sHeight(50));
 
-  // Auto-scroll to bottom
+  useEffect(() => {
+    setSuggestions(defaultSuggestions);
+  }, [defaultSuggestions]);
+
   useEffect(() => {
     if (messages.length > 0 && flashListRef.current) {
       setTimeout(() => {
@@ -58,8 +63,6 @@ export const ChatbotScreen = () => {
 
     setInputText('');
     Keyboard.dismiss();
-
-    // Hide suggestions when typing starts
     setSuggestions([]);
 
     addMessage({
@@ -72,7 +75,7 @@ export const ChatbotScreen = () => {
     setIsPending(true);
     try {
       const data = await sendChatMessage({
-        agentId: "explorer",
+        agentId: 'explorer',
         message: trimmed,
         history: messages,
       });
@@ -80,15 +83,15 @@ export const ChatbotScreen = () => {
       addMessage({
         id: Date.now().toString() + '-bot',
         role: 'bot',
-        text: data.reply,
+        text: t(data.replyKey, data.replyParams),
         timestamp: Date.now(),
       });
-      setSuggestions(data.suggestions);
-    } catch (error) {
+      setSuggestions(data.suggestionKeys.map((key) => t(key)));
+    } catch {
       addMessage({
         id: Date.now().toString() + '-error',
         role: 'bot',
-        text: "**Error:** Failed to connect to AI. Please try again.",
+        text: t('chatbot.connectionError'),
         timestamp: Date.now(),
       });
     } finally {
@@ -96,14 +99,10 @@ export const ChatbotScreen = () => {
     }
   };
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     clearMessages();
-    setSuggestions([
-      "Learn about ancient history",
-      "Who built the Sphinx?",
-      "What are the Pyramids?"
-    ]);
-  };
+    setSuggestions(defaultSuggestions);
+  }, [clearMessages, defaultSuggestions]);
 
   return (
     <ImageBackground
@@ -126,7 +125,10 @@ export const ChatbotScreen = () => {
             data={messages}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => <ChatBubble message={item} />}
-            contentContainerStyle={[styles.listContent, { paddingHorizontal: sWidth(20), paddingTop: sHeight(20), paddingBottom: sHeight(20) }]}
+            contentContainerStyle={[
+              styles.listContent,
+              { paddingHorizontal: sWidth(20), paddingTop: sHeight(20), paddingBottom: sHeight(20) },
+            ]}
             ListFooterComponent={() => (
               <View>
                 {isPending && <TypingIndicator />}
@@ -142,7 +144,12 @@ export const ChatbotScreen = () => {
           />
         </View>
 
-        <View style={[styles.inputContainer, { paddingHorizontal: sWidth(20), paddingTop: sHeight(10), paddingBottom: sHeight(10) }]}>
+        <View
+          style={[
+            styles.inputContainer,
+            { paddingHorizontal: sWidth(20), paddingTop: sHeight(10), paddingBottom: sHeight(10) },
+          ]}
+        >
           <TextInput
             style={[
               styles.input,
@@ -151,34 +158,40 @@ export const ChatbotScreen = () => {
                 borderRadius: sWidth(25),
                 paddingHorizontal: sWidth(20),
                 paddingVertical: Platform.OS === 'ios' ? sHeight(10) : sHeight(12),
-                fontSize: sFont(15)
-              }
+                fontSize: sFont(15),
+              },
             ]}
-            placeholder="Ask about Egyptian history..."
-            placeholderTextColor="#8E8E93"
+            placeholder={t('chatbot.sendPlaceholder')}
+            placeholderTextColor={Colors.textSubtle}
             value={inputText}
             onChangeText={setInputText}
             onContentSizeChange={(e) => setInputHeight(e.nativeEvent.contentSize.height)}
             onSubmitEditing={() => handleSend(inputText)}
             returnKeyType="send"
-            multiline={true}
+            multiline
             textAlignVertical="center"
           />
           <TouchableOpacity
-            style={[styles.sendButton, !inputText.trim() && { opacity: 0.7 }, { width: sWidth(50), height: sWidth(50), borderRadius: sWidth(22.5), marginStart: sWidth(5) }]}
+            style={[
+              styles.sendButton,
+              !inputText.trim() && { opacity: 0.7 },
+              {
+                width: sWidth(50),
+                height: sWidth(50),
+                borderRadius: sWidth(22.5),
+                marginStart: sWidth(5),
+              },
+            ]}
             onPress={() => handleSend(inputText)}
             disabled={!inputText.trim()}
           >
-            <Ionicons name="send" size={sWidth(20)} color="#FFFFFF" />
+            <Ionicons name="send" size={sWidth(20)} color={Colors.textOnDark} />
           </TouchableOpacity>
         </View>
-
       </KeyboardAvoidingView>
     </ImageBackground>
   );
 };
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -198,7 +211,6 @@ const styles = StyleSheet.create({
   suggestionsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    // marginTop: 20,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -207,29 +219,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
-    // paddingTop: 15,
     backgroundColor: 'transparent',
-    // borderTopLeftRadius: 20,
-    // borderTopRightRadius: 20,
-    // shadowColor: '#000',
-    // shadowOpacity: 0.1,
-    // shadowOffset: { width: 0, height: -3 },
-    // shadowRadius: 10,
-    // elevation: 10,
   },
   input: {
     flex: 1,
     height: 50,
-    backgroundColor: '#F2F2F2',
+    backgroundColor: Colors.chatInputBackground,
     borderRadius: 25,
     paddingHorizontal: 20,
     fontSize: 15,
-    color: '#333333',
+    color: Colors.textSecondary,
   },
   sendButton: {
     width: 50,
     height: 50,
-    backgroundColor: '#CCB27B',
+    backgroundColor: Colors.primarySend,
     borderRadius: 22.5,
     alignItems: 'center',
     justifyContent: 'center',

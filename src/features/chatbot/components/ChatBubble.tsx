@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { ChatMessage } from '../api/chatService';
 import { useResponsive } from '../../../shared/utils/responsive';
+import { Colors } from '../../../shared/constants/colors';
 
 
 interface ChatBubbleProps {
@@ -71,21 +72,21 @@ const styles = StyleSheet.create({
   },
   userContainer: {
     alignSelf: 'flex-end',
-    backgroundColor: '#8B6914',
+    backgroundColor: Colors.chatUserBubble,
     borderBottomRightRadius: 4,
   },
   botContainer: {
     alignSelf: 'flex-start',
-    backgroundColor: '#FDF6EC',
+    backgroundColor: Colors.chatBotBubble,
     borderBottomLeftRadius: 4,
   },
   messageText: {
     fontSize: 15,
     lineHeight: 22,
-    color: '#4A3728',
+    color: Colors.chatBotText,
   },
   userText: {
-    color: '#FFFFFF',
+    color: Colors.chatUserText,
   },
   botTextContainer: {
     flexDirection: 'column',
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
   bulletPoint: {
     fontSize: 15,
     lineHeight: 22,
-    color: '#4A3728',
+    color: Colors.chatBotText,
     fontWeight: 'bold',
     marginRight: 4,
   },

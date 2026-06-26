@@ -1,49 +1,83 @@
 export interface Monument {
   id: string;
-  title: string;
-  location: string;
+  titleKey: string;
+  locationKey: string;
   image_url: string;
   rating: number;
   isFavorite: boolean;
 }
 
+const MONUMENT_TEMPLATES = [
+  {
+    titleKey: 'home.monuments.pyramid',
+    locationKey: 'home.locations.giza',
+    image_url: 'https://images.unsplash.com/photo-1539667468225-eebb663053e6',
+    rating: 4.8,
+  },
+  {
+    titleKey: 'home.monuments.petra',
+    locationKey: 'home.locations.petra',
+    image_url: 'https://images.unsplash.com/photo-1542385151-efd9000785a0',
+    rating: 4.9,
+  },
+  {
+    titleKey: 'home.monuments.colosseum',
+    locationKey: 'home.locations.rome',
+    image_url: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5',
+    rating: 4.7,
+  },
+] as const;
+
+const FAVORITE_PATTERN = [
+  false,
+  true,
+  false,
+  true,
+  true,
+  false,
+  false,
+  true,
+  false,
+  false,
+  true,
+  false,
+  false,
+  true,
+  false,
+  false,
+  true,
+  false,
+  false,
+  true,
+  false,
+  false,
+  true,
+  false,
+  false,
+  true,
+  true,
+];
+
 export const exploreService = {
   getFeed: (): Monument[] => {
-    // Mock response simulating network request
-    return [
-      { id: '1', title: 'The Great Pyramid of Giza', location: 'Giza, Egypt', image_url: 'https://images.unsplash.com/photo-1539667468225-eebb663053e6', rating: 4.8, isFavorite: false },
-      { id: '2', title: 'Petra', location: 'Ma\'an, Jordan', image_url: 'https://images.unsplash.com/photo-1542385151-efd9000785a0', rating: 4.9, isFavorite: true },
-      { id: '3', title: 'Colosseum', location: 'Rome, Italy', image_url: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5', rating: 4.7, isFavorite: false },
-      { id: '4', title: 'The Great Pyramid of Giza', location: 'Giza, Egypt', image_url: 'https://images.unsplash.com/photo-1539667468225-eebb663053e6', rating: 4.8, isFavorite: true },
-      { id: '5', title: 'Petra', location: 'Ma\'an, Jordan', image_url: 'https://images.unsplash.com/photo-1542385151-efd9000785a0', rating: 4.9, isFavorite: true },
-      { id: '6', title: 'Colosseum', location: 'Rome, Italy', image_url: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5', rating: 4.7, isFavorite: false },
-      { id: '7', title: 'The Great Pyramid of Giza', location: 'Giza, Egypt', image_url: 'https://images.unsplash.com/photo-1539667468225-eebb663053e6', rating: 4.8, isFavorite: false },
-      { id: '8', title: 'Petra', location: 'Ma\'an, Jordan', image_url: 'https://images.unsplash.com/photo-1542385151-efd9000785a0', rating: 4.9, isFavorite: true },
-      { id: '9', title: 'Colosseum', location: 'Rome, Italy', image_url: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5', rating: 4.7, isFavorite: false },
-      { id: '10', title: 'The Great Pyramid of Giza', location: 'Giza, Egypt', image_url: 'https://images.unsplash.com/photo-1539667468225-eebb663053e6', rating: 4.8, isFavorite: false },
-      { id: '11', title: 'Petra', location: 'Ma\'an, Jordan', image_url: 'https://images.unsplash.com/photo-1542385151-efd9000785a0', rating: 4.9, isFavorite: true },
-      { id: '12', title: 'Colosseum', location: 'Rome, Italy', image_url: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5', rating: 4.7, isFavorite: false },
-      { id: '13', title: 'The Great Pyramid of Giza', location: 'Giza, Egypt', image_url: 'https://images.unsplash.com/photo-1539667468225-eebb663053e6', rating: 4.8, isFavorite: false },
-      { id: '14', title: 'Petra', location: 'Ma\'an, Jordan', image_url: 'https://images.unsplash.com/photo-1542385151-efd9000785a0', rating: 4.9, isFavorite: true },
-      { id: '15', title: 'Colosseum', location: 'Rome, Italy', image_url: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5', rating: 4.7, isFavorite: false },
-      { id: '16', title: 'The Great Pyramid of Giza', location: 'Giza, Egypt', image_url: 'https://images.unsplash.com/photo-1539667468225-eebb663053e6', rating: 4.8, isFavorite: false },
-      { id: '17', title: 'Petra', location: 'Ma\'an, Jordan', image_url: 'https://images.unsplash.com/photo-1542385151-efd9000785a0', rating: 4.9, isFavorite: true },
-      { id: '18', title: 'Colosseum', location: 'Rome, Italy', image_url: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5', rating: 4.7, isFavorite: false },
-      { id: '19', title: 'The Great Pyramid of Giza', location: 'Giza, Egypt', image_url: 'https://images.unsplash.com/photo-1539667468225-eebb663053e6', rating: 4.8, isFavorite: false },
-      { id: '20', title: 'Petra', location: 'Ma\'an, Jordan', image_url: 'https://images.unsplash.com/photo-1542385151-efd9000785a0', rating: 4.9, isFavorite: true },
-      { id: '21', title: 'Colosseum', location: 'Rome, Italy', image_url: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5', rating: 4.7, isFavorite: false },
-      { id: '22', title: 'The Great Pyramid of Giza', location: 'Giza, Egypt', image_url: 'https://images.unsplash.com/photo-1539667468225-eebb663053e6', rating: 4.8, isFavorite: false },
-      { id: '23', title: 'Petra', location: 'Ma\'an, Jordan', image_url: 'https://images.unsplash.com/photo-1542385151-efd9000785a0', rating: 4.9, isFavorite: true },
-      { id: '24', title: 'Colosseum', location: 'Rome, Italy', image_url: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5', rating: 4.7, isFavorite: false },
-      { id: '25', title: 'The Great Pyramid of Giza', location: 'Giza, Egypt', image_url: 'https://images.unsplash.com/photo-1539667468225-eebb663053e6', rating: 4.8, isFavorite: false },
-      { id: '26', title: 'Petra', location: 'Ma\'an, Jordan', image_url: 'https://images.unsplash.com/photo-1542385151-efd9000785a0', rating: 4.9, isFavorite: true },
-      { id: '27', title: 'Colosseum', location: 'Rome, Italy', image_url: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5', rating: 4.7, isFavorite: true }
-    ];
+    return MONUMENT_TEMPLATES.flatMap((template, templateIndex) =>
+      Array.from({ length: 9 }, (_, batchIndex) => {
+        const index = templateIndex * 9 + batchIndex;
+        return {
+          id: String(index + 1),
+          titleKey: template.titleKey,
+          locationKey: template.locationKey,
+          image_url: template.image_url,
+          rating: template.rating,
+          isFavorite: FAVORITE_PATTERN[index] ?? false,
+        };
+      })
+    ).slice(0, 27);
   },
-  searchMonuments: async (query: string): Promise<Monument[]> => {
+  searchMonuments: async (_query: string): Promise<Monument[]> => {
     return [];
   },
-  toggleFavorite: async (id: string): Promise<boolean> => {
+  toggleFavorite: async (_id: string): Promise<boolean> => {
     return true;
-  }
+  },
 };

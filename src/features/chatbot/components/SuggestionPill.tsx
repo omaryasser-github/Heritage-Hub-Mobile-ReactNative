@@ -1,6 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { Colors } from '../../../shared/constants/colors';
 
 interface SuggestionPillProps {
   title: string;
@@ -11,7 +12,7 @@ export const SuggestionPill = ({ title, onPress }: SuggestionPillProps) => {
   return (
     <TouchableOpacity style={styles.pill} onPress={() => onPress(title)} activeOpacity={0.7}>
       <Text style={styles.text}>{title}</Text>
-      <Ionicons name="chevron-forward" style={styles.arrow} size={20} color="black" />
+      <Ionicons name="chevron-forward" style={styles.arrow} size={20} color={Colors.textTitle} />
     </TouchableOpacity>
   );
 };
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
   pill: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F4E8DA',
+    backgroundColor: Colors.backgroundSuggestion,
     // borderWidth: 1,
     // borderColor: 'rgba(255, 255, 255, 0.5)',
     // paddingHorizontal: 16,
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   text: {
-    color: 'black',
+    color: Colors.textTitle,
     opacity: 0.55,
     fontSize: 18,
     fontWeight: '600',

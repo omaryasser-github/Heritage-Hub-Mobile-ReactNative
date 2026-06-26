@@ -1,6 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, View } from 'react-native';
 import { useResponsive } from '../../../shared/utils/responsive';
+import { Colors } from '../../../shared/constants/colors';
 
 
 interface LikertCircleProps {
@@ -39,8 +40,8 @@ export const LikertCircle: React.FC<LikertCircleProps> = ({ value, isSelected, o
             width: size,
             height: size,
             borderRadius: size / 2,
-            backgroundColor: isSelected ? '#D9A941' : 'transparent',
-            borderColor: '#D9A941',
+            backgroundColor: isSelected ? Colors.primary : 'transparent',
+            borderColor: Colors.primary,
             borderWidth: isSelected ? 0 : 2,
           }
         ]}

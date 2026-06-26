@@ -1,6 +1,7 @@
 import React from 'react';
 import { TextInput, TextInputProps, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { useResponsive } from '../../../shared/utils/responsive';
+import { Colors } from '../../../shared/constants/colors';
 
 interface AuthInputProps extends TextInputProps {
   label?: string;
@@ -31,7 +32,7 @@ export const AuthInput: React.FC<AuthInputProps> = ({
             rightIcon ? { paddingEnd: sWidth(45) } : null,
             style
           ]}
-          placeholderTextColor="rgba(255, 255, 255, 0.6)"
+          placeholderTextColor={Colors.textOnDarkMuted}
           {...props}
         />
         {rightIcon && (
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   label: {
-    color: '#FFFFFF',
+    color: Colors.textOnDark,
     fontWeight: '500',
   },
   inputWrapper: {
@@ -62,19 +63,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   input: {
-    backgroundColor: 'rgba(255, 255, 255, 0.15)', // Glassmorphism base
+    backgroundColor: Colors.overlayGlass,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.3)',
-    color: '#FFFFFF',
+    borderColor: Colors.borderGlass,
+    color: Colors.textOnDark,
   },
   inputError: {
-    borderColor: '#FF6B6B',
+    borderColor: Colors.error,
   },
   iconContainer: {
     position: 'absolute',
   },
   errorText: {
-    color: '#FF6B6B',
+    color: Colors.error,
   },
 });
 
