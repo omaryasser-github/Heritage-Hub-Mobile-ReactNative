@@ -9,10 +9,14 @@ import {
 
 const BIBLIOTHECA_TEXTURE = require('../../../assets/Home/panorama/bobelatic-alex.png');
 const ABU_SIMBEL_TEXTURE = require('../../../assets/Home/panorama/abu-simple.png');
+const GIZA_PYRAMIDS_TEXTURE = require('../../../assets/Home/panorama/pyramids-giza.png');
+const KARNAK_TEXTURE = require('../../../assets/Home/panorama/karnak.png');
 
 const PANORAMA_TEXTURES: Record<string, ImageSourcePropType> = {
   bibliotheca: BIBLIOTHECA_TEXTURE,
   'abu-simbel': ABU_SIMBEL_TEXTURE,
+  'giza-pyramids': GIZA_PYRAMIDS_TEXTURE,
+  karnak: KARNAK_TEXTURE,
 };
 
 const SEED_PANORAMAS: RawPanorama[] = [
@@ -135,6 +139,140 @@ const SEED_PANORAMAS: RawPanorama[] = [
           'The throne bases are carved with hieroglyphs and scenes of bound captives, proclaiming Ramesses II’s military victories.',
         content_ar:
           'قواعد العرش منحوتة بالهيروغليفية ومشاهد للأسرى المقيدين، إعلانًا بانتصارات رمسيس الثاني العسكرية.',
+      },
+    ],
+  },
+  {
+    panorama_id: 'panorama-giza-plateau',
+    monument_slug: 'giza-pyramids',
+    texture_asset: 'pyramids-giza.png',
+    view_config: {
+      defaultYaw: 0,
+      defaultPitch: -4,
+      cameraFov: 75,
+    },
+    hotspots: [
+      {
+        id: 'gp-great-sphinx',
+        pitch: -4,
+        yaw: -22,
+        title_en: 'Great Sphinx of Giza',
+        title_ar: 'تمثال أبو الهول',
+        content_en:
+          'The limestone Sphinx combines a lion’s body with a human head—traditionally linked to Pharaoh Khafre—and has guarded the plateau for more than 4,500 years.',
+        content_ar:
+          'يجمع أبو الهول من الحجر الجيري بين جسم أسد ورأس إنسان—يرتبط تقليديًا بالفرعون خفرع—ويحرس الهضبة منذ أكثر من 4500 عام.',
+      },
+      {
+        id: 'gp-pyramid-khafre',
+        pitch: 10,
+        yaw: 32,
+        title_en: 'Pyramid of Khafre',
+        title_ar: 'هرم خفرع',
+        content_en:
+          'The central pyramid on the right still retains casing stones near its peak and appears taller because it stands on higher bedrock than the Great Pyramid.',
+        content_ar:
+          'لا يزال الهرم الأوسط على اليمين يحتفظ بحجارة التكسية قرب قمته ويبدو أطول لأنه يقف على صخر أعلى من الهرم الأكبر.',
+      },
+      {
+        id: 'gp-pyramid-khufu',
+        pitch: 12,
+        yaw: -34,
+        title_en: 'Great Pyramid of Khufu',
+        title_ar: 'الهرم الأكبر لخوفو',
+        content_en:
+          'Built for Pharaoh Khufu around 2560 BC, it was the tallest man-made structure on Earth for nearly 4,000 years and remains the largest of the Giza trio.',
+        content_ar:
+          'بُني للفرعون خوفو حوالي 2560 قبل الميلاد، وكان أطول بناء من صنع الإنسان على الأرض لما يقرب من 4000 عام ولا يزال الأكبر بين ثلاثية الجيزة.',
+      },
+      {
+        id: 'gp-valley-temple-ruins',
+        pitch: -16,
+        yaw: -6,
+        title_en: 'Valley Temple Ruins',
+        title_ar: 'أطلال معبد الوادي',
+        content_en:
+          'Massive limestone blocks in the foreground belong to mortuary temple foundations that once linked the Sphinx to Khafre’s pyramid complex.',
+        content_ar:
+          'تنتمي كتل الحجر الجيري الضخمة في المقدمة إلى أسس المعابد الجنائزية التي ربطت أبو الهول بمجمع هرم خفرع.',
+      },
+      {
+        id: 'gp-causeway',
+        pitch: -10,
+        yaw: 18,
+        title_en: 'Processional Causeway',
+        title_ar: 'طريق المواكب',
+        content_en:
+          'The paved route climbing toward the pyramids follows the ancient causeway used for royal funeral processions and modern visitor access.',
+        content_ar:
+          'يتبع المسار المعبد الصاعد نحو الأهرامات الطريق القديم الذي استُخدم في مواكب الجنائز الملكية ووصول الزوار اليوم.',
+      },
+    ],
+  },
+  {
+    panorama_id: 'panorama-karnak-avenue',
+    monument_slug: 'karnak',
+    texture_asset: 'karnak.png',
+    view_config: {
+      defaultYaw: 0,
+      defaultPitch: -3,
+      cameraFov: 75,
+    },
+    hotspots: [
+      {
+        id: 'ka-first-pylon',
+        pitch: 14,
+        yaw: 0,
+        title_en: 'First Pylon',
+        title_ar: 'البرج الأول',
+        content_en:
+          'The twin towers of the First Pylon mark Karnak’s main entrance—massive gateways that screened the sacred precinct from the outside world.',
+        content_ar:
+          'يحد البرجان التوأمان للبوابة الأولى المدخل الرئيسي للكرنك—بوابات ضخمة فصلت الحرم المقدس عن العالم الخارجي.',
+      },
+      {
+        id: 'ka-ram-sphinx-avenue',
+        pitch: -6,
+        yaw: 0,
+        title_en: 'Avenue of Ram Sphinxes',
+        title_ar: 'ممر تماثيل الكبش',
+        content_en:
+          'Rows of ram-headed sphinxes line the ceremonial way, each protecting a small figure of the god Amun between its paws.',
+        content_ar:
+          'صفوف من تماثيل أبو الهول برؤوس الكبش تصطف على الطريق الطقسي، وكل منها يحمي تمثالًا صغيرًا للإله آمون بين مخالبها.',
+      },
+      {
+        id: 'ka-right-sphinx-row',
+        pitch: -8,
+        yaw: 28,
+        title_en: 'Illuminated Sphinx Row',
+        title_ar: 'صف التماثيل المضاء',
+        content_en:
+          'The eastern row of criosphinxes is dramatically lit at dusk, revealing centuries of weathered sandstone carving.',
+        content_ar:
+          'يُضاء صف التماثيل الشرقي عند الغسق بشكل درامي، كاشفًا عن قرون من النحت على الحجر الرملي المتآكل.',
+      },
+      {
+        id: 'ka-left-sphinx-row',
+        pitch: -8,
+        yaw: -28,
+        title_en: 'Western Sphinx Guardians',
+        title_ar: 'حراس التماثيل الغربية',
+        content_en:
+          'Mirroring sphinxes on the west side once guided processions from the Nile quay toward the temple of Amun-Ra.',
+        content_ar:
+          'تماثيل متناظرة على الجانب الغربي كانت توجه المواكب من رصيف النيل نحو معبد آمون رع.',
+      },
+      {
+        id: 'ka-processional-way',
+        pitch: -14,
+        yaw: 0,
+        title_en: 'Processional Way',
+        title_ar: 'طريق المواكب',
+        content_en:
+          'The central paved path rises between the sphinx avenues toward the gateway—still walked by pilgrims and festivals for millennia.',
+        content_ar:
+          'يرتفع المسار المرصوف المركزي بين صفوف التماثيل نحو البوابة—ما زال يُطأى في الحج والاحتفالات منذ آلاف السنين.',
       },
     ],
   },
