@@ -117,10 +117,19 @@ export interface RawPanoramaHotspot {
   content_ar: string;
 }
 
+export type PanoramaProjection = 'equirectangular' | 'partial';
+
+export interface PanoramaViewConfig {
+  defaultYaw?: number;
+  defaultPitch?: number;
+  cameraFov?: number;
+}
+
 export interface RawPanorama {
   panorama_id: string;
   monument_slug: string;
   texture_asset: string;
+  view_config?: PanoramaViewConfig;
   hotspots: RawPanoramaHotspot[];
 }
 
@@ -132,12 +141,11 @@ export interface LocalizedPanoramaHotspot {
   content: string;
 }
 
-export type PanoramaProjection = 'equirectangular' | 'partial';
-
 export interface PanoramaDetail {
   panoramaId: string;
   monumentSlug: string;
   texture: ImageSourcePropType;
   projection: PanoramaProjection;
+  viewConfig?: PanoramaViewConfig;
   hotspots: LocalizedPanoramaHotspot[];
 }

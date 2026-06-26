@@ -1,7 +1,7 @@
 import { Renderer, loadAsync, THREE } from 'expo-three';
-import { Image, ImageSourcePropType } from 'react-native';
+import { ImageSourcePropType } from 'react-native';
 import { ExpoWebGLRenderingContext } from 'expo-gl';
-import { LocalizedPanoramaHotspot, PanoramaProjection } from '../../../../core/data/types';
+import { LocalizedPanoramaHotspot, PanoramaViewConfig } from '../../../../core/data/types';
 import {
   applyCameraRotation,
   pitchYawToPosition,
@@ -15,11 +15,7 @@ const HOTSPOT_MARKER_RADIUS = 1.1;
 const HOTSPOT_RING_RADIUS = 1.6;
 const MARKER_COLOR = 0xd9a941;
 const MARKER_FOCUS_COLOR = 0xffffff;
-const CAMERA_FOV = 68;
-
-/** Wide flat photos map more naturally on an inner cylinder than a full sphere. */
-const PARTIAL_HORIZONTAL_ARC = Math.PI * 0.72;
-const PARTIAL_CYLINDER_HEIGHT_RATIO = 0.62;
+const CAMERA_FOV = 75;
 
 export interface PanoramaSceneBundle {
   scene: THREE.Scene;
@@ -51,39 +47,20 @@ function enhanceTexture(texture: THREE.Texture, renderer: THREE.WebGLRenderer): 
 
   const maxAnisotropy = renderer.capabilities.getMaxAnisotropy?.() ?? 1;
   if (maxAnisotropy > 1) {
-    texture.anisotropy = Math.min(4, maxAnisotropy);
+    texture.anisotropy = Math.min(8, maxAnisotropy);
   }
 }
 
-function createEnvironmentMesh(
+function createSphereEnvironment(
   texture: THREE.Texture,
-  segments: number,
-  projection: PanoramaProjection
+  segments: number
 ): { mesh: THREE.Mesh; geometry: THREE.BufferGeometry } {
+  const geometry = new THREE.SphereGeometry(SPHERE_RADIUS, segments, segments);
   const material = new THREE.MeshBasicMaterial({
     map: texture,
     side: THREE.BackSide,
   });
-
-  if (projection === 'equirectangular') {
-    const geometry = new THREE.SphereGeometry(SPHERE_RADIUS, segments, segments);
-    return { mesh: new THREE.Mesh(geometry, material), geometry };
-  }
-
-  const cylinderHeight = SPHERE_RADIUS * PARTIAL_CYLINDER_HEIGHT_RATIO;
-  const geometry = new THREE.CylinderGeometry(
-    SPHERE_RADIUS,
-    SPHERE_RADIUS,
-    cylinderHeight,
-    segments,
-    1,
-    true,
-    -PARTIAL_HORIZONTAL_ARC / 2,
-    PARTIAL_HORIZONTAL_ARC
-  );
-  const mesh = new THREE.Mesh(geometry, material);
-  mesh.rotation.y = Math.PI;
-  return { mesh, geometry };
+  return { mesh: new THREE.Mesh(geometry, material), geometry };
 }
 
 function createHotspotMeshes(hotspots: LocalizedPanoramaHotspot[]): {
@@ -164,7 +141,7 @@ export async function createPanoramaScene(
   segments: number,
   layoutWidth: number,
   layoutHeight: number,
-  projection: PanoramaProjection = 'partial'
+  viewConfig?: PanoramaViewConfig
 ): Promise<PanoramaSceneBundle> {
   patchGlContext(gl);
 
@@ -173,30 +150,31 @@ export async function createPanoramaScene(
   renderer.setSize(width, height);
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x1a1208);
 
-  const camera = new THREE.PerspectiveCamera(CAMERA_FOV, layoutWidth / layoutHeight, 0.1, 1000);
+  const camera = new THREE.PerspectiveCamera(
+    viewConfig?.cameraFov ?? CAMERA_FOV,
+    layoutWidth / layoutHeight,
+    0.1,
+    1000
+  );
   camera.position.set(0, 0, 0);
 
   const texture = (await loadAsync(textureSource)) as THREE.Texture;
   enhanceTexture(texture, renderer);
 
-  const resolved = Image.resolveAssetSource(textureSource);
-  const aspect = resolved?.width && resolved?.height ? resolved.width / resolved.height : 1.5;
-  const effectiveProjection =
-    projection === 'equirectangular' || Math.abs(aspect - 2) < 0.12 ? 'equirectangular' : 'partial';
-
-  const { mesh: environmentMesh, geometry: environmentGeometry } = createEnvironmentMesh(
+  const { mesh: environmentMesh, geometry: environmentGeometry } = createSphereEnvironment(
     texture,
-    segments,
-    effectiveProjection
+    segments
   );
   scene.add(environmentMesh);
 
   const { allMeshes, colliders, markers } = createHotspotMeshes(hotspots);
   allMeshes.forEach((mesh) => scene.add(mesh));
 
-  const angles: SphericalAngles = { yaw: 0, pitch: 0 };
+  const angles: SphericalAngles = {
+    yaw: viewConfig?.defaultYaw ?? 0,
+    pitch: viewConfig?.defaultPitch ?? 0,
+  };
   applyCameraRotation(camera, angles);
 
   const dispose = () => {

@@ -77,7 +77,7 @@ export const PanoramaScreen = () => {
       <PanoramaViewer
         ref={viewerRef}
         texture={panorama.texture}
-        projection={panorama.projection}
+        viewConfig={panorama.viewConfig}
         hotspots={panorama.hotspots}
         focusedHotspotId={focusedHotspotId}
         onHotspotSelect={handleHotspotSelect}

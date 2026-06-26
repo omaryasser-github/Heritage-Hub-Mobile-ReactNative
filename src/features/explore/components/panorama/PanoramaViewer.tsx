@@ -18,7 +18,7 @@ import {
 import { GLView, ExpoWebGLRenderingContext } from 'expo-gl';
 import { ImageSourcePropType } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { LocalizedPanoramaHotspot, PanoramaProjection } from '../../../../core/data/types';
+import { LocalizedPanoramaHotspot, PanoramaViewConfig } from '../../../../core/data/types';
 import { Colors } from '../../../../shared/constants/colors';
 import { Typography } from '../../../../shared/components/Typography';
 import { useResponsive } from '../../../../shared/utils/responsive';
@@ -48,14 +48,14 @@ export interface PanoramaViewerHandle {
 
 interface PanoramaViewerProps {
   texture: ImageSourcePropType;
-  projection?: PanoramaProjection;
+  viewConfig?: PanoramaViewConfig;
   hotspots: LocalizedPanoramaHotspot[];
   focusedHotspotId?: string | null;
   onHotspotSelect: (hotspot: LocalizedPanoramaHotspot) => void;
 }
 
 export const PanoramaViewer = forwardRef<PanoramaViewerHandle, PanoramaViewerProps>(
-  ({ texture, projection = 'partial', hotspots, focusedHotspotId, onHotspotSelect }, ref) => {
+  ({ texture, viewConfig, hotspots, focusedHotspotId, onHotspotSelect }, ref) => {
     const { t } = useTranslation();
     const { isSmallDevice, sWidth, sFont } = useResponsive();
     const [isLoading, setIsLoading] = useState(true);
@@ -150,7 +150,7 @@ export const PanoramaViewer = forwardRef<PanoramaViewerHandle, PanoramaViewerPro
           sphereSegmentsForDevice(isSmallDevice),
           layoutRef.current.width,
           layoutRef.current.height,
-          projection
+          viewConfig
         );
           bundle.focusedHotspotId = focusedHotspotIdRef.current ?? null;
           bundleRef.current = bundle;
@@ -162,7 +162,7 @@ export const PanoramaViewer = forwardRef<PanoramaViewerHandle, PanoramaViewerPro
           setIsLoading(false);
         }
       },
-      [isSmallDevice, projection, startLoop, texture, updateProjectedPins]
+      [isSmallDevice, startLoop, texture, updateProjectedPins, viewConfig]
     );
 
     const selectHotspot = useCallback((hotspot: LocalizedPanoramaHotspot) => {
