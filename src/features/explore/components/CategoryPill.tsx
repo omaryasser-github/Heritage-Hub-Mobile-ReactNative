@@ -29,7 +29,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: 4,
-    marginRight: 7
+    marginRight: 7,
+    paddingTop: 20,
   },
   container: {
     alignItems: 'center',

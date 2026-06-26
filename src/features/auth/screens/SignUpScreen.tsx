@@ -21,6 +21,7 @@ import { Typography } from '../../../shared/components/Typography';
 import { register } from '../api/authService';
 import { useAuthStore } from '../../../core/store/authStore';
 import { useNavigation } from '@react-navigation/native';
+import { switchAuthScreen } from '../../../navigation/authNavigation';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useResponsive } from '../../../shared/utils/responsive';
 import { Colors } from '../../../shared/constants/colors';
@@ -208,7 +209,7 @@ export const SignUpScreen = () => {
                 <View style={styles.footer}>
                   <Typography color={Colors.textOnDark}>{t('auth.hasAccount')} </Typography>
                   <TouchableOpacity
-                    onPress={() => navigation.navigate('Login' as never)}
+                    onPress={() => switchAuthScreen(navigation, 'Login')}
                   >
                     <Typography color={Colors.textLink} style={{ fontWeight: 'bold' }}>
                       {t('auth.logIn')}

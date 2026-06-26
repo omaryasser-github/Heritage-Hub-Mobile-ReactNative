@@ -14,6 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { FlashList } from '@shopify/flash-list';
 import { useTranslation } from 'react-i18next';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import { useFocusEffect } from '@react-navigation/native';
 import { useResponsive } from '../../../shared/utils/responsive';
 import { Colors } from '../../../shared/constants/colors';
 import { AvatarHeader } from '../components/AvatarHeader';
@@ -40,10 +41,43 @@ export const ChatbotScreen = () => {
   const messages = useChatbotStore((state) => state.messages);
   const addMessage = useChatbotStore((state) => state.addMessage);
   const clearMessages = useChatbotStore((state) => state.clearMessages);
+  const consumePendingHotspotContext = useChatbotStore((state) => state.consumePendingHotspotContext);
+  const activeHotspotContext = useChatbotStore((state) => state.activeHotspotContext);
+
+  const hotspotSuggestions = useMemo(
+    () => [
+      t('chatbot.hotspotFollowUp1'),
+      t('chatbot.hotspotFollowUp2'),
+      t('chatbot.hotspotFollowUp3'),
+    ],
+    [t]
+  );
 
   const flashListRef = useRef<any>(null);
   const [isPending, setIsPending] = useState(false);
   const [inputHeight, setInputHeight] = useState(sHeight(50));
+
+  useFocusEffect(
+    useCallback(() => {
+      const context = consumePendingHotspotContext();
+      if (!context) return;
+
+      const opener = t('chatbot.hotspotOpener', {
+        hotspot: context.hotspotTitle,
+        monument: context.monumentName,
+      });
+      const detail = t('chatbot.hotspotDetail', { summary: context.summary });
+      const now = Date.now();
+
+      addMessage({
+        id: `${now}-hotspot-bot`,
+        role: 'bot',
+        text: `${opener}\n\n${detail}`,
+        timestamp: now,
+      });
+      setSuggestions(hotspotSuggestions);
+    }, [addMessage, consumePendingHotspotContext, hotspotSuggestions, t])
+  );
 
   useEffect(() => {
     setSuggestions(defaultSuggestions);
@@ -78,6 +112,7 @@ export const ChatbotScreen = () => {
         agentId: 'explorer',
         message: trimmed,
         history: messages,
+        hotspotContext: activeHotspotContext,
       });
 
       addMessage({
@@ -132,7 +167,7 @@ export const ChatbotScreen = () => {
             ListFooterComponent={() => (
               <View>
                 {isPending && <TypingIndicator />}
-                {messages.length === 0 && suggestions.length > 0 && (
+                {suggestions.length > 0 && !isPending && (
                   <View style={styles.suggestionsContainer}>
                     {suggestions.map((s, i) => (
                       <SuggestionPill key={i} title={s} onPress={handleSend} />
