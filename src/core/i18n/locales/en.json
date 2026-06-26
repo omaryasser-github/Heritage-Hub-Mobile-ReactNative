@@ -30,10 +30,23 @@
     "passwordsMismatch": "Passwords do not match"
   },
   "splash": {
+    "skip": "Skip",
     "getStarted": "Get Started",
+    "continue": "Continue",
     "bootstrapError": "Failed to load required assets.",
     "mainTitle": "Discover Heritage Wonders",
     "subTitle": "Explore famous heritage sites, ancient monuments, cultural landmarks."
+  },
+  "guest": {
+    "gateTitleAi": "Sign in to use AI Guide",
+    "gateTitleProfile": "Sign in to view your profile",
+    "gateTitleGame": "Sign in to play",
+    "gateMessageAi": "Get a personalized heritage assistant, save your chats, and explore Egypt with guided answers.",
+    "gateMessageProfile": "Track your XP, badges, and favorite places by creating a free account.",
+    "gateMessageGame": "Create an account to play quizzes, earn XP, and climb the leaderboard.",
+    "createAccount": "Create account",
+    "logIn": "Log in",
+    "continueBrowsing": "Continue browsing"
   },
   "auth": {
     "welcomeBack": "Welcome Back!",

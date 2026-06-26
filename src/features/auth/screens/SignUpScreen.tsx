@@ -208,7 +208,7 @@ export const SignUpScreen = () => {
                 <View style={styles.footer}>
                   <Typography color={Colors.textOnDark}>{t('auth.hasAccount')} </Typography>
                   <TouchableOpacity
-                    onPress={() => navigation.navigate('AuthStack' as never, { screen: 'Login' } as never)}
+                    onPress={() => navigation.navigate('Login' as never)}
                   >
                     <Typography color={Colors.textLink} style={{ fontWeight: 'bold' }}>
                       {t('auth.logIn')}
