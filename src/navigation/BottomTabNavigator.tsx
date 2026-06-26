@@ -1,87 +1,123 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { HomeScreen } from '../features/explore/screens/HomeScreen';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Image } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { HomeScreen } from '../features/explore/screens/HomeScreen';
+import { ChatbotScreen } from '../features/chatbot/screens/ChatbotScreen';
+import { GameHubScreen } from '../features/gamification/screens/GameHubScreen';
+import { ProfileScreen } from '../features/profile/screens/ProfileScreen';
+import { useResponsive } from '../shared/utils/responsive';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Colors } from '../shared/constants/colors';
+import { createGuestGatedScreen } from './guestGatedScreen';
 
-const PlaceholderScreen = ({ name }: { name: string }) => (
-  <View style={styles.placeholderContainer}>
-    <Text style={styles.placeholderText}>{name} Screen</Text>
-  </View>
-);
+const Tab = createBottomTabNavigator();
 
-const MapScreen = () => <PlaceholderScreen name="Explore" />;
-const ProfileScreen = () => <PlaceholderScreen name="Profile" />;
-const YourGuideScreen = () => <PlaceholderScreen name="Your Guide" />;
-const GameScreen = () => <PlaceholderScreen name="Game" />;
+const GatedChatbotScreen = createGuestGatedScreen(ChatbotScreen, 'ai');
+const GatedProfileScreen = createGuestGatedScreen(ProfileScreen, 'profile');
 
-export const BottomTabNavigator = createBottomTabNavigator({
-  screenOptions: {
-    headerShown: false,
-    tabBarActiveTintColor: '#E0C385',
-    tabBarInactiveTintColor: '#8E8E93',
+const PlaceholderScreen = ({ labelKey }: { labelKey: string }) => {
+  const { t } = useTranslation();
+  return (
+    <View style={styles.placeholderContainer}>
+      <Text style={styles.placeholderText}>
+        {t(labelKey)} {t('common.screen')}
+      </Text>
+    </View>
+  );
+};
 
-    tabBarStyle: {
-      borderTopWidth: 0,
-      // elevation: 10,
-      // shadowColor: '#000',
-      // shadowOpacity: 0.05,
-      // shadowOffset: { width: 0, height: -3 },
-      // shadowRadius: 10,
-      backgroundColor: '#F4E8DA',
-      height: 50,
-      // paddingTop: 10,
-      borderTopLeftRadius: 5,
-      borderTopRightRadius: 5,
-      borderBottomLeftRadius: 0,
-      borderBottomRightRadius: 0,
-    },
-  },
-  screens: {
-    Home: {
-      screen: HomeScreen,
-      options: {
-        tabBarIcon: ({ color, size }: any) => <Ionicons name="home" size={size} color={color} />
-      }
-    },
-    Explore: {
-      screen: MapScreen,
-      options: {
-        tabBarIcon: ({ color, size }: any) => <Ionicons name="compass" size={size} color={color} />
-      }
-    },
-    AI_Guide: {
-      screen: YourGuideScreen,
-      options: {
-        tabBarIcon: ({ color, size }: any) => <Image source={require('../../assets/Home/icons/AI-icon.png')} style={{ width: size + 25, height: size + 25 }}
-        />
-      }
-    },
-    Game: {
-      screen: GameScreen,
-      options: {
-        tabBarIcon: ({ color, size }: any) => <Ionicons name="game-controller" size={size} color={color} />
-      }
-    },
-    Profile: {
-      screen: ProfileScreen,
-      options: {
-        tabBarIcon: ({ color, size }: any) => <Ionicons name="person" size={size} color={color} />
-      }
-    }
-  }
-});
+const MapScreen = () => <PlaceholderScreen labelKey="tabs.explore" />;
+
+export const BottomTabNavigator = () => {
+  const { sWidth, sHeight } = useResponsive();
+  const insets = useSafeAreaInsets();
+  const { t, i18n } = useTranslation();
+
+  return (
+    <Tab.Navigator
+      key={i18n.language}
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: Colors.tabActive,
+        tabBarInactiveTintColor: Colors.tabInactive,
+        tabBarStyle: {
+          borderTopWidth: 0,
+          backgroundColor: Colors.tabBarBackground,
+          height: sHeight(60) + insets.bottom,
+          paddingBottom: insets.bottom > 0 ? insets.bottom / 2 : 0,
+          borderTopLeftRadius: sWidth(15),
+          borderTopRightRadius: sWidth(15),
+        },
+      }}
+    >
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarLabel: t('tabs.home'),
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home" size={sWidth(size)} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Explore"
+        component={MapScreen}
+        options={{
+          tabBarLabel: t('tabs.explore'),
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="compass" size={sWidth(size)} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="AI_Guide"
+        component={GatedChatbotScreen}
+        options={{
+          tabBarLabel: t('tabs.aiGuide'),
+          tabBarIcon: ({ size }) => (
+            <Image
+              source={require('../../assets/Home/icons/AI-icon.png')}
+              style={{ width: sWidth(size + 25), height: sWidth(size + 25) }}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Game"
+        component={GameHubScreen}
+        options={{
+          tabBarLabel: t('tabs.game'),
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="game-controller" size={sWidth(size)} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={GatedProfileScreen}
+        options={{
+          tabBarLabel: t('tabs.profile'),
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person" size={sWidth(size)} color={color} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
 
 const styles = StyleSheet.create({
   placeholderContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FAFAFA'
+    backgroundColor: Colors.backgroundPlaceholder,
   },
   placeholderText: {
     fontSize: 18,
-    color: '#8E8E93'
-  }
+    color: Colors.textSubtle,
+  },
 });

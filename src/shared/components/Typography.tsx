@@ -1,25 +1,43 @@
 import React from 'react';
-import { Text, TextProps, StyleSheet } from 'react-native';
+import { Text, TextProps } from 'react-native';
+import { Colors } from '../constants/colors';
+import {
+  TypographyConstants,
+  TypographyLegacyVariant,
+  TypographyVariant,
+  resolveTypographyVariant,
+} from '../constants/typography';
+import { useResponsive } from '../utils/responsive';
 
 interface TypographyProps extends TextProps {
-  variant?: 'h1' | 'h2' | 'body' | 'caption';
+  variant?: TypographyVariant | TypographyLegacyVariant;
   color?: string;
   align?: 'auto' | 'left' | 'right' | 'center' | 'justify';
 }
 
 export const Typography: React.FC<TypographyProps> = ({
-  variant = 'body',
-  color = '#333333',
-  align = 'left',
+  variant = 'bodyMd',
+  color = Colors.textSecondary,
+  align = 'auto',
   style,
   children,
   ...props
 }) => {
+  const { sFont } = useResponsive();
+  const resolvedVariant = resolveTypographyVariant(variant);
+  const baseStyle = TypographyConstants.styles[resolvedVariant];
+
   return (
     <Text
       style={[
-        styles[variant],
-        { color, textAlign: align },
+        {
+          fontFamily: baseStyle.fontFamily,
+          fontSize: sFont(baseStyle.fontSize),
+          lineHeight: sFont(baseStyle.lineHeight),
+          letterSpacing: 'letterSpacing' in baseStyle ? baseStyle.letterSpacing : undefined,
+          color,
+          textAlign: align,
+        },
         style,
       ]}
       {...props}
@@ -28,22 +46,3 @@ export const Typography: React.FC<TypographyProps> = ({
     </Text>
   );
 };
-
-const styles = StyleSheet.create({
-  h1: {
-    fontSize: 32,
-    fontWeight: 'bold',
-  },
-  h2: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  body: {
-    fontSize: 16,
-    fontWeight: 'normal',
-  },
-  caption: {
-    fontSize: 12,
-    fontWeight: 'normal',
-  },
-});

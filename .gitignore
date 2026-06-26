@@ -36,8 +36,13 @@ yarn-debug.log*
 yarn-error.log*
 
 # ─── assets ─────────────────────────────────────────────────
-assets/
+# assets/
 
 
 # ─── txt ─────────────────────────────────────────────────
 *.txt
+
+# ─── Project Notes ───────────────────────────────────────
+project-notes.md
+
+Egypt-Tourism-landmarks.json

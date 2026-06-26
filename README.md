@@ -95,18 +95,13 @@ The mobile interface serves as the primary touchpoint for every feature in the s
 - 99.5% uptime SLA with daily data backups
 - API rate limiting and abuse prevention at the Gateway level
 
-### 🛠️ Admin CMS
-- Headless CMS (Strapi or Directus) for non-engineer content management
-- Upload panoramas, images, text, and videos without requiring app redeployment (NFR-19)
-- Content moderation and reporting workflow
-
 ---
 
 ## Development Phases (Summary)
 
 | Phase | Focus |
 |---|---|
-| **Phase 1 — Foundation** | Auth, profiles, city/monument CRUD, search, CMS, security baseline |
+| **Phase 1 — Foundation** | Auth, profiles, city/monument CRUD, search, database seeds, security baseline |
 | **Phase 2 — Immersive Experience** | 360° viewer, hotspots, narration, timelines, videos, adaptive quality |
 | **Phase 3 — Gamification Engine** | Quizzes, XP/coins/badges, leaderboards, feedback system |
 | **Phase 4 — AI Agent Layer** | All six AI agents, LLM abstraction, response caching |

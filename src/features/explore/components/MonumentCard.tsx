@@ -1,7 +1,10 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 import { Monument } from '../api/exploreService';
+import { useResponsive } from '../../../shared/utils/responsive';
+import { Colors } from '../../../shared/constants/colors';
 
 interface MonumentCardProps {
   monument: Monument;
@@ -10,27 +13,38 @@ interface MonumentCardProps {
 }
 
 export const MonumentCard = ({ monument, onPress, onFavorite }: MonumentCardProps) => {
+  const { sWidth, sHeight, sFont } = useResponsive();
+  const { t } = useTranslation();
+
   return (
-    <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.9}>
-      <Image source={{ uri: monument.image_url }} style={styles.image} />
-      <TouchableOpacity style={styles.favoriteBtn} onPress={onFavorite}>
+    <TouchableOpacity 
+      style={[styles.card, { width: sWidth(165), height: sHeight(200), borderRadius: sWidth(20), marginBottom: sHeight(20) }]} 
+      onPress={onPress} 
+      activeOpacity={0.9}
+    >
+      <Image source={{ uri: monument.image_url }} style={[styles.image, { height: sHeight(120) }]} />
+      <TouchableOpacity style={[styles.favoriteBtn, { top: sHeight(16), end: sWidth(16), padding: sWidth(8) }]} onPress={onFavorite}>
         <Ionicons
           name={monument.isFavorite ? "heart" : "heart-outline"}
-          size={24}
-          color={monument.isFavorite ? "#FF3B30" : "#FFFFFF"}
+          size={sWidth(24)}
+          color={monument.isFavorite ? Colors.errorStrong : Colors.textOnDark}
         />
       </TouchableOpacity>
-      <View style={styles.info}>
-        <View style={styles.headerRow}>
-          <Text style={styles.title} numberOfLines={1}>{monument.title}</Text>
-          <View style={styles.ratingBadge}>
-            <Ionicons name="star" size={12} color="#FF9500" />
-            <Text style={styles.ratingText}>{monument.rating}</Text>
+      <View style={[styles.info, { padding: sWidth(16) }]}>
+        <View style={[styles.headerRow, { marginBottom: sHeight(6) }]}>
+          <Text style={[styles.title, { fontSize: sFont(16), marginEnd: sWidth(10) }]} numberOfLines={1}>
+            {t(monument.titleKey)}
+          </Text>
+          <View style={[styles.ratingBadge, { paddingHorizontal: sWidth(8), paddingVertical: sHeight(4), borderRadius: sWidth(12) }]}>
+            <Ionicons name="star" size={sWidth(12)} color={Colors.rating} />
+            <Text style={[styles.ratingText, { marginStart: sWidth(4), fontSize: sFont(12) }]}>{monument.rating}</Text>
           </View>
         </View>
         <View style={styles.locationRow}>
-          <Ionicons name="location-outline" size={14} color="blue" />
-          <Text style={styles.locationText}>{monument.location}</Text>
+          <Ionicons name="location-outline" size={sWidth(14)} color={Colors.primaryDeep} />
+          <Text style={[styles.locationText, { marginStart: sWidth(4), fontSize: sFont(14) }]}>
+            {t(monument.locationKey)}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -39,68 +53,49 @@ export const MonumentCard = ({ monument, onPress, onFavorite }: MonumentCardProp
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: 20,
-    backgroundColor: '#FFFFFF',
-    marginBottom: 20,
+    backgroundColor: Colors.surface,
     overflow: 'hidden',
-    shadowColor: '#000',
+    shadowColor: Colors.shadow,
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 12,
     elevation: 4,
-    width: 165,
-    height: 200,
   },
   image: {
     width: 'auto',
-    height: 120,
   },
   favoriteBtn: {
     position: 'absolute',
-    top: 16,
-    right: 16,
     backgroundColor: 'transparent',
     borderRadius: 20,
-    padding: 8,
-    // backdropFilter: 'blur(10px)', // Will only work if glassmorphism wrapper used, but ok for now
   },
   info: {
-    padding: 16,
   },
   headerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 6,
   },
   title: {
-    fontSize: 16,
     fontWeight: 'bold',
-    color: '#1A1A1A',
+    color: Colors.textTitle,
     flex: 1,
-    marginRight: 10,
   },
   ratingBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFF4E5',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12,
+    backgroundColor: Colors.surfaceRating,
   },
   ratingText: {
-    marginLeft: 4,
-    fontSize: 12,
     fontWeight: 'bold',
-    color: '#FF9500',
+    color: Colors.rating,
   },
   locationRow: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   locationText: {
-    marginLeft: 4,
-    fontSize: 14,
-    color: 'blue',
+    color: Colors.primaryDeep,
   }
 });
+

@@ -1,6 +1,9 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Typography } from '../../../shared/components/Typography';
+import { useResponsive } from '../../../shared/utils/responsive';
+import { Colors } from '../../../shared/constants/colors';
+
 
 interface QuizProgressBarProps {
   currentStep: number;
@@ -8,17 +11,20 @@ interface QuizProgressBarProps {
 }
 
 export const QuizProgressBar: React.FC<QuizProgressBarProps> = ({ currentStep, totalSteps }) => {
+  const { sWidth, sFont } = useResponsive();
   const progressPercentage = (currentStep / totalSteps) * 100;
 
+
   return (
-    <View style={styles.container}>
-      <Typography variant="caption" color="#FFFFFF" style={styles.text}>
+    <View style={[styles.container, { paddingHorizontal: sWidth(24) }]}>
+      <Typography variant="caption" color={Colors.textOnDark} style={[styles.text, { fontSize: sFont(12) }]}>
         Question {currentStep} of {totalSteps}
       </Typography>
       <View style={styles.track}>
         <View style={[styles.fill, { width: `${progressPercentage}%` }]} />
       </View>
     </View>
+
   );
 };
 
@@ -35,13 +41,13 @@ const styles = StyleSheet.create({
   },
   track: {
     height: 6,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: Colors.overlayProgressTrack,
     borderRadius: 3,
     overflow: 'hidden',
   },
   fill: {
     height: '100%',
-    backgroundColor: '#D9A941',
+    backgroundColor: Colors.primary,
     borderRadius: 3,
   }
 });
