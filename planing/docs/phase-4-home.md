@@ -1,5 +1,7 @@
 # Phase 4: Home
 
+**Related phases:** [4.1 — Card details](./phase-4.1-card-details.md) (tap card → detail) · [4.2 — Explore tab](./phase-4.2-explore-tab.md) (bottom nav; separate)
+
 ## Folder Structure
 The following files and folders will be added or modified during this phase:
 ```text
@@ -25,7 +27,7 @@ src/
 3. User taps a Category to filter the list.
 4. User types in the Search Bar to find a specific city or monument.
 5. User taps the "Heart" icon on a Monument Card to save it to Favorites.
-6. User taps a Monument Card to navigate to its details.
+6. User taps a Monument Card to navigate to **card details** ([Phase 4.1](./phase-4.1-card-details.md)).
 
 ## States
 * **Loading:** Use Skeleton loaders for the Monument Cards while data is being fetched via TanStack Query.

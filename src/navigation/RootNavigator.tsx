@@ -8,8 +8,11 @@ import { PersonaQuizScreen } from '../features/personality-quiz/screens/PersonaQ
 import { BottomTabNavigator } from './BottomTabNavigator';
 import { SettingsScreen } from '../features/profile/screens/SettingsScreen';
 import { EditProfileScreen } from '../features/profile/screens/EditProfileScreen';
+import { MonumentDetailScreen } from '../features/explore/screens/MonumentDetailScreen';
+import { PanoramaScreen } from '../features/explore/screens/PanoramaScreen';
 
 const AuthStack = createNativeStackNavigator({
+  initialRouteName: 'Login',
   screenOptions: { headerShown: false },
   screens: {
     Login: LoginScreen,
@@ -31,6 +34,9 @@ const RootStack = createNativeStackNavigator({
     // so it can be navigated to from anywhere, including the HeaderMenu overlay.
     Settings: SettingsScreen,
     EditProfile: EditProfileScreen,
+    // Card details (Phase 4.1) — opened from Home monument cards; not the Explore tab.
+    MonumentDetail: MonumentDetailScreen,
+    Panorama: PanoramaScreen,
   },
 });
 
