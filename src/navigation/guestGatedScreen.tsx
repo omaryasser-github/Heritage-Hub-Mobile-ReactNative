@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { GuestGateScreen, GuestGateVariant } from '../shared/components/GuestGateScreen';
 import { useAuthStore } from '../core/store/authStore';
+import { navigateToHomeTab } from './authNavigation';
 
 export function createGuestGatedScreen<P extends object>(
   Screen: React.ComponentType<P>,
@@ -15,7 +16,7 @@ export function createGuestGatedScreen<P extends object>(
       return (
         <GuestGateScreen
           variant={variant}
-          onContinueBrowsing={() => navigation.navigate('Home')}
+          onContinueBrowsing={() => navigateToHomeTab(navigation)}
         />
       );
     }

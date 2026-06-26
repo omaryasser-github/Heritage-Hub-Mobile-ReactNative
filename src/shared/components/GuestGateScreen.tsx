@@ -8,6 +8,7 @@ import { Spacing } from '../constants/spacing';
 import { Typography } from './Typography';
 import { PrimaryButton } from './PrimaryButton';
 import { useResponsive } from '../utils/responsive';
+import { navigateToHomeTab, resetToAuthScreen } from '../../navigation/authNavigation';
 
 export type GuestGateVariant = 'ai' | 'profile' | 'game';
 
@@ -35,14 +36,9 @@ export const GuestGateScreen = ({ variant, onContinueBrowsing }: GuestGateScreen
   const { sWidth, sHeight } = useResponsive();
 
   const navigateToAuth = (screen: 'Login' | 'SignUp') => {
-    navigation.reset({
-      index: 0,
-      routes: [
-        {
-          name: 'AuthStack',
-          state: { routes: [{ name: screen }] },
-        },
-      ],
+    onContinueBrowsing?.();
+    requestAnimationFrame(() => {
+      resetToAuthScreen(navigation, screen);
     });
   };
 
@@ -51,7 +47,7 @@ export const GuestGateScreen = ({ variant, onContinueBrowsing }: GuestGateScreen
       onContinueBrowsing();
       return;
     }
-    navigation.navigate('Home');
+    navigateToHomeTab(navigation);
   };
 
   return (

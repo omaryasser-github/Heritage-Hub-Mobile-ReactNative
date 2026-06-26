@@ -106,3 +106,38 @@ export interface FeedQuery {
   category?: HomeCategoryFilter;
   search?: string;
 }
+
+export interface RawPanoramaHotspot {
+  id: string;
+  pitch: number;
+  yaw: number;
+  title_en: string;
+  title_ar: string;
+  content_en: string;
+  content_ar: string;
+}
+
+export interface RawPanorama {
+  panorama_id: string;
+  monument_slug: string;
+  texture_asset: string;
+  hotspots: RawPanoramaHotspot[];
+}
+
+export interface LocalizedPanoramaHotspot {
+  id: string;
+  pitch: number;
+  yaw: number;
+  title: string;
+  content: string;
+}
+
+export type PanoramaProjection = 'equirectangular' | 'partial';
+
+export interface PanoramaDetail {
+  panoramaId: string;
+  monumentSlug: string;
+  texture: ImageSourcePropType;
+  projection: PanoramaProjection;
+  hotspots: LocalizedPanoramaHotspot[];
+}

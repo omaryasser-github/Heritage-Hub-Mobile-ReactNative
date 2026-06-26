@@ -9,8 +9,10 @@ import { BottomTabNavigator } from './BottomTabNavigator';
 import { SettingsScreen } from '../features/profile/screens/SettingsScreen';
 import { EditProfileScreen } from '../features/profile/screens/EditProfileScreen';
 import { MonumentDetailScreen } from '../features/explore/screens/MonumentDetailScreen';
+import { PanoramaScreen } from '../features/explore/screens/PanoramaScreen';
 
 const AuthStack = createNativeStackNavigator({
+  initialRouteName: 'Login',
   screenOptions: { headerShown: false },
   screens: {
     Login: LoginScreen,
@@ -34,6 +36,7 @@ const RootStack = createNativeStackNavigator({
     EditProfile: EditProfileScreen,
     // Card details (Phase 4.1) — opened from Home monument cards; not the Explore tab.
     MonumentDetail: MonumentDetailScreen,
+    Panorama: PanoramaScreen,
   },
 });
 

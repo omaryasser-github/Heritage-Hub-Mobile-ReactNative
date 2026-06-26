@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useResponsive } from '../../../shared/utils/responsive';
 import { Colors } from '../../../shared/constants/colors';
 import { useAuthStore } from '../../../core/store/authStore';
+import { resetToAuthStack } from '../../../navigation/authNavigation';
 
 const SPLASH_CTA_DELAY_MS = 4000;
 
@@ -60,10 +61,7 @@ export const SplashScreen = () => {
   };
 
   const navigateToAuth = () => {
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'AuthStack' }],
-    });
+    resetToAuthStack(navigation);
   };
 
   const handleSkip = () => {
