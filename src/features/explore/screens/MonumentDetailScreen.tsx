@@ -13,6 +13,7 @@ import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { monumentService } from '../api/monumentService';
+import { panoramaService } from '../api/panoramaService';
 import { MonumentHeader } from '../components/MonumentHeader';
 import { DetailTabBar, DetailTab } from '../components/DetailTabBar';
 import { ArticleCard } from '../components/ArticleCard';
@@ -36,7 +37,7 @@ const SHEET_OVERLAP = 28;
 const DEFAULT_HERO_IMAGE = require('../../../../assets/Home/explore/exploreBackground.png');
 
 export const MonumentDetailScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
   const route = useRoute<RouteProp<MonumentDetailRouteParams, 'MonumentDetail'>>();
   const { slug } = route.params;
   const insets = useSafeAreaInsets();
@@ -62,6 +63,11 @@ export const MonumentDetailScreen = () => {
   const sectionLabel =
     activeTab === 'history' ? t('cardDetails.tabHistory') : t('cardDetails.tabCulture');
   const sectionIcon = getSectionIcon(activeTab);
+  const hasPanorama = panoramaService.hasPanorama(slug);
+
+  const handlePanoramaPress = () => {
+    navigation.navigate('Panorama', { slug });
+  };
 
   const handleToggleFavorite = () => {
     if (isGuest) {
@@ -136,7 +142,12 @@ export const MonumentDetailScreen = () => {
           },
         ]}
       >
-        <DetailTabBar activeTab={activeTab} onTabChange={setActiveTab} />
+        <DetailTabBar
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          showPanorama={hasPanorama}
+          onPanoramaPress={handlePanoramaPress}
+        />
       </View>
 
       <ScrollView

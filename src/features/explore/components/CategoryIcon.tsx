@@ -33,3 +33,5 @@ export const CategoryIcon = ({
 export const getSectionIcon = (section: 'history' | 'culture'): keyof typeof Ionicons.glyphMap => {
   return section === 'history' ? 'library-outline' : 'color-palette-outline';
 };
+
+export const getPanoramaTabIcon = (): keyof typeof Ionicons.glyphMap => 'scan-circle-outline';

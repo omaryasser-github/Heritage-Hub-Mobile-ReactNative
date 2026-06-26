@@ -1,21 +1,28 @@
 import React from 'react';
-import { View, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
 import { Typography } from '../../../shared/components/Typography';
 import { Colors } from '../../../shared/constants/colors';
 import { Spacing } from '../../../shared/constants/spacing';
 import { useResponsive } from '../../../shared/utils/responsive';
-import { getSectionIcon } from './CategoryIcon';
+import { getPanoramaTabIcon, getSectionIcon } from './CategoryIcon';
 
 export type DetailTab = 'history' | 'culture';
 
 interface DetailTabBarProps {
   activeTab: DetailTab;
   onTabChange: (tab: DetailTab) => void;
+  showPanorama?: boolean;
+  onPanoramaPress?: () => void;
 }
 
-export const DetailTabBar = ({ activeTab, onTabChange }: DetailTabBarProps) => {
+export const DetailTabBar = ({
+  activeTab,
+  onTabChange,
+  showPanorama = false,
+  onPanoramaPress,
+}: DetailTabBarProps) => {
   const { t } = useTranslation();
   const { sWidth, sHeight, sFont } = useResponsive();
 
@@ -73,6 +80,32 @@ export const DetailTabBar = ({ activeTab, onTabChange }: DetailTabBarProps) => {
           </TouchableOpacity>
         );
       })}
+
+      {showPanorama ? (
+        <TouchableOpacity
+          onPress={onPanoramaPress}
+          style={[
+            styles.tab,
+            {
+              paddingHorizontal: sWidth(14),
+              paddingVertical: sHeight(8),
+              borderRadius: sWidth(Spacing.borderRadius.full),
+              gap: sWidth(6),
+            },
+          ]}
+          activeOpacity={0.8}
+        >
+          <Ionicons name={getPanoramaTabIcon()} size={sWidth(14)} color={Colors.textMuted} />
+          <Typography
+            variant="labelLg"
+            color={Colors.textMuted}
+            style={{ fontSize: sFont(12) }}
+            numberOfLines={1}
+          >
+            {t('cardDetails.tabPanorama')}
+          </Typography>
+        </TouchableOpacity>
+      ) : null}
     </ScrollView>
   );
 };
