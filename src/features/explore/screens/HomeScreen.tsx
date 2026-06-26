@@ -1,46 +1,55 @@
-import React, { useState, useMemo } from 'react';
-import { View, StyleSheet, ScrollView, Text, Image, ImageBackground } from 'react-native';
+import React, { useMemo, useState, useCallback } from 'react';
+import { View, StyleSheet, ScrollView, Text, Image, ImageBackground, Modal } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
 import { useTranslation } from 'react-i18next';
 import { exploreService, Monument } from '../api/exploreService';
+import { HomeCategoryFilter } from '../../../core/data/types';
 import { SearchBar } from '../components/SearchBar';
 import { CategoryPill } from '../components/CategoryPill';
 import { MonumentCard } from '../components/MonumentCard';
 import { HeaderMenu } from '../components/HeaderMenu';
 import { useResponsive } from '../../../shared/utils/responsive';
 import { Colors } from '../../../shared/constants/colors';
+import { Typography } from '../../../shared/components/Typography';
+import { GuestGateScreen } from '../../../shared/components/GuestGateScreen';
+import { useAuthStore } from '../../../core/store/authStore';
 
 export const HomeScreen = () => {
+  const navigation = useNavigation<any>();
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('popular');
-  const { t } = useTranslation();
+  const [selectedCategory, setSelectedCategory] = useState<HomeCategoryFilter>('popular');
+  const [feedVersion, setFeedVersion] = useState(0);
+  const [favoriteGateVisible, setFavoriteGateVisible] = useState(false);
+  const { t, i18n } = useTranslation();
+  const isGuest = useAuthStore((state) => state.isGuest);
 
   const categories = useMemo(
     () => [
       {
-        id: 'recommended',
+        id: 'recommended' as const,
         title: t('home.categoryRecommended'),
         image: require('../../../../assets/Home/icons/recommend-icon.png'),
       },
       {
-        id: 'popular',
+        id: 'popular' as const,
         title: t('home.categoryPopular'),
         image: require('../../../../assets/Home/icons/popular.png'),
       },
       {
-        id: 'cities',
+        id: 'cities' as const,
         title: t('home.categoryCities'),
         image: require('../../../../assets/Home/icons/cities.png'),
       },
       {
-        id: 'museums',
+        id: 'museums' as const,
         title: t('home.categoryMuseums'),
         image: require('../../../../assets/Home/icons/museums.png'),
       },
       {
-        id: 'temples',
+        id: 'temples' as const,
         title: t('home.categoryTemples'),
         image: require('../../../../assets/Home/icons/temples.png'),
       },
@@ -48,9 +57,37 @@ export const HomeScreen = () => {
     [t]
   );
 
+  const feed = useMemo(() => {
+    void feedVersion;
+    void i18n.language;
+    return exploreService.getFeed({
+      category: selectedCategory,
+      search: searchQuery,
+    });
+  }, [selectedCategory, searchQuery, feedVersion, i18n.language]);
+
   const insets = useSafeAreaInsets();
   const tabBarHeight = useBottomTabBarHeight();
   const { sWidth, sHeight, sFont } = useResponsive();
+
+  const handleFavoriteToggle = useCallback(
+    async (slug: string) => {
+      if (isGuest) {
+        setFavoriteGateVisible(true);
+        return;
+      }
+      await exploreService.toggleFavorite(slug);
+      setFeedVersion((value) => value + 1);
+    },
+    [isGuest]
+  );
+
+  const handleCardPress = useCallback(
+    (slug: string) => {
+      navigation.navigate('MonumentDetail', { slug });
+    },
+    [navigation]
+  );
 
   const renderHeader = () => (
     <View style={[styles.header, { marginBottom: sHeight(-70) }]}>
@@ -94,24 +131,34 @@ export const HomeScreen = () => {
     <View style={styles.container}>
       {renderHeader()}
       <View style={[styles.listContainer, { paddingHorizontal: sWidth(20), marginTop: sHeight(150) }]}>
-        <FlashList
-          data={exploreService.getFeed()}
-          numColumns={2}
-          renderItem={({ item }: { item: Monument }) => (
-            <View style={styles.cardContainer}>
-              <MonumentCard
-                monument={item}
-                onPress={() => console.log('Navigate to', item.id)}
-                onFavorite={() => {
-                  item.isFavorite = !item.isFavorite;
-                }}
-              />
-            </View>
-          )}
-          contentContainerStyle={{ paddingBottom: tabBarHeight + insets.bottom }}
-          showsVerticalScrollIndicator={false}
-        />
+        {feed.length === 0 ? (
+          <Typography variant="bodyMd" color={Colors.textSubtle} align="center" style={styles.emptyText}>
+            {t('home.emptyFeed')}
+          </Typography>
+        ) : (
+          <FlashList
+            data={feed}
+            numColumns={2}
+            keyExtractor={(item) => item.id}
+            extraData={feedVersion}
+            renderItem={({ item }: { item: Monument }) => (
+              <View style={styles.cardContainer}>
+                <MonumentCard
+                  monument={item}
+                  onPress={() => handleCardPress(item.slug)}
+                  onFavorite={() => handleFavoriteToggle(item.slug)}
+                />
+              </View>
+            )}
+            contentContainerStyle={{ paddingBottom: tabBarHeight + insets.bottom }}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
       </View>
+
+      <Modal visible={favoriteGateVisible} animationType="slide" onRequestClose={() => setFavoriteGateVisible(false)}>
+        <GuestGateScreen variant="profile" onContinueBrowsing={() => setFavoriteGateVisible(false)} />
+      </Modal>
     </View>
   );
 };
@@ -154,22 +201,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     flex: 1,
   },
-  loadingText: {
-    textAlign: 'center',
-    marginTop: 40,
-    color: Colors.textSubtle,
-    fontSize: 16,
-  },
-  errorText: {
-    textAlign: 'center',
-    marginTop: 40,
-    color: Colors.errorStrong,
-    fontSize: 16,
-  },
   emptyText: {
-    textAlign: 'center',
     marginTop: 40,
-    color: Colors.textSubtle,
-    fontSize: 16,
   },
 });
