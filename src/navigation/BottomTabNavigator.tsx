@@ -10,8 +10,12 @@ import { ProfileScreen } from '../features/profile/screens/ProfileScreen';
 import { useResponsive } from '../shared/utils/responsive';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '../shared/constants/colors';
+import { createGuestGatedScreen } from './guestGatedScreen';
 
 const Tab = createBottomTabNavigator();
+
+const GatedChatbotScreen = createGuestGatedScreen(ChatbotScreen, 'ai');
+const GatedProfileScreen = createGuestGatedScreen(ProfileScreen, 'profile');
 
 const PlaceholderScreen = ({ labelKey }: { labelKey: string }) => {
   const { t } = useTranslation();
@@ -70,7 +74,7 @@ export const BottomTabNavigator = () => {
       />
       <Tab.Screen
         name="AI_Guide"
-        component={ChatbotScreen}
+        component={GatedChatbotScreen}
         options={{
           tabBarLabel: t('tabs.aiGuide'),
           tabBarIcon: ({ size }) => (
@@ -93,7 +97,7 @@ export const BottomTabNavigator = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={ProfileScreen}
+        component={GatedProfileScreen}
         options={{
           tabBarLabel: t('tabs.profile'),
           tabBarIcon: ({ color, size }) => (
