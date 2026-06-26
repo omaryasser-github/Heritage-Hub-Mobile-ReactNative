@@ -7,84 +7,207 @@ Sub-phase of **[Phase 4.1 — Card Details](./phase-4.1-card-details.md)**. Adds
 | Term | Meaning |
 |------|---------|
 | **Card details** | Parent phase — detail screen from Home card |
-| **Card details: Panorama** (this phase) | 360° tab, R3F viewer, hotspots, media sheet |
+| **Card details: Panorama** (this phase) | 360° entry from card details → **fullscreen** viewer, hotspots, media sheet |
 | **Explore tab** | Bottom nav — **not this phase** → [phase-4.2-explore-tab.md](./phase-4.2-explore-tab.md) |
 
 **Prerequisite:** Phase 4.1 card details (MVP) complete.
 
-**Status:** **Deferred** — do not implement until scheduled.
+**Status:** **Ready to implement** — start with bundled spike asset (see [Panorama assets & licensing](#panorama-assets--licensing)).
 
 ---
 
 ## Overview
 
-Extends `MonumentDetailScreen` with a third tab (**360 Panorama**) and native 3D viewing. History & Culture tabs remain as defined in 4.1.
+Adds a third entry on the card-details tab bar (**360° Panorama**). Tapping it **navigates to a dedicated fullscreen screen** — it does **not** mount a `GLView` inline inside the scrolling `MonumentDetailScreen`.
+
+History & Culture tabs remain as defined in 4.1.
+
+**Why fullscreen (not inline tab content):**
+
+* `GLView` + touch panning must own the gesture surface — no conflict with card-details `ScrollView`, tab bar, or iOS back swipe.
+* WebGL context and texture memory are isolated — dispose on screen unmount when user goes back.
+* Immersive UX matches the mockup intent (user “enters” the location).
 
 ---
 
-## Folder Structure
+## Tech stack (decided)
+
+| Layer | Choice | Notes |
+|-------|--------|-------|
+| **3D** | `expo-gl` + `expo-three` + `three` | No WebView. No `@react-three/fiber` / `@react-three/drei`. |
+| **Textures** | `expo-asset` (bundled) + remote URL later | Local assets avoid CORS / cache issues for seed monuments. |
+| **Hotspots** | Manual **raycasting** on touch | No DOM `onClick`; no `CSS2DRenderer` / `CSS3DRenderer`. |
+| **Hotspot UI** | RN overlays | `<View>`, `<Text>`, bottom sheet / modal on `selectedHotspot` state. |
+| **Camera** | Touch pan (required) + gyro (optional v1.1) | Touch-first; gyro needs permissions and dev-build testing. |
+
+---
+
+## Panorama assets & licensing
+
+### What production needs (target)
+
+| Property | Requirement |
+|----------|-------------|
+| **Type** | Full **spherical** 360° panorama |
+| **Projection** | **Equirectangular** |
+| **Aspect ratio** | **2:1** (e.g. 2048×1024, 1536×768) |
+| **MVP size** | **≤2K** width — do not bundle 4K/8K on mobile |
+| **Use** | Map onto inner sphere (`BackSide`); camera at center |
+
+A **normal wide JPG** (3:2, ~90–120° FOV) is **not** sufficient for production — it will warp, seam badly, and leave empty areas on the sphere. Keep normal photos for card hero / article thumbnails only.
+
+**Reference (correct format, paid license):** [360Cities — Bibliotheca Alexandrina](https://www.360cities.net/image/bibliotheca-alexandrina-egypt) — spherical, 10000×5000 equirectangular. Free **embed** on non-commercial sites only; **app bundling / commercial use requires a license** from 360Cities or the photographer. Do not scrape or download without rights.
+
+### MVP implementation strategy (agreed)
+
+| Phase | Asset | Purpose |
+|-------|-------|---------|
+| **4.1b spike (now)** | `assets/Home/panorama/bobelatic-alex.png` | Wire `PanoramaScreen`, GL pipeline, touch, raycast, hotspots for **`bibliotheca`** slug |
+| **4.1b demo** | Free CC equirectangular (e.g. [Giza 360 on Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Giza_pyramid_complex_-_360.jpg)) | Optional second monument with **legal** full-sphere texture |
+| **Production** | Licensed 360Cities pano, official Bibliotheca media, or **shoot your own** ≤2K | Replace spike asset; per-monument rollout |
+
+### Spike asset caveat — `bobelatic-alex.png`
+
+Bundled starter file: **`assets/Home/panorama/bobelatic-alex.png`**
+
+* **Subject:** Bibliotheca Alexandrina interior (on-brand for `bibliotheca` slug).
+* **Format today:** Wide-angle **flat photo**, **not** true 2:1 equirectangular — acceptable **only** to validate engineering (viewer mount, navigation, dispose, hotspot plumbing).
+* **Known limitations:** Visible warp at poles, no seamless 360° loop, immersion below production bar — **replace before user-facing / store release**.
+* **License:** Team-uploaded; confirm rights before public distribution. Treat as **internal dev** until replaced.
+
+### Licensing workarounds (production)
+
+1. **License** from [360Cities](https://www.360cities.net/image/bibliotheca-alexandrina-egypt) (download + app use in writing).
+2. **Shoot / commission** 360° capture in Alexandria; export ≤2K equirectangular.
+3. **Official outreach** — Bibliotheca Alexandrina / tourism media kit.
+4. **Wikimedia Commons** — free CC panoramas for **other** monuments (verify license + attribution); Bibliotheca interior equirectangular is scarce on Commons.
+5. **Do not use** — scraping 360Cities tiles, Google Street View tiles, or unlicensed downloads.
+
+### Asset checklist (before bundling any panorama)
+
+- [ ] License allows app bundling / commercial use (if applicable)
+- [ ] Equirectangular **2:1** (production assets only)
+- [ ] Resized to **≤2048×1024** (or smaller) for mobile bundle
+- [ ] Attribution / credit in app if license requires (CC BY, etc.)
+- [ ] Seam check at left/right edge in viewer
+
+---
+
+## Folder structure
 
 ```text
+assets/Home/panorama/                      # bundled panorama textures (≤2K for MVP)
+├── bobelatic-alex.png                     # spike — bibliotheca (replace with true equirect later)
+└── …                                      # future: giza-2k.jpg, bibliotheca-2k-equirect.jpg
+
 src/features/explore/
 ├── api/
-│   └── panoramaService.ts
+│   └── panoramaService.ts                 # loads panorama + hotspots via repository / API
 ├── components/
-│   ├── 3d/
-│   │   ├── PanoramaViewer.tsx
-│   │   ├── SphereEnvironment.tsx
-│   │   └── HotspotMarker.tsx
-│   └── MediaBottomSheet.tsx
+│   ├── panorama/
+│   │   ├── PanoramaViewer.tsx             # GLView + render loop + touch → raycast
+│   │   ├── PanoramaScene.ts               # sphere, camera, lights, dispose helpers
+│   │   ├── HotspotMeshes.ts               # invisible colliders + optional visual markers
+│   │   └── panoramaMath.ts                # pitch/yaw ↔ 3D position, raycast helpers
+│   └── MediaBottomSheet.tsx               # RN overlay for hotspot content
 └── screens/
-    └── PanoramaScreen.tsx          # optional fullscreen; or inline tab content
+    └── PanoramaScreen.tsx                 # fullscreen stack screen (required)
 ```
+
+**Navigation:** `RootStack` → `Panorama: { slug: string }`. Card-details Panorama tab → `navigation.navigate('Panorama', { slug })`.
+
+**Do not create:** inline panorama tab panel inside `MonumentDetailScreen` scroll content.
 
 ---
 
 ## Flow
 
 1. User opens **card details** (Phase 4.1) for a monument.
-2. User selects **360 Panorama** tab (added in this sub-phase).
-3. App mounts `PanoramaViewer` (React-Three-Fiber).
-4. User pans the spherical image; taps `HotspotMarker` → `MediaBottomSheet`.
+2. User taps **360° Panorama** on the tab bar (visual third tab; may be disabled/hidden if no panorama data).
+3. App **pushes `PanoramaScreen`** (fullscreen, native stack).
+4. `panoramaService.getBySlug(slug)` loads texture ref + hotspots.
+5. **First implementation:** `slug === 'bibliotheca'` uses bundled `assets/Home/panorama/bobelatic-alex.png`.
+6. `PanoramaViewer` mounts `GLView`, renders texture on **inner sphere** (`BackSide`), touch pans camera.
+7. User taps hotspot (raycast hit) → `setSelectedHotspot` → `MediaBottomSheet`.
+8. User taps back → pop stack → dispose GL resources → return to card details (previous tab preserved).
 
 ---
 
 ## States
 
-* **Loading:** Texture decompress spinner while panorama loads
-* **Error:** WebGL/OOM → fallback static image + `cardDetails.panoramaUnavailable` message
-* **Success:** R3F canvas renders smoothly; RN UI overlays correctly
+| State | Behavior |
+|-------|----------|
+| **Loading** | Spinner while texture decodes; optional low-res placeholder |
+| **Error** | WebGL init fail / OOM / missing asset → static fallback image + `cardDetails.panoramaUnavailable` |
+| **Success** | Smooth pan; RN hotspot UI overlays correctly |
+| **No panorama** | Hide or disable Panorama tab on card details when monument has no panorama record |
 
 ---
 
-## Logic
+## 3D logic
 
-* **3D Engine:** `@react-three/fiber` + `@react-three/drei`; equirectangular texture on `sphereGeometry` `BackSide`
-* **Adaptive quality:** API returns 2K / 4K / 8K; client picks safe size for device
-* **Hotspots:** R3F `<mesh>` + `onClick` → bottom sheet state
-* **Gestures:** `OrbitControls` must not conflict with native back swipe
-* **RTL:** Panorama tab label in i18n (`cardDetails.tabPanorama`); tab bar scrolls horizontally
+### Geometry
+
+* **Equirectangular** source image (2:1 aspect ratio).
+* Map onto `SphereGeometry` with **`material.side = BackSide`** (preferred over `scale.x = -1` to avoid raycast winding issues).
+* **Segments (adaptive):** start **32×32** MVP; allow **48×48** on capable devices — avoid fixed 64×64 on all phones.
+
+### Camera
+
+* Camera at sphere center; rotation via **yaw / pitch** (spherical coords).
+* **Touch pan:** map `PanResponder` / `GLView` touch drag → camera rotation (primary input).
+* **Gyro (deferred v1.1):** `DeviceOrientationControls` or equivalent — optional toggle; not required for MVP.
+
+### Textures & memory
+
+* **MVP default: ≤2K** equirectangular (e.g. 2048×1024 or 1536×768). Author/upload 2K or lower — do not bundle 4K/8K for seed data.
+* Remote API may expose `low` / `high` later; client picks safe tier — **never default to 8K on mobile**.
+* On unmount: cancel `requestAnimationFrame`, dispose `geometry`, `material`, `texture`, remove orientation listeners.
+
+### Hotspots
+
+* Authoring: **pitch + yaw** (degrees) per hotspot — see API schema below.
+* At load: convert pitch/yaw → position on sphere → place small **invisible collider mesh** (larger than visual marker).
+* **Raycast on `touchEnd`** (not every `touchMove`).
+* Normalize touch to clip space **using `onLayout` width/height**, not `drawingBufferWidth/Height` — see [Stack Overflow: raycast touch coords in expo-gl](https://stackoverflow.com/questions/79472319/detect-when-object-is-touched-inside-pure-three-js-scene).
+* On hit: update React state; render **RN** bottom sheet — never render text inside WebGL.
+
+### Gestures & navigation
+
+* Fullscreen `PanoramaScreen` owns all pan gestures.
+* Stack back button / swipe-back returns to card details — no `OrbitControls` conflict with parent scroll.
+* Consider `gestureEnabled: true` on stack with explicit close control in panorama UI.
 
 ---
 
 ## Components
 
-* **Atoms:** `HotspotMarker` (3D mesh)
-* **Molecules:** `MediaBottomSheet`
-* **Organisms:** `PanoramaViewer`
+| Level | Component |
+|-------|-----------|
+| **Atoms** | Hotspot collider mesh helpers |
+| **Molecules** | `MediaBottomSheet`, panorama loading / error fallback |
+| **Organisms** | `PanoramaViewer`, `PanoramaScreen` |
 
 ---
 
-## API
+## Data
 
-* `GET /api/monuments/:monumentId/panorama`
+### Repository / service
+
+* `panoramaService.getBySlug(slug)` — same pattern as `monumentService`; no direct JSON import in components.
+* Seed panoramas in landmarks JSON or dedicated panorama manifest (TBD at implementation).
+* **First seed:** `slug: bibliotheca` → local asset `assets/Home/panorama/bobelatic-alex.png` (spike texture ref in repository).
+
+### API (target)
+
+* `GET /api/monuments/:slug/panorama?lang=`
 
 ```json
 {
   "panoramaId": "uuid",
   "textures": {
-    "high": "url_8k.jpg",
-    "low": "url_2k.jpg"
+    "low": "url_2k.jpg",
+    "high": "url_4k.jpg"
   },
   "hotspots": [
     {
@@ -100,6 +223,25 @@ src/features/explore/
 }
 ```
 
+### Coordinate contract (document before implementation)
+
+| Field | Convention (proposed) |
+|-------|------------------------|
+| **yaw** | Horizontal angle, degrees; 0 = forward/default view center; positive = right |
+| **pitch** | Vertical angle, degrees; positive = up |
+| **Range** | pitch ∈ [-90, 90]; yaw unbounded or normalized to [-180, 180] |
+
+Content authors and backend must use the same convention as `panoramaMath.ts`.
+
+---
+
+## Card details UI change (4.1b)
+
+* Add third tab label **360° Panorama** to `DetailTabBar` (or equivalent entry control).
+* Tab tap → **navigate** to `PanoramaScreen`, not swap inline content.
+* Tab may appear visually in mockup with Panorama icon; behavior is **navigation**, not in-place panel.
+* i18n: `cardDetails.tabPanorama`.
+
 ---
 
 ## i18n keys (add when implementing)
@@ -107,7 +249,9 @@ src/features/explore/
 ```text
 cardDetails.tabPanorama
 cardDetails.panoramaUnavailable
+cardDetails.panoramaLoading
 cardDetails.hotspotTitle
+cardDetails.panoramaBack
 ```
 
 ---
@@ -116,20 +260,47 @@ cardDetails.hotspotTitle
 
 ### Automated
 
-* Panorama service response parsing
-* Hotspot selection state
+* `panoramaService` response parsing
+* `panoramaMath` pitch/yaw → position conversion
+* Hotspot selection state reducer / hook
 
 ### Manual
 
-* [ ] OOM test on low-end Android
-* [ ] Hotspot hit-box larger than visual icon
-* [ ] Gesture conflict with navigation back
-* [ ] RTL tab bar with Panorama label
+* [ ] `bibliotheca` loads `bobelatic-alex.png` spike texture
+* [ ] Panorama tab → fullscreen push → back returns to card details
+* [ ] OOM / low-memory test on low-end Android (2K texture)
+* [ ] Hotspot collider larger than visual marker
+* [ ] Raycast accurate after rotation (layout-based normalization)
+* [ ] GL dispose on unmount (no memory leak after 5+ open/close cycles)
+* [ ] WebGL unavailable → fallback UI
+* [ ] RTL tab label + hotspot sheet text
+* [ ] Monument without panorama → tab hidden or disabled
+
+---
+
+## MVP vs v1.1
+
+| Feature | MVP (4.1b) | v1.1 |
+|---------|------------|------|
+| Texture | `bobelatic-alex.png` spike → replace with licensed **≤2K equirectangular** | Remote + cache, adaptive tier |
+| Monument | `bibliotheca` first | More monuments per licensed / shot assets |
+| Input | Touch pan | + gyro toggle |
+| Hotspots | Raycast + bottom sheet | + nearest-hotspot assist |
+| Screen | Fullscreen `PanoramaScreen` | Same |
+| Engine | expo-gl + expo-three | Same |
+| Licensing | Dev spike OK | Production assets licensed or CC with attribution |
 
 ---
 
 ## Out of scope
 
+* WebView panorama viewer
+* `@react-three/fiber` / `@react-three/drei`
+* CSS2D / CSS3D renderers
+* Inline `GLView` inside card-details scroll
 * Explore bottom tab (Phase 4.2)
 * Map-based discovery
 * Live 360° video streaming
+* 8K textures as default on mobile
+* Using 360Cities / third-party panoramas without a license
+* Shipping `bobelatic-alex.png` as final production texture (spike only)
