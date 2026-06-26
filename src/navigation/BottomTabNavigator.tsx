@@ -28,7 +28,7 @@ const PlaceholderScreen = ({ labelKey }: { labelKey: string }) => {
   );
 };
 
-const MapScreen = () => <PlaceholderScreen labelKey="tabs.explore" />;
+const ExploreTabPlaceholder = () => <PlaceholderScreen labelKey="tabs.explore" />;
 
 export const BottomTabNavigator = () => {
   const { sWidth, sHeight } = useResponsive();
@@ -64,7 +64,7 @@ export const BottomTabNavigator = () => {
       />
       <Tab.Screen
         name="Explore"
-        component={MapScreen}
+        component={ExploreTabPlaceholder}
         options={{
           tabBarLabel: t('tabs.explore'),
           tabBarIcon: ({ color, size }) => (

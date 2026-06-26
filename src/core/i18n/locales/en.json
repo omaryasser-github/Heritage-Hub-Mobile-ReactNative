@@ -110,6 +110,16 @@
       "rome": "Rome, Italy"
     }
   },
+  "cardDetails": {
+    "tabHistory": "History & Architecture",
+    "tabCulture": "Culture",
+    "emptyHistory": "No history articles for this monument yet.",
+    "emptyCulture": "No culture articles for this monument yet.",
+    "notFound": "Monument not found.",
+    "readMore": "Read more",
+    "entryFee": "Entry fee",
+    "openingHours": "Opening hours"
+  },
   "profile": {
     "accountSettings": "Account Settings",
     "logOut": "Log Out",

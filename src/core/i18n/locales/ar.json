@@ -110,6 +110,16 @@
       "rome": "روما، إيطاليا"
     }
   },
+  "cardDetails": {
+    "tabHistory": "التاريخ والعمارة",
+    "tabCulture": "الثقافة",
+    "emptyHistory": "لا توجد مقالات تاريخية لهذا المعلم بعد.",
+    "emptyCulture": "لا توجد مقالات ثقافية لهذا المعلم بعد.",
+    "notFound": "لم يتم العثور على المعلم.",
+    "readMore": "اقرأ المزيد",
+    "entryFee": "رسوم الدخول",
+    "openingHours": "ساعات العمل"
+  },
   "profile": {
     "accountSettings": "إعدادات الحساب",
     "logOut": "تسجيل الخروج",
