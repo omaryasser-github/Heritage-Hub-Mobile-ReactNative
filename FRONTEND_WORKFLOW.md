@@ -36,26 +36,119 @@ The frontend follows a **Feature-Sliced / Domain-Driven Architecture** utilizing
 ```
 src/
 ├── app/                  # App initialization, global providers (QueryClient, SafeArea, Theme)
-├── navigation/           # Root navigators and route typings
-├── core/                 # App-wide singletons (api client setup, i18n config, zustand store)
+├── navigation/           # Root navigators, auth helpers, guest-gated screens
+│   ├── RootNavigator.tsx
+│   ├── BottomTabNavigator.tsx
+│   ├── authNavigation.ts
+│   └── guestGatedScreen.tsx
+├── core/                 # App-wide singletons (api client setup, i18n, zustand store)
+│   ├── data/             # Local seed data (landmarks JSON, panorama + card image maps)
+│   ├── i18n/
+│   └── store/
 ├── shared/               # Highly reusable, domain-agnostic modules
-│   ├── components/       # Core UI (Button, Typography, FormInput)
-│   ├── hooks/            # Global hooks (useTheme, useLanguage)
-│   └── utils/            # Formatters, scale helpers
+│   ├── components/       # Core UI (Button, Typography, FormInput, GuestGateScreen)
+│   ├── constants/        # Colors, spacing, typography tokens
+│   └── utils/            # Responsive scaling (useResponsive)
 │
 └── features/             # Feature modules (Domain-driven)
-    ├── auth/             # Login, Register
-    │   ├── api/          # auth-specific API calls
-    │   ├── components/   # SocialLoginButton, PasswordStrengthMeter
-    │   └── screens/      # LoginScreen, RegisterScreen
-    ├── explore/          # Cities, Monuments, 360 Panorama
-    ├── gamification/     # Quizzes, Leaderboard, Achievements
-    ├── ai-agents/        # Chatbot, Recommendations, Awareness
-    ├── profile/          # User Settings, Avatar
-    └── feedback/         # User feedback and bug reporting
+    ├── auth/             # Login, SignUp, guest access
+    ├── splash/
+    ├── personality-quiz/
+    ├── explore/          # Home feed, Explore map tab, monument details, panorama
+    │   ├── api/          # exploreService, monumentService, panoramaService
+    │   ├── components/   # MonumentCard, SearchBar, ExploreMap, PanoramaViewer, …
+    │   ├── data/         # exploreMapPins (governorate calibration)
+    │   └── screens/      # HomeScreen, ExploreTabScreen, MonumentDetailScreen, PanoramaScreen
+    ├── chatbot/
+    ├── gamification/
+    └── profile/
 ```
 
+**Local data (MVP):** Monument, city, and category content is seeded from `src/core/data/egypt-tourism-landmarks.json` via `landmarksRepository`. Card images use bundled panorama assets where available plus curated Wikimedia URLs (`monumentCardImages.ts`). Panorama textures are bundled under `assets/Home/panorama/`.
+
 By keeping separation of concerns localized, debugging and scaling features (like adding a new AI Agent) can happen entirely within one feature folder without touching the rest of the app.
+
+---
+
+## 3.1 Implemented Frontend Phases (Current)
+
+| Phase | Doc | Status | Summary |
+|-------|-----|--------|---------|
+| **1 — Splash** | `planing/docs/phase-1-splash.md` | ✅ | Splash, guest vs auth entry |
+| **2 — Auth** | `planing/docs/phase-2-auth.md` | ✅ | Login, SignUp, guest gate, `authNavigation` helpers |
+| **3 — Personality Quiz** | `planing/docs/phase-3-personality-quiz.md` | ✅ | Onboarding persona quiz |
+| **4 — Home** | `planing/docs/phase-4-home.md` | ✅ | Curated feed, category pills, search, 2-column `FlashList`, favorites (guest-gated) |
+| **4.1 — Card details** | `planing/docs/phase-4.1-card-details.md` | ✅ | `MonumentDetailScreen`: hero, History & Culture articles, tab bar |
+| **4.1b — Panorama** | `planing/docs/phase-4.1b-card-details-panorama.md` | ✅ | Fullscreen `PanoramaScreen`, hotspots, Ask AI Guide bridge |
+| **4.2 — Explore tab** | `planing/docs/phase-4.2-explore-tab.md` | ✅ | Map + governorate pins + search + preview card |
+| **5+ — Profile, Chatbot, Game, …** | `planing/docs/` | 🔶 Partial | Screens exist; full API integration TBD |
+
+Detailed specs, flows, and checklists live under **`planing/docs/`** (not root `docs/`).
+
+---
+
+## 3.2 Key Product & Technical Decisions
+
+### Home vs Explore (intentional split)
+
+| | **Home tab** | **Explore tab** |
+|---|--------------|-----------------|
+| Purpose | Curated discovery | Geographic search |
+| Layout | 2-column monument grid | Stylized Egypt map + search |
+| Filters | Editorial categories (Recommended, Popular, Museums, …) | Live text search across all 71 monuments |
+| Map | None | 13 **governorate** pins (not 71 monument pins) |
+
+### Card details & panorama
+
+- **Card details** opens from root stack: `MonumentDetail` with `{ slug }`.
+- **360° Panorama** is a **separate fullscreen** root screen (`Panorama`), not inline in the detail scroll view — avoids gesture conflicts and WebGL lifecycle issues.
+- **Panorama engine:** `expo-gl` + `expo-three` + `three` — **no WebView**, no React Three Fiber.
+- **Geometry:** Inner sphere (`BackSide`); touch pan for camera; raycast hotspots on `touchEnd`.
+- **Spike textures:** Wide flat photos are dev-only; production target is ≤2K **equirectangular** 2:1 assets (see phase 4.1b licensing notes).
+- **Seed panoramas (bundled):** `bibliotheca`, `abu-simbel`, `giza-pyramids`, `karnak`, `gem` — each with localized hotspots.
+- **Hotspot → AI Guide:** From `MediaBottomSheet`, authenticated users can open the AI tab with `HotspotChatContext` stored in `useChatbotStore`; guests see sign-in prompt at tap time.
+
+### Explore map (no Map SDK in v1)
+
+- Background: `assets/Home/explore/egypt-map.jpg` (illustrated art map).
+- Pin positions: **calibrated %** in `exploreMapPins.ts` — not raw lat/lng on artwork.
+- Flow: search → results list → select monument → highlight governorate pin → bottom preview card → View Details.
+
+### Navigation & auth
+
+```
+RootStack
+├── Splash
+├── AuthStack (Login, SignUp, PersonaQuiz)
+├── MainTabNavigator
+│   ├── Home
+│   ├── Explore
+│   ├── AI_Guide (guest-gated)
+│   ├── Game
+│   └── Profile (guest-gated)
+├── Settings, EditProfile
+├── MonumentDetail { slug }
+└── Panorama { slug }
+```
+
+- `authNavigation.ts`: `resetToAuthScreen`, `navigateToHomeTab`, `navigateToAiGuideTab`, etc.
+- `createGuestGatedScreen` wraps AI Guide and Profile tabs.
+- Favorites and some actions show `GuestGateScreen` modal without breaking root stack.
+
+### Card images
+
+- Monuments with bundled panorama PNGs reuse the same asset for **feed card + panorama**.
+- Other monuments use curated Wikimedia Commons `thumbnail_url` in seed JSON + `monumentCardImages.ts`.
+- `landmarksRepository.resolveImage()` priority: bundled → curated URL → JSON `thumbnail_url` → category placeholder.
+
+### State management (as implemented)
+
+| Concern | Tool |
+|---------|------|
+| Auth session / guest | Zustand `authStore` + SecureStore |
+| Chat messages + hotspot context | Zustand `useChatbotStore` |
+| Feed / monuments / panorama | Local `landmarksRepository` + feature services (TanStack Query planned for API phase) |
+| Screen UI | React `useState` / `useMemo` |
 
 ---
 
@@ -64,8 +157,8 @@ By keeping separation of concerns localized, debugging and scaling features (lik
 Development progresses in the following stages:
 
 ### Stage 0 — Living Documentation Setup
-- Establish a `docs/` folder at the root of the project, organized by feature-phases (e.g., `phase-1-auth`, `phase-2-explore`).
-- Each phase folder includes an actionable `.md` file (requirements, API endpoints, checklists) and an `assets/` folder for local UI mockups and Figma exports.
+- Phase specs live in **`planing/docs/`** (e.g. `phase-4-home.md`, `phase-4.1b-card-details-panorama.md`, `phase-4.2-explore-tab.md`).
+- UI mockups and map assets live under **`assets/`** (e.g. `assets/Home/explore/explore-search.png`, `egypt-map.jpg`).
 
 ### Stage 1 — Project Setup
 - Initialize the project with Expo (managed workflow)
@@ -89,6 +182,7 @@ Development progresses in the following stages:
 - Replace mock data with real API calls via `services/` modules
 - Handle loading, error, and empty states for every data-fetching screen
 - Use TanStack Query (React Query) for server state: caching, refetching, and background sync
+- **Current:** Explore, Home, monument details, and panorama use **local seed JSON** (`egypt-tourism-landmarks.json`) through `landmarksRepository` / `exploreService` / `panoramaService` — same contracts intended for future REST APIs
 
 ### Stage 5 — State Management
 - Wire global state (auth session, user profile, language preference) into the store
@@ -146,21 +240,27 @@ State is divided into two categories:
 
 Navigation is implemented using **React Navigation** (the standard for React Native).
 
-**Structure:**
+**Structure (as implemented):**
 
 ```
-Root Navigator
-├── Auth Stack         → Login, Register, Guest Access, Onboarding
-└── Main Tab Navigator
-    ├── Home Stack     → Home Feed, City Detail, Monument Detail
-    ├── Explore Stack  → 360° Panorama Viewer, Hotspot Viewer
-    ├── Quiz Stack     → Quiz Home, Active Quiz, Results, Leaderboard
-    ├── AI Stack       → Chatbot, Recommendations, Awareness Feed
-    └── Profile Stack  → User Profile, Achievements, Favorites, Settings
+Root Navigator (native stack)
+├── Splash
+├── AuthStack          → Login, SignUp, PersonaQuiz
+├── MainTabNavigator
+│   ├── Home           → Curated monument feed (Phase 4)
+│   ├── Explore        → Map + search + governorate pins (Phase 4.2)
+│   ├── AI_Guide       → Chatbot (guest-gated)
+│   ├── Game           → Game hub
+│   └── Profile        → Profile (guest-gated)
+├── Settings, EditProfile
+├── MonumentDetail     → Card details by slug (Phase 4.1) — from Home or Explore
+└── Panorama           → Fullscreen 360° viewer (Phase 4.1b)
 ```
 
 **Key rules:**
-- Each tab maintains its own independent navigation stack — navigating between tabs does not reset the stack of the previous tab.
+- **Monument detail and Panorama** sit on the **root stack**, not inside tab stacks — opened via `navigation.navigate('MonumentDetail', { slug })` or `Panorama` from any tab.
+- Each tab maintains its own state when switching tabs; root screens overlay the tab navigator.
+- **Explore tab ≠ panorama viewer** — Explore is geographic search; panorama is entered from card details (or future entry points).
 - Deep linking is supported to allow push notifications to open a specific screen directly (e.g., a new challenge notification opening the Quiz screen).
 - All navigation labels and header titles are localized and RTL-aware.
 
@@ -186,7 +286,7 @@ Root Navigator
 - Use **`React.memo`** for complex list items, **`useCallback`** for functions passed to memoized components, and **`useMemo`** for expensive client-side calculations (e.g., XP sorting). Avoid memoizing primitive components.
 - Use **Shopify's `@shopify/flash-list`** instead of `FlatList` for all scrollable data to natively recycle views and handle large lists.
 - Wrap heavy API calls or state updates in `InteractionManager.runAfterInteractions(() => { ... })` during navigation transitions to prevent animation stutter.
-- Lazy-load and aggressively unmount heavy screens (e.g., 360° panorama viewer, Video Agent) when the screen loses focus using React Navigation's `useIsFocused` or `unmountOnBlur: true`.
+- Lazy-load and aggressively unmount heavy screens (e.g., **360° panorama** `PanoramaScreen`) when the user pops the stack — dispose WebGL textures, geometry, and cancel the render loop in `PanoramaScene` (see Phase 4.1b).
 - Minimize JS bundle size — audit dependencies regularly with Expo's bundle analyzer
 
 ### Testing
@@ -227,7 +327,7 @@ That's it. No MSW, no Cypress, no complex setup. Start with Jest + RNTL and move
 - ❌ Static UI components with no logic (a `<Button>` that just renders text)
 - ❌ Navigation config files
 - ❌ Styling and colors
-- ❌ The 360° Panorama WebView (untestable via code — use manual QA)
+- ❌ The 360° Panorama WebGL pipeline — use **manual QA** on device; unit-test `panoramaMath`, `panoramaRepository`, and hotspot context store logic instead
 - ❌ Third-party library internals (TanStack Query, Zustand, etc.)
 - ❌ Snapshot tests (they break constantly and add zero value)
 
