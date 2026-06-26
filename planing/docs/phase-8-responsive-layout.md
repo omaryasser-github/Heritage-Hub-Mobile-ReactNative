@@ -53,11 +53,12 @@ Before modifying individual features, we will establish a set of global responsi
   - Ensure question text dynamically scales so long questions don't overflow on narrow screens.
   - Apply `flexWrap: 'wrap'` to any custom selection grids so options elegantly drop to the next line on small screens.
 
-### Phase 4: Explore / Home (`features/explore`)
+### Phase 4: Home & card details (`features/explore`)
 - **Action**: Aspect-Ratio Headers & Dynamic Columns.
 - **Details**:
-  - The `ImageBackground` header must maintain its visual ratio across wide and narrow phones.
+  - The Home `ImageBackground` header must maintain its visual ratio across wide and narrow phones.
   - Ensure the `FlashList` of monument cards computes its column width dynamically based on the current screen width minus horizontal padding, preventing horizontal clipping.
+  - Card detail screen ([Phase 4.1](./phase-4.1-card-details.md)): scale tab bar, article cards, and `exploreBackground.png` scrim for all breakpoints.
 
 ### Phase 5: Profile & Settings (`features/profile`)
 - **Action**: Scalable Rows & Horizontal Overflows.

@@ -107,7 +107,7 @@ src/
 | Tab | Guest access | Notes |
 |-----|--------------|-------|
 | Home | ✅ Open | Full feed browse |
-| Explore | ✅ Open | Placeholder until Phase 4.1 |
+| Explore | ✅ Open | Placeholder until [Phase 4.2 — Explore tab](./phase-4.2-explore-tab.md) |
 | Game | ✅ Open (hub) | **Play** action gated inside screen (signup prompt) |
 | AI Guide | 🔒 Locked | Guest gate on tab focus |
 | Profile | 🔒 Locked | Guest gate on tab focus — do not show mock user data |
