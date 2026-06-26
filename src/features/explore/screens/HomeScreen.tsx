@@ -185,7 +185,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   categoryContainer: {
-    marginTop: 15,
+    marginTop: 30,
+
   },
   categoriesTitle: {
     fontWeight: 'bold',
