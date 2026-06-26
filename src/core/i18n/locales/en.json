@@ -126,7 +126,11 @@
     "panoramaBack": "Back to details",
     "hotspotTitle": "Point of interest",
     "entryFee": "Entry fee",
-    "openingHours": "Opening hours"
+    "openingHours": "Opening hours",
+    "askAiGuide": "Ask the AI Guide",
+    "askAiGuideSubtitle": "Get more details about {{title}}",
+    "askAiGuideAbout": "Ask AI Guide about {{title}}",
+    "askAiGuideGuestPrompt": "Sign in to ask the guide about this spot and get personalized heritage insights."
   },
   "profile": {
     "accountSettings": "Account Settings",
@@ -198,7 +202,13 @@
     "historyTut": "King Tutankhamun",
     "mockReply": "This is a simulated AI response to: \"{{message}}\".\n\n• The Great Sphinx was built around 2500 BC.\n• It represents a mythical creature with a lion's body and a human head.\n\nEnjoy your exploration!",
     "followUp1": "Tell me more about the Pyramids",
-    "followUp2": "Who was King Tut?"
+    "followUp2": "Who was King Tut?",
+    "hotspotOpener": "You're exploring **{{hotspot}}** at {{monument}}.",
+    "hotspotDetail": "{{summary}}\n\nThere's much more to discover here — ask me anything about this spot, its history, or what to look for nearby.",
+    "hotspotFollowUp1": "Who built this?",
+    "hotspotFollowUp2": "What should I look for here?",
+    "hotspotFollowUp3": "How does this connect to the monument?",
+    "hotspotMockReply": "Great question about **{{hotspot}}** at {{monument}}!\n\nYou asked: \"{{message}}\"\n\nThis is a simulated deep-dive for this panorama hotspot. In the full release, I'll draw on verified heritage sources to answer with richer context, timelines, and visitor tips.\n\nFor now, explore the pins around you — each one reveals another layer of the story."
   },
   "gaming": {
     "hubTitle": "Gaming Hub",

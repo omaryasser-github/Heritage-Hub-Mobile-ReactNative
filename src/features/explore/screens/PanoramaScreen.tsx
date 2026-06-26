@@ -121,6 +121,8 @@ export const PanoramaScreen = () => {
       <MediaBottomSheet
         visible={selectedHotspot != null}
         hotspot={selectedHotspot}
+        monumentSlug={slug}
+        monumentName={monumentName ?? ''}
         onClose={() => setSelectedHotspot(null)}
       />
     </View>

@@ -42,3 +42,17 @@ export function navigateAuthScreen(navigation: Nav, screen: AuthScreenName) {
 export function navigateToHomeTab(navigation: Nav) {
   navigation.navigate('MainTabNavigator', { screen: 'Home' });
 }
+
+/** Open AI Guide tab from root or nested navigators. */
+export function navigateToAiGuideTab(navigation: Nav) {
+  const routeNames = navigation.getState?.()?.routeNames ?? [];
+  if (routeNames.includes('MainTabNavigator')) {
+    navigation.navigate('MainTabNavigator', { screen: 'AI_Guide' });
+    return;
+  }
+  if (routeNames.includes('AI_Guide')) {
+    navigation.navigate('AI_Guide');
+    return;
+  }
+  navigation.getParent?.()?.navigate('MainTabNavigator', { screen: 'AI_Guide' });
+}
