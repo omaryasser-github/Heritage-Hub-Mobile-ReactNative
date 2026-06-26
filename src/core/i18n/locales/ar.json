@@ -87,6 +87,13 @@
     "game": "الألعاب",
     "profile": "الملف الشخصي"
   },
+  "explore": {
+    "title": "استكشف",
+    "searchPlaceholder": "ابحث عن مكان...",
+    "noResults": "لم يتم العثور على مواقع تراثية.",
+    "resultsCount": "تم العثور على {{count}} مكان",
+    "viewDetails": "عرض التفاصيل"
+  },
   "home": {
     "title": "استكشف مصر",
     "categories": "التصنيفات",

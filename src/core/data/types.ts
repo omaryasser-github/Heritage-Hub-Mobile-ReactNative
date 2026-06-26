@@ -70,6 +70,9 @@ export interface MonumentFeedItem {
   slug: string;
   name: string;
   location: string;
+  cityName: string;
+  governorateName: string;
+  governorateKey: string;
   image: ImageSourcePropType;
   rating: number | null;
   isFavorite: boolean;

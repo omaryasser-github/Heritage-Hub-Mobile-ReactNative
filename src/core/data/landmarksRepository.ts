@@ -64,6 +64,10 @@ function pickLocalized(en: string, ar: string, language: string): string {
   return isArabic(language) ? ar : en;
 }
 
+function governorateKeyFromName(governorate: string): string {
+  return governorate.trim().toLowerCase().replace(/\s+/g, '-');
+}
+
 function resolveCity(monument: RawMonument): RawCity | undefined {
   return cityByUuid.get(monument.city_uuid) ?? cityBySlug.get(monument.city_slug);
 }
@@ -173,6 +177,9 @@ function toFeedItem(monument: RawMonument, language: string): MonumentFeedItem {
     slug: monument.slug,
     name: pickLocalized(monument.name_en, monument.name_ar, language),
     location: governorate ? `${cityName}, ${governorate}` : cityName,
+    cityName,
+    governorateName: governorate,
+    governorateKey: city ? governorateKeyFromName(city.governorate) : '',
     image: resolveImage(monument),
     rating: monument.rating,
     isFavorite: favoriteSlugs.has(monument.slug),
