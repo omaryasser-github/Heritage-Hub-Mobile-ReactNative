@@ -11,12 +11,14 @@ const BIBLIOTHECA_TEXTURE = require('../../../assets/Home/panorama/bobelatic-ale
 const ABU_SIMBEL_TEXTURE = require('../../../assets/Home/panorama/abu-simple.png');
 const GIZA_PYRAMIDS_TEXTURE = require('../../../assets/Home/panorama/pyramids-giza.png');
 const KARNAK_TEXTURE = require('../../../assets/Home/panorama/karnak.png');
+const GEM_TEXTURE = require('../../../assets/Home/panorama/GEM.png');
 
 const PANORAMA_TEXTURES: Record<string, ImageSourcePropType> = {
   bibliotheca: BIBLIOTHECA_TEXTURE,
   'abu-simbel': ABU_SIMBEL_TEXTURE,
   'giza-pyramids': GIZA_PYRAMIDS_TEXTURE,
   karnak: KARNAK_TEXTURE,
+  gem: GEM_TEXTURE,
 };
 
 const SEED_PANORAMAS: RawPanorama[] = [
@@ -273,6 +275,73 @@ const SEED_PANORAMAS: RawPanorama[] = [
           'The central paved path rises between the sphinx avenues toward the gateway—still walked by pilgrims and festivals for millennia.',
         content_ar:
           'يرتفع المسار المرصوف المركزي بين صفوف التماثيل نحو البوابة—ما زال يُطأى في الحج والاحتفالات منذ آلاف السنين.',
+      },
+    ],
+  },
+  {
+    panorama_id: 'panorama-gem-atrium',
+    monument_slug: 'gem',
+    texture_asset: 'GEM.png',
+    view_config: {
+      defaultYaw: 0,
+      defaultPitch: -4,
+      cameraFov: 75,
+    },
+    hotspots: [
+      {
+        id: 'gem-ramesses-colossus',
+        pitch: -2,
+        yaw: 0,
+        title_en: 'Colossus of Ramesses II',
+        title_ar: 'تمثال رمسيس الثاني الضخم',
+        content_en:
+          'An 83-ton statue of Ramesses II stands at the heart of the Grand Egyptian Museum atrium—the same royal figure that once greeted visitors in Cairo’s Tahrir Square.',
+        content_ar:
+          'يقف تمثال وزنه 83 طناً للفرعون رمسيس الثاني في قلب ردهة المتحف المصري الكبير — نفس التمثال الملكي الذي كان يرحّب بالزوار في ميدان التحرير بالقاهرة.',
+      },
+      {
+        id: 'gem-faceted-ceiling',
+        pitch: 24,
+        yaw: 0,
+        title_en: 'Geometric Glass Ceiling',
+        title_ar: 'السقف الزجاجي الهندسي',
+        content_en:
+          'Triangular skylight panels flood the atrium with filtered daylight, blending ancient sculpture with contemporary museum architecture.',
+        content_ar:
+          'تغمر ألواح الإضاءة المثلثة الردهة بضوء النهار المصفّى، ممزجةً بين النحت القديم وعمارة المتحف المعاصرة.',
+      },
+      {
+        id: 'gem-reflecting-pool',
+        pitch: -18,
+        yaw: 0,
+        title_en: 'Reflecting Pool',
+        title_ar: 'البحيرة العاكسة',
+        content_en:
+          'A shallow pool at the statue’s base mirrors the colossus and ceiling geometry, emphasizing the monument’s scale for arriving visitors.',
+        content_ar:
+          'تعكس بحيرة ضحلة عند قاعدة التمثال التمثال الضخم وهندسة السقف، مؤكدةً حجم الآثار لدى الزوار الوافدين.',
+      },
+      {
+        id: 'gem-glass-galleries',
+        pitch: 2,
+        yaw: 32,
+        title_en: 'Glass Galleries',
+        title_ar: 'المعارض الزجاجية',
+        content_en:
+          'Multi-level glass-walled galleries line the atrium, previewing the vast collections of Tutankhamun and Egypt’s greatest treasures inside.',
+        content_ar:
+          'تصطف معارض زجاجية متعددة الطوابق على الردهة، معاينةً المجموعات الشاسعة لتوت عنخ آمون وأعظم كنوز مصر في الداخل.',
+      },
+      {
+        id: 'gem-grand-staircase',
+        pitch: 4,
+        yaw: -30,
+        title_en: 'Grand Staircase',
+        title_ar: 'السلم الكبير',
+        content_en:
+          'The main staircase rises beside the atrium, guiding visitors toward exhibition halls dedicated to Egypt’s complete archaeological story.',
+        content_ar:
+          'يرتفع السلم الرئيسي بجوار الردهة، موجهاً الزوار نحو قاعات العرض المخصصة للقصة الأثرية الكاملة لمصر.',
       },
     ],
   },

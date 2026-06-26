@@ -8,6 +8,10 @@ import {
   RawCity,
   RawMonument,
 } from './types';
+import {
+  MONUMENT_BUNDLED_CARD_IMAGES,
+  MONUMENT_THUMBNAIL_URLS,
+} from './monumentCardImages';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const dataset = require('./egypt-tourism-landmarks.json') as LandmarksDataset;
@@ -65,6 +69,16 @@ function resolveCity(monument: RawMonument): RawCity | undefined {
 }
 
 function resolveImage(monument: RawMonument): ImageSourcePropType {
+  const bundled = MONUMENT_BUNDLED_CARD_IMAGES[monument.slug];
+  if (bundled) {
+    return bundled;
+  }
+
+  const curatedUrl = MONUMENT_THUMBNAIL_URLS[monument.slug];
+  if (curatedUrl) {
+    return { uri: curatedUrl };
+  }
+
   if (monument.thumbnail_url?.trim()) {
     return { uri: monument.thumbnail_url };
   }
