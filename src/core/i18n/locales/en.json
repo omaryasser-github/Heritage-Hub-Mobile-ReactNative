@@ -87,6 +87,13 @@
     "game": "Game",
     "profile": "Profile"
   },
+  "explore": {
+    "title": "Explore",
+    "searchPlaceholder": "Search for a place...",
+    "noResults": "No heritage sites found.",
+    "resultsCount": "{{count}} places found",
+    "viewDetails": "View Details"
+  },
   "home": {
     "title": "Explore Egypt",
     "categories": "Categories",

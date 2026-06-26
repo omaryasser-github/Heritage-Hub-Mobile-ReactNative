@@ -1,9 +1,10 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { HomeScreen } from '../features/explore/screens/HomeScreen';
+import { ExploreTabScreen } from '../features/explore/screens/ExploreTabScreen';
 import { ChatbotScreen } from '../features/chatbot/screens/ChatbotScreen';
 import { GameHubScreen } from '../features/gamification/screens/GameHubScreen';
 import { ProfileScreen } from '../features/profile/screens/ProfileScreen';
@@ -16,19 +17,6 @@ const Tab = createBottomTabNavigator();
 
 const GatedChatbotScreen = createGuestGatedScreen(ChatbotScreen, 'ai');
 const GatedProfileScreen = createGuestGatedScreen(ProfileScreen, 'profile');
-
-const PlaceholderScreen = ({ labelKey }: { labelKey: string }) => {
-  const { t } = useTranslation();
-  return (
-    <View style={styles.placeholderContainer}>
-      <Text style={styles.placeholderText}>
-        {t(labelKey)} {t('common.screen')}
-      </Text>
-    </View>
-  );
-};
-
-const ExploreTabPlaceholder = () => <PlaceholderScreen labelKey="tabs.explore" />;
 
 export const BottomTabNavigator = () => {
   const { sWidth, sHeight } = useResponsive();
@@ -64,7 +52,7 @@ export const BottomTabNavigator = () => {
       />
       <Tab.Screen
         name="Explore"
-        component={ExploreTabPlaceholder}
+        component={ExploreTabScreen}
         options={{
           tabBarLabel: t('tabs.explore'),
           tabBarIcon: ({ color, size }) => (
@@ -108,16 +96,3 @@ export const BottomTabNavigator = () => {
     </Tab.Navigator>
   );
 };
-
-const styles = StyleSheet.create({
-  placeholderContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Colors.backgroundPlaceholder,
-  },
-  placeholderText: {
-    fontSize: 18,
-    color: Colors.textSubtle,
-  },
-});
