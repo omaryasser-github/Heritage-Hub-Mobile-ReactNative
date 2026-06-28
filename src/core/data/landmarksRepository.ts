@@ -10,7 +10,7 @@ import {
 } from './types';
 import {
   MONUMENT_BUNDLED_CARD_IMAGES,
-  MONUMENT_THUMBNAIL_URLS,
+  getDemoMonumentCardImage,
 } from './monumentCardImages';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -78,16 +78,8 @@ function resolveImage(monument: RawMonument): ImageSourcePropType {
     return bundled;
   }
 
-  const curatedUrl = MONUMENT_THUMBNAIL_URLS[monument.slug];
-  if (curatedUrl) {
-    return { uri: curatedUrl };
-  }
-
-  if (monument.thumbnail_url?.trim()) {
-    return { uri: monument.thumbnail_url };
-  }
-  const category = monument.category_slugs[0];
-  return CATEGORY_PLACEHOLDERS[category] ?? DEFAULT_PLACEHOLDER;
+  // Demo-only: fill remaining cards with local monument art (remove when all assets land).
+  return getDemoMonumentCardImage(monument.slug);
 }
 
 function localizeArticles(

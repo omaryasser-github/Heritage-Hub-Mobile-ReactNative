@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Linking } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { GameLaunchCard } from '../components/GameLaunchCard';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -7,6 +7,8 @@ import { useResponsive } from '../../../shared/utils/responsive';
 import { Colors } from '../../../shared/constants/colors';
 import { useAuthStore } from '../../../core/store/authStore';
 import { GuestGateScreen } from '../../../shared/components/GuestGateScreen';
+
+const GAME_URL = 'https://kemetragame.vercel.app/';
 
 export const GameHubScreen = () => {
   const insets = useSafeAreaInsets();
@@ -20,7 +22,7 @@ export const GameHubScreen = () => {
       setShowPlayGate(true);
       return;
     }
-    // TODO: Navigate to active game / quiz when Phase 7 is implemented
+    void Linking.openURL(GAME_URL);
   };
 
   if (showPlayGate) {

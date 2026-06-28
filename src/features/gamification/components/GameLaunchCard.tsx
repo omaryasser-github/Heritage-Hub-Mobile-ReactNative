@@ -9,19 +9,25 @@ interface GameLaunchCardProps {
 }
 
 export const GameLaunchCard: React.FC<GameLaunchCardProps> = ({ onPlayPress }) => {
-  const { sWidth, sHeight, sFont } = useResponsive();
+  const { sWidth, sHeight, sFont, screenWidth } = useResponsive();
   const { t } = useTranslation();
+  const cardWidth = screenWidth - sWidth(40);
 
   return (
     <View
       style={[
         styles.cardContainer,
-        { borderRadius: sWidth(24), marginHorizontal: sWidth(20), marginTop: sHeight(20) },
+        {
+          width: cardWidth,
+          borderRadius: sWidth(24),
+          marginHorizontal: sWidth(20),
+          marginTop: sHeight(20),
+        },
       ]}
     >
       <Image
-        source={require('../../../../assets/Game/gameImage.png')}
-        style={[styles.gameImage, { height: sHeight(220) }]}
+        source={require('../../../../assets/Game/KEMETRA.png')}
+        style={[styles.gameImage, { width: cardWidth, height: sHeight(220) }]}
         resizeMode="cover"
       />
       <View style={[styles.contentContainer, { padding: sWidth(24) }]}>
@@ -73,7 +79,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   gameImage: {
-    width: '100%',
     height: 220,
   },
   contentContainer: {

@@ -7,20 +7,39 @@ export const MONUMENT_BUNDLED_CARD_IMAGES: Record<string, ImageSourcePropType> =
   'giza-pyramids': require('../../../assets/Home/panorama/pyramids-giza.png'),
   karnak: require('../../../assets/Home/panorama/karnak.png'),
   gem: require('../../../assets/Home/panorama/GEM.png'),
+  'abu-abbas': require('../../../assets/Home/monuments/Abu el-Abbas al-Mursi Mosque.png'),
+  'abu-serga': require('../../../assets/Home/monuments/Abu Serga Church.png'),
+  'al-azhar': require('../../../assets/Home/monuments/Al-Azhar Mosque.png'),
+  'baron-palace': require('../../../assets/Home/monuments/Baron Empain Palace.png'),
+  'cairo-tower': require('../../../assets/Home/monuments/Cairo Tower.png'),
+  abydos: require('../../../assets/Home/monuments/Temple of Seti I, Abydos.png'),
 };
+
+/** Temporary demo pool — cycles for monuments without a dedicated bundled asset. */
+const DEMO_MONUMENT_CARD_IMAGES: ImageSourcePropType[] = [
+  require('../../../assets/Home/monuments/Abu el-Abbas al-Mursi Mosque.png'),
+  require('../../../assets/Home/monuments/Abu Serga Church.png'),
+  require('../../../assets/Home/monuments/Al-Azhar Mosque.png'),
+  require('../../../assets/Home/monuments/Baron Empain Palace.png'),
+  require('../../../assets/Home/monuments/Cairo Tower.png'),
+  require('../../../assets/Home/monuments/Temple of Seti I, Abydos.png'),
+];
+
+/** Demo-only: pick one of the six local images in a varied, non-sequential way. */
+export function getDemoMonumentCardImage(slug: string): ImageSourcePropType {
+  let hash = 17;
+  for (let i = 0; i < slug.length; i += 1) {
+    hash = (hash * 31 + slug.charCodeAt(i)) >>> 0;
+  }
+  return DEMO_MONUMENT_CARD_IMAGES[hash % DEMO_MONUMENT_CARD_IMAGES.length];
+}
 
 /** Remote thumbnail URLs (Wikimedia Commons) for monument feed/detail cards. */
 export const MONUMENT_THUMBNAIL_URLS: Record<string, string> = {
-  'abu-abbas':
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Abu_el-Abbas_al-Mursi_Mosque_-_Alexandria.jpg/800px-Abu_el-Abbas_al-Mursi_Mosque_-_Alexandria.jpg',
-  'al-azhar':
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Cairo_Azahar_Mosque_Ramadan.jpg/800px-Cairo_Azahar_Mosque_Ramadan.jpg',
   'muizz-street':
     'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Muizz_Street_Cairo_Egypt.jpg/800px-Muizz_Street_Cairo_Egypt.jpg',
   'high-dam':
     'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/AswanHighDam.jpg/800px-AswanHighDam.jpg',
-  'baron-palace':
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Baron_Empain_Palace.jpg/800px-Baron_Empain_Palace.jpg',
   'ben-ezra':
     'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Ben_Ezra_Synagogue_Cairo.jpg/800px-Ben_Ezra_Synagogue_Cairo.jpg',
   'dahshur-bent':
@@ -29,12 +48,8 @@ export const MONUMENT_THUMBNAIL_URLS: Record<string, string> = {
     'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Black_Desert_Egypt.jpg/800px-Black_Desert_Egypt.jpg',
   'blue-hole':
     'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Blue_Hole_Dahab.jpg/800px-Blue_Hole_Dahab.jpg',
-  'cairo-tower':
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Cairo_Tower_2023.jpg/800px-Cairo_Tower_2023.jpg',
   catacombs:
     'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Kom_el-Shoqafa.jpg/800px-Kom_el-Shoqafa.jpg',
-  'abu-serga':
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Abu_Serga_Church_-_Coptic_Cairo.jpg/800px-Abu_Serga_Church_-_Coptic_Cairo.jpg',
   qaitbay:
     'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Qaitbay_Citadel_Alexandria.jpg/800px-Qaitbay_Citadel_Alexandria.jpg',
   'cleopatra-pool':
@@ -120,8 +135,6 @@ export const MONUMENT_THUMBNAIL_URLS: Record<string, string> = {
   'philae-kalabsha':
     'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Temple_of_Kalabsha.jpg/800px-Temple_of_Kalabsha.jpg',
   esna: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Esna_Temple.jpg/800px-Esna_Temple.jpg',
-  abydos:
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Temple_of_Seti_I_Abydos.jpg/800px-Temple_of_Seti_I_Abydos.jpg',
   'siwa-oracle':
     'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Temple_of_the_Oracle_Siwa.jpg/800px-Temple_of_the_Oracle_Siwa.jpg',
   'hanging-church':
